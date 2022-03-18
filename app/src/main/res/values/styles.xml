@@ -1,0 +1,47 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <!-- Action bar couleur du fond -->
+        <item name="colorPrimary">@color/red500</item>
+        <item name="colorPrimaryDark">@color/red600</item>
+        <item name="colorAccent">@color/red500</item>
+        <item name="colorSecondary">@color/red50</item>
+        <item name="colorSecondaryVariant">@color/red100</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorControlNormal">@color/red600</item>
+        <item name="android:windowBackground">@color/grey_10</item>
+        <item name="colorControlActivated">#D60000</item>
+        <!-- Couleur menu des 3 points -->
+        <item name="android:itemBackground">@color/grey_10</item>
+    </style>
+
+    <style name="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorPrimary">@color/red500</item>
+        <item name="colorPrimaryDark">@color/red600</item>
+        <item name="colorAccent">@color/red500</item>
+        <item name="colorSecondary">@color/red50</item>
+        <item name="android:itemTextAppearance">@color/red600</item>
+    </style>
+
+    <!-- Couleur du burger menu et des 3 points + titre-->
+    <style name="AppTheme.AppBarOverlay.test" parent="ThemeOverlay.AppCompat.ActionBar">
+        <!-- Couleur du burger menu et des 3 points + titre-->
+        <item name="colorControlNormal">@color/red50</item>
+        <!-- Couleur du titre de la barre de menu -->
+        <item name="titleTextColor">@color/red50</item>
+        <item name="android:itemBackground">@color/grey_10</item>
+
+    </style>
+
+    <!-- ??? -->
+    <!-- Base application theme. -->
+
+
+
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_accueil"
+            android:icon="@drawable/image"
+            android:title="Accueil" />
+        <item
+            android:id="@+id/nav_amplitude"
+            android:icon="@drawable/image"
+            android:title="Amplitude" />
+        <item
+            android:id="@+id/nav_repos_hebdo"
+            android:icon="@drawable/image"
+            android:title="Repos hebdomadaire" />
+        <item
+            android:id="@+id/nav_reglementation"
+            android:icon="@drawable/image"
+            android:title="Réglementation" />
+        <item
+            android:id="@+id/nav_semaines"
+            android:icon="@drawable/image"
+            android:title="Semaines" />
+        <item
+            android:id="@+id/nav_quit"
+            android:icon="@drawable/image"
+            android:title="Quitter" />
+    </group>
+
+</menu>

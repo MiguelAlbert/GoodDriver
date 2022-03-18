@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="6dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:gravity="center_vertical"
+                    android:text="Ma semaine"
+                    android:textStyle="bold" />
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/reposh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:title="Repos hebdo"
+                    app:icon="@drawable/ic_baseline_timer_24"
+                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:expandOnClick="true"/>
+
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/amplitude1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:title="Jour 1"
+                    app:icon="@drawable/ic_baseline_timer_24"
+                    app:inner_view="@layout/expandable_conduite_continue"
+                    app:expandOnClick="true"/>
+
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/amplitude2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:title="Jour 2"
+                    app:icon="@drawable/ic_baseline_timer_24"
+                    app:inner_view="@layout/expandable_conduite_journaliere"
+                    app:expandOnClick="true"/>
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/amplitude3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:title="Jour 3"
+                    app:icon="@drawable/ic_baseline_timer_24"
+                    app:inner_view="@layout/expandable_conduite_hebdomadaire"
+                    app:expandOnClick="true"/>
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/amplitude4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:title="Jour 4"
+                    app:icon="@drawable/ic_baseline_timer_24"
+                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:expandOnClick="true"/>
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/amplitude5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:title="Jour 5"
+                    app:icon="@drawable/ic_baseline_timer_24"
+                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:expandOnClick="true"/>
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/amplitude6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:title="Jour 6"
+                    app:icon="@drawable/ic_baseline_timer_24"
+                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:expandOnClick="true"/>
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/reposh2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:title="Repos hebdo"
+                    app:icon="@drawable/ic_baseline_timer_24"
+                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:expandOnClick="true"/>
+            </LinearLayout>
+        </ScrollView>
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_settings"
+        android:checkable="false"
+        android:checked="false"
+        android:icon="@drawable/ic_baseline_arrow_right_24"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_delete"
+        android:checkable="false"
+        android:checked="false"
+        android:icon="@drawable/ic_baseline_arrow_right_24"
+        android:orderInCategory="100"
+        android:title="@string/action_maj"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_rgpd"
+        android:checkable="false"
+        android:checked="false"
+        android:icon="@drawable/ic_baseline_event_24"
+        android:orderInCategory="100"
+        android:title="Consentement RGPD"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_about"
+        android:icon="@drawable/ic_baseline_access_time_24"
+        android:orderInCategory="200"
+        android:title="A propos de moi"
+        app:showAsAction="never" />
+</menu>

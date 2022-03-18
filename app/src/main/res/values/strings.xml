@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">GoodDriver</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Good Driver</string>
+    <string name="nav_header_subtitle">miguel.albert79@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_maj">Mise à jour</string>
+    <string name="title_activity_settings">Réglages</string>
+
+    <string name="channel_name">Channel Amplitude</string>
+    <string name="channel_description">Sur ce canal, vous recevrez un message avant la fin de votre amplitude</string>
+    <string name="notification_time"><u><b><i>15 mn avant</i></b></u></string>
+    <string name="conuiteSup10h">Déjà 2 conduites de + de 9h</string>
+    <string name="reposInf11h">Déjà 3 repos de moins de 11H</string>
+
+
+    <string name="text_alcohol">Alcohol</string>
+    <string name="text_coffee">Coffee</string>
+    <string name="text_pasta">Pasta</string>
+    <string name="text_cold_drinks">Cold Drinks</string>
+    <string name="text_expanded">Expanded</string>
+    <string name="text_collapsed">Collapsed</string>
+
+
+
+    <string-array name="string_array_alcohol">
+        <item>Vodka</item>
+        <item>Rum</item>
+        <item>Whiskey</item>
+        <item>Gin</item>
+        <item>Tequila</item>
+    </string-array>
+
+    <string-array name="string_array_coffee">
+        <item>Espresso</item>
+        <item>Macchiato</item>
+        <item>Cappuccino</item>
+        <item>Cafe Latte</item>
+        <item>Ristretto</item>
+    </string-array>
+
+    <string-array name="string_array_pasta">
+        <item>Carbonara</item>
+        <item>Capellini</item>
+        <item>Spaghetti</item>
+        <item>Gnocchi</item>
+        <item>Lasagnette</item>
+    </string-array>
+
+    <string-array name="string_array_cold_drinks">
+        <item>Cola</item>
+        <item>Lemonade</item>
+        <item>Citrus soda</item>
+        <item>Juice</item>
+        <item>Sparkling Water</item>
+    </string-array>
+</resources>

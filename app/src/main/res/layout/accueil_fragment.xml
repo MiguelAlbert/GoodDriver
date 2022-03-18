@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:tag="accueil_tag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="6dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Amplitude journalière" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Repos hebdomadaire" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Ma semaine" />
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Réglementation" />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:text="Conduites journalières"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pointage des conduites entre 9H et 10H"/>
+            <TextView
+                android:id="@+id/tvResultatDifference"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(2 fois par semaine)"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnLundi10h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="Lu"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnMardi10h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="Ma"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnMercredi10h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="Me"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnJeudi10h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="Je"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnVendredi10h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="Ve"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnSamedi10h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="Sa"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnDimanche10h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="Di"
+                        android:textSize="11sp" />
+
+                    <ImageButton
+                        android:id="@+id/imageButtonDeleteConduite"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_baseline_clear_24" />
+            </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/tvBilan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:text="Repos journaliers"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvBilan2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pointage des repos entre 9H et 11H"/>
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(3 fois entre 2 repos hebdomadaires)"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnJ1_9h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="J1"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnJ2_9h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="J2"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnJ3_9h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="J3"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnJ4_9h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="J4"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnJ5_9h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="J5"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnJ6_9h"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:text="J6"
+                        android:textSize="11sp" />
+
+                    <ImageButton
+                        android:id="@+id/imageButtonDeleteReposJournaliers"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_baseline_clear_24" />
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:paddingTop="60dp"
+                android:paddingRight="10dp"
+                app:srcCompat="@drawable/image" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
