@@ -12,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -28,7 +27,7 @@
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="Réglementation"
-                android:textColor="#300505"
+                android:textColor="#1D2A7C"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -47,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:gravity="center_vertical"
+                    android:paddingLeft="6dp"
                     android:text="Réglementation Sociale Européenne"
                     android:textStyle="bold" />
 
@@ -58,7 +58,15 @@
                     app:icon="@drawable/ic_testdrive"
                     app:inner_view="@layout/expandable_conduite_continue"
                     app:expandOnClick="true"/>
-
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    app:title="Pause conduite continue"
+                    app:icon="@drawable/ic_baseline_motion_photos_paused_24"
+                    app:inner_view="@layout/expandable_pause_cc"
+                    app:expandOnClick="true"/>
                 <com.alespero.expandablecardview.ExpandableCardView
                     android:id="@+id/conduitejournaliere"
                     android:layout_width="wrap_content"
@@ -87,54 +95,37 @@
                     app:inner_view="@layout/expandable_conduite_bihebdo"
                     app:expandOnClick="true"/>
                 <com.alespero.expandablecardview.ExpandableCardView
-                    android:id="@+id/pause"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    app:title="Pause conduite continue"
-                    app:icon="@drawable/ic_baseline_motion_photos_paused_24"
-                    app:inner_view="@layout/expandable_pause_cc"
-                    app:expandOnClick="true"/>
-                <com.alespero.expandablecardview.ExpandableCardView
                     android:id="@+id/reposjournalier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     app:title="Repos journalier"
                     app:icon="@drawable/ic_repos"
-                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:inner_view="@layout/expandable_repos_journalier"
                     app:expandOnClick="true"/>
                 <com.alespero.expandablecardview.ExpandableCardView
                     android:id="@+id/reposjournalierfractionne"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    app:title="Repos journalier"
+                    app:title="Repos journalier fractionné"
                     app:icon="@drawable/ic_repos"
                     app:inner_view="@layout/expandable_repos_journalier_fraction"
                     app:expandOnClick="true"/>
                 <com.alespero.expandablecardview.ExpandableCardView
-                    android:id="@+id/reposhebonormal"
+                    android:id="@+id/reposhebo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    app:title="Repos hebdomadaire normal"
+                    app:title="Repos hebdomadaire"
                     app:icon="@drawable/ic_repos"
-                    app:inner_view="@layout/expandable_repos_hebdo_normal"
-                    app:expandOnClick="true"/>
-                <com.alespero.expandablecardview.ExpandableCardView
-                    android:id="@+id/reposheboreduit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    app:title="Repos hebdomadaire réduit"
-                    app:icon="@drawable/ic_logo"
-                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:inner_view="@layout/expandable_repos_hebdo"
                     app:expandOnClick="true"/>
                 <TextView
                     android:id="@+id/textView18"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
+                    android:paddingLeft="6dp"
                     android:gravity="center_vertical"
                     android:text="Réglementation Sociale Française"
                     android:textStyle="bold" />
@@ -144,8 +135,33 @@
                     android:layout_height="wrap_content"
                     app:title="Service journalier"
                     app:icon="@drawable/ic_service"
-                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:inner_view="@layout/expandable_service_journalier"
                     app:expandOnClick="true"/>
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/tempsPause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    app:title="Temps de pause"
+                    app:icon="@drawable/ic_repos"
+                    app:inner_view="@layout/expandable_temps_pause"
+                    app:expandOnClick="true"/>
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/serviceHebdo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    app:title="Service hebdomadaire"
+                    app:icon="@drawable/ic_service"
+                    app:inner_view="@layout/expandable_service_hebdo"
+                    app:expandOnClick="true"/>
+                <TextView
+                    android:id="@+id/textView181"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text=""
+                    android:textStyle="bold" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

@@ -1,33 +1,14 @@
 package albert.miguel.gooddriver;
 
-import static android.os.Build.VERSION.SDK_INT;
-
-import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.DatePickerDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.Menu;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
-import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -36,22 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import lecho.lib.hellocharts.model.PieChartData;
-import lecho.lib.hellocharts.model.SliceValue;
-import lecho.lib.hellocharts.view.PieChartView;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -114,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         AmplitudeFragment AmplitudeFragment = (AmplitudeFragment) getSupportFragmentManager().findFragmentByTag("Amplitude_fragment");
-        ReposHebdoFragment ReposHebdoFragment = (ReposHebdoFragment) getSupportFragmentManager().findFragmentByTag("Repos_hebdo_fragment");
+        ViewPagerReposHebdo ViewPagerReposHebdo = (ViewPagerReposHebdo) getSupportFragmentManager().findFragmentByTag("Repos_hebdo_fragment");
         ReglementationFragment ReglementationFragment = (ReglementationFragment) getSupportFragmentManager().findFragmentByTag("Reglementation_fragment");
         SemaineFragment SemaineFragment = (SemaineFragment) getSupportFragmentManager().findFragmentByTag("Semaine_fragment");
 
@@ -125,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
-        } else if(ReposHebdoFragment != null && ReposHebdoFragment.isVisible()){
+        } else if(ViewPagerReposHebdo != null && ViewPagerReposHebdo.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
@@ -237,11 +206,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
             return true;
         }
-        if (id == R.id.action_delete) {
-
-
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -266,9 +230,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.commit();
         }
         if (id == R.id.nav_repos_hebdo) {
-            ReposHebdoFragment ReposHebdoFragment = new ReposHebdoFragment();
+            ViewPagerReposHebdo ViewPagerReposHebdo = new ViewPagerReposHebdo();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_frame, ReposHebdoFragment, "Repos_hebdo_fragment"); // give your fragment container id in first parameter
+            transaction.replace(R.id.content_frame, ViewPagerReposHebdo, "Repos_hebdo_fragment"); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();

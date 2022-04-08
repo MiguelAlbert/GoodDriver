@@ -1,7 +1,6 @@
 package albert.miguel.gooddriver;
 
 
-
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.DatePickerDialog;
@@ -17,10 +16,8 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-
 import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
@@ -28,7 +25,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class ReposHebdoFragment extends Fragment {
+public class ReposHebdoFragment2 extends Fragment {
 
     ImageButton imageButtonDateDebut,imageButtonHeureDebut,imageButtonDeleteDebut,imageButtonDateFin, imageButtonHeureFin,
             imageButtonDeleteFin;
@@ -52,7 +49,7 @@ public class ReposHebdoFragment extends Fragment {
         debutAdd45 = Calendar.getInstance();
 
         timerGetHeure();
-        View v = inflater.inflate(R.layout.fragment_repos_hebdo,container,false);
+        View v = inflater.inflate(R.layout.fragment_repos_hebdo2,container,false);
 
         tvDateReposReduit = (TextView) v.findViewById(R.id.tvDateReposReduit);
         tvHeureReposReduit = (TextView) v.findViewById(R.id.tvHeureReposReduit);

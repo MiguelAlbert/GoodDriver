@@ -14,9 +14,9 @@
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="85dp"
             android:padding="6dp"
-            android:text="Par période de 24h\n3h00 initerropues puis 9h00 ininterrompues \n(compte comme un repos normal)"
+            android:text="Par période de 24h :\n3h00 ininterrompues puis\n9h00 ininterrompues. \n(compte comme un repos normal)"
             android:textSize="14sp"
             android:textStyle="bold" />
 

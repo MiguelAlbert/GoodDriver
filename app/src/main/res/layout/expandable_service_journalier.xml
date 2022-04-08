@@ -14,9 +14,9 @@
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="100dp"
             android:padding="6dp"
-            android:text="Temps de conduite sur deux semaines :\n90 Heures sur 2 semaines consécutives"
+            android:text="Temps de service journalier limitée à 12h.\nEn cas de travail de nuit (0h00-5h00), le temps de service est limité à 10h."
             android:textSize="14sp"
             android:textStyle="bold" />
 

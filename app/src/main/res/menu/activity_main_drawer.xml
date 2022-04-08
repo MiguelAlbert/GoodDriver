@@ -25,10 +25,12 @@
             android:id="@+id/nav_semaines"
             android:icon="@drawable/image"
             android:title="Semaines" />
+    </group>
+
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_quit"
             android:icon="@drawable/image"
             android:title="Quitter" />
     </group>
-
 </menu>

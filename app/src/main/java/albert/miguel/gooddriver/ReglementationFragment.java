@@ -66,6 +66,7 @@ public class ReglementationFragment extends Fragment {
 
         context = container.getContext();
         View v = inflater.inflate(R.layout.fragment_reglementation,container,false);
+        /*
         card = v.findViewById(R.id.conduite);
         card.setOnExpandedListener(new ExpandableCardView.OnExpandedListener() {
             @Override
@@ -86,6 +87,8 @@ public class ReglementationFragment extends Fragment {
                 card.setIcon(R.drawable.ic_baseline_delete_24);
             }
         });
+
+         */
         return v;
 
     }

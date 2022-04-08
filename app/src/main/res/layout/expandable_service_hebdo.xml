@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:padding="6dp"
-            android:text="Période de repos ininterrompue de 56 heures\n obligatoire après 6 amplitudes de 24 heures.\nPeut être réduit à 24h00 une seule fois entre 2 repos normaux."
+            android:text="Temps de service sur une semaine :\n56h grands routiers\n52h courte distance\n48h messagerie"
             android:textSize="14sp"
             android:textStyle="bold" />
 
