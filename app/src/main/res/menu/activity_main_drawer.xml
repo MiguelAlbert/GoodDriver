@@ -24,10 +24,15 @@
         <item
             android:id="@+id/nav_semaines"
             android:icon="@drawable/image"
-            android:title="Semaines" />
-    </group>
-
-    <group android:checkableBehavior="single">
+            android:title="Semaine" />
+        <item
+            android:id="@+id/nav_vitesse"
+            android:icon="@drawable/image"
+            android:title="Vitesse moyenne" />
+        <item
+            android:id="@+id/nav_calculatrice"
+            android:icon="@drawable/image"
+            android:title="Calculatrice de temps" />
         <item
             android:id="@+id/nav_quit"
             android:icon="@drawable/image"

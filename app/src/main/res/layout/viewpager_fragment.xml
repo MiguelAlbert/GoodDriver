@@ -17,7 +17,7 @@
             android:id="@+id/tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="@color/white"
+            app:tabBackground="@color/grey_10"
             app:tabGravity="center"
             app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorHeight="4dp"

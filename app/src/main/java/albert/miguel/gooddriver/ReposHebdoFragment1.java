@@ -29,12 +29,11 @@ import java.util.TimerTask;
 
 public class ReposHebdoFragment1 extends Fragment {
 
-    ImageButton imageButtonDateDebut,imageButtonHeureDebut,imageButtonDeleteDebut,imageButtonDateFin, imageButtonHeureFin,
-            imageButtonDeleteFin;
+    ImageButton imageButtonDateDebut,imageButtonHeureDebut,imageButtonDeleteDebut;
     Context context;
     TextView tvDateReposReduit, tvHeureReposReduit, tvTempsRestantReduit, tvDateReposNormal,
-            tvHeureReposNormal, tvTempsRestantNormal,tVDateDebut,tVDateFin,
-            tvHeureDebut, tvHeureFin, tvResultatDifference, tvBilan;
+            tvHeureReposNormal, tvTempsRestantNormal,tVDateDebut,
+            tvHeureDebut;
     Calendar now, debut, debutAdd24, debutAdd45, calFin;
     private Timer timer;
     SharedPreferences.Editor editorReposHebdo;
@@ -59,19 +58,12 @@ public class ReposHebdoFragment1 extends Fragment {
         tvDateReposNormal = (TextView) v.findViewById(R.id.tvDateReposNormal);
         tvHeureReposNormal = (TextView) v.findViewById(R.id.tvHeureReposNormal);
         tvTempsRestantNormal = (TextView) v.findViewById(R.id.tvTempsRestantNormal);
-        tvResultatDifference = (TextView) v.findViewById(R.id.tvResultatDifference);
-        tvBilan = (TextView) v.findViewById(R.id.tvBilan);
         tVDateDebut = (TextView) v.findViewById(R.id.tVDateDebut);
         tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebut);
-        tVDateFin = (TextView) v.findViewById(R.id.tVDateFin);
-        tvHeureFin = (TextView) v.findViewById(R.id.tvHeureFin);
 
         imageButtonDateDebut = (ImageButton) v.findViewById(R.id.imageButtonDateDebut);
         imageButtonHeureDebut = (ImageButton) v.findViewById(R.id.imageButtonHeureDebut);
         imageButtonDeleteDebut = (ImageButton) v.findViewById(R.id.imageButtonDeleteDebut);
-        imageButtonDateFin = (ImageButton) v.findViewById(R.id.imageButtonDateFin);
-        imageButtonHeureFin = (ImageButton) v.findViewById(R.id.imageButtonHeureFin);
-        imageButtonDeleteFin = (ImageButton) v.findViewById(R.id.imageButtonDeleteFin);
         imageButtonDateDebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,24 +82,6 @@ public class ReposHebdoFragment1 extends Fragment {
                 deleteDateDebut();
             }
         });
-        imageButtonDateFin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectDateFin();
-            }
-        });
-        imageButtonHeureFin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectHeureFin();
-            }
-        });
-        imageButtonDeleteFin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteDateFin();
-            }
-        });
         tVDateDebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,18 +92,6 @@ public class ReposHebdoFragment1 extends Fragment {
             @Override
             public void onClick(View v) {
                 selectHeureDebut();
-            }
-        });
-        tVDateFin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectDateFin();
-            }
-        });
-        tvHeureFin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectHeureFin();
             }
         });
         testSiDonneeEnregistrees();
@@ -163,25 +125,6 @@ public class ReposHebdoFragment1 extends Fragment {
             add24hour();
             add45hour();
         }
-        int monthFin = pref.getInt("key_Fin_Month", 0);
-        int yearFin = pref.getInt("key_Fin_Year", 0);
-        int dayOfMonthFin = pref.getInt("key_Fin_Day", 0);
-        int heureFin = pref.getInt("key_Fin_Hour", 0);
-        int minuteFin = pref.getInt("key_Fin_Minute", 0);
-        if(monthFin == 0 && yearFin == 0 && dayOfMonthFin == 0 && heureFin == 0 && minuteFin == 0) {
-            tvHeureFin.setText("");
-            tVDateFin.setText("");
-        }else {
-            calFin.set(Calendar.MONTH, monthFin);
-            calFin.set(Calendar.YEAR, yearFin);
-            calFin.set(Calendar.DAY_OF_MONTH, dayOfMonthFin);
-            calFin.set(Calendar.HOUR_OF_DAY, heureFin);
-            calFin.set(Calendar.MINUTE, minuteFin);
-            int NomduJourFin = calFin.get(Calendar.DAY_OF_WEEK);
-            tvHeureFin.setText(String.format("%02d:%02d",heureFin,minuteFin));
-            tVDateFin.setText(getDayName(NomduJourFin-1) + "\n" + String.format("%02d/%02d/%02d",dayOfMonthFin ,(monthFin + 1), yearFin));
-        }
-        calculDifference();
     }
 
     private void selectDateDebut() {
@@ -223,7 +166,6 @@ public class ReposHebdoFragment1 extends Fragment {
                         editorReposHebdo.apply(); // commit changes
                         add24hour();
                         add45hour();
-                        calculDifference();
                     }
                 }, yearDebut, monthDebut, dayOfMonthDebut);
         datePickerDialog.show();
@@ -266,7 +208,6 @@ public class ReposHebdoFragment1 extends Fragment {
                 editorReposHebdo.apply();// commit changes
                 add24hour();
                 add45hour();
-                calculDifference();
             }
         }, HourDebut, MinuteDebut, true);
         timePickerDialog.show();
@@ -398,90 +339,6 @@ public class ReposHebdoFragment1 extends Fragment {
         refreshUI();
     }
 
-    private void selectDateFin() {
-        now = Calendar.getInstance();
-        int yearFin,monthFin,dayOfMonthFin,HourFin,MinuteFin;
-        if(tVDateFin.getText().toString()==""){
-            yearFin = now.get(Calendar.YEAR);
-            monthFin = now.get(Calendar.MONTH);
-            dayOfMonthFin = now.get(Calendar.DAY_OF_MONTH);
-            HourFin = now.get(Calendar.HOUR_OF_DAY);
-            MinuteFin = now.get(Calendar.MINUTE);
-        } else {
-            yearFin = calFin.get(Calendar.YEAR);
-            monthFin = calFin.get(Calendar.MONTH);
-            dayOfMonthFin = calFin.get(Calendar.DAY_OF_MONTH);
-            HourFin = calFin.get(Calendar.HOUR_OF_DAY);
-            MinuteFin = calFin.get(Calendar.MINUTE);
-        }
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        int NomduJour = calFin.get(Calendar.DAY_OF_WEEK);
-                        tvHeureFin.setText(String.format("%02d:%02d", HourFin, MinuteFin));
-                        tVDateFin.setText(String.format(getDayName(NomduJour-1) + "\n" + String.format("%02d/%02d/%02d",day ,(month +1) , year)));
-                        calFin.set(Calendar.HOUR_OF_DAY, HourFin);
-                        calFin.set(Calendar.MINUTE, MinuteFin);
-                        calFin.set(Calendar.YEAR, year);
-                        calFin.set(Calendar.MONTH, month);
-                        calFin.set(Calendar.DAY_OF_MONTH, day);
-                        calFin.set(Calendar.SECOND, 0);
-                        calFin.set(Calendar.MILLISECOND, 0);
-                        editorReposHebdo.putInt("key_Fin_Hour",HourFin );  // Saving int
-                        editorReposHebdo.putInt("key_Fin_Minute",MinuteFin );
-                        editorReposHebdo.putInt("key_Fin_Year",year );  // Saving int
-                        editorReposHebdo.putInt("key_Fin_Month",month );  // Saving int
-                        editorReposHebdo.putInt("key_Fin_Day",day );  // Saving int// Saving int
-                        editorReposHebdo.apply();// commit changes
-                        calculDifference();
-                    }
-                }, yearFin, monthFin, dayOfMonthFin);
-        datePickerDialog.show();
-    }
-
-
-
-    private void selectHeureFin() {
-        now = Calendar.getInstance();
-        int yearFin,monthFin,dayOfMonthFin,HourFin,MinuteFin;
-        if(tvHeureFin.getText().toString()==""){
-            yearFin = now.get(Calendar.YEAR);
-            monthFin = now.get(Calendar.MONTH);
-            dayOfMonthFin = now.get(Calendar.DAY_OF_MONTH);
-            HourFin = now.get(Calendar.HOUR_OF_DAY);
-            MinuteFin = now.get(Calendar.MINUTE);
-        } else {
-            yearFin = calFin.get(Calendar.YEAR);
-            monthFin = calFin.get(Calendar.MONTH);
-            dayOfMonthFin = calFin.get(Calendar.DAY_OF_MONTH);
-            HourFin = calFin.get(Calendar.HOUR_OF_DAY);
-            MinuteFin = calFin.get(Calendar.MINUTE);
-        }
-        TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                int NomduJour = calFin.get(Calendar.DAY_OF_WEEK);
-                tvHeureFin.setText(String.format("%02d:%02d", hourOfDay, minutes));
-                tVDateFin.setText(String.format(getDayName(NomduJour-1) + "\n" + String.format("%02d/%02d/%02d",dayOfMonthFin,(monthFin +1),yearFin)));
-                calFin.set(Calendar.HOUR_OF_DAY, HourFin);
-                calFin.set(Calendar.MINUTE, MinuteFin);
-                calFin.set(Calendar.YEAR, yearFin);
-                calFin.set(Calendar.MONTH, monthFin);
-                calFin.set(Calendar.DAY_OF_MONTH, dayOfMonthFin);
-                calFin.set(Calendar.SECOND, 0);
-                calFin.set(Calendar.MILLISECOND, 0);
-                editorReposHebdo.putInt("key_Fin_Hour",HourFin );  // Saving int
-                editorReposHebdo.putInt("key_Fin_Minute",MinuteFin );
-                editorReposHebdo.putInt("key_Fin_Year",yearFin );  // Saving int
-                editorReposHebdo.putInt("key_Fin_Month",monthFin );  // Saving int
-                editorReposHebdo.putInt("key_Fin_Day",dayOfMonthFin );  // Saving int// Saving int
-                editorReposHebdo.apply();// commit changes
-                calculDifference();
-            }
-        }, HourFin, MinuteFin, true);
-        timePickerDialog.show();
-    }
 
 
     private void deleteDateDebut() {
@@ -499,85 +356,5 @@ public class ReposHebdoFragment1 extends Fragment {
         editorReposHebdo.putInt("key_Debut_Month",0 );  // Saving int
         editorReposHebdo.putInt("key_Debut_Day",0 );  // Saving int// Saving int
         editorReposHebdo.apply();// commit changes
-        calculDifference();
-
-    }
-
-    private void deleteDateFin() {
-        tVDateFin.setText("");
-        tvHeureFin.setText("");
-        tvResultatDifference.setText("");
-        tvBilan.setText("");
-        editorReposHebdo.putInt("key_Fin_Hour",0 );  // Saving int
-        editorReposHebdo.putInt("key_Fin_Minute",0 );
-        editorReposHebdo.putInt("key_Fin_Year",0 );  // Saving int
-        editorReposHebdo.putInt("key_Fin_Month",0 );  // Saving int
-        editorReposHebdo.putInt("key_Fin_Day",0 );  // Saving int// Saving int
-        editorReposHebdo.apply();// commit changes
-        calculDifference();
-    }
-
-    private void calculDifference() {
-        if (tvHeureFin.getText().toString()=="" || tVDateFin.getText().toString() == ""){
-            tvResultatDifference.setText("");
-        } else {
-            debut.set(Calendar.SECOND, 0);
-            debut.set(Calendar.MILLISECOND, 0);
-            calFin.set(Calendar.SECOND, 0);
-            calFin.set(Calendar.MILLISECOND, 0);
-            long milliSeconds1 = debut.getTimeInMillis();
-            long milliSeconds2 = calFin.getTimeInMillis();
-            long time = (milliSeconds2 - milliSeconds1);
-            if(time <0) {
-                tvResultatDifference.setText("Date de fin inférieure à la date de début");
-                tvBilan.setText("");
-            }
-            if (time >= 0 && time < 24*60*60*1000) {
-                tvResultatDifference.setText(formatMilliSecondsToTimeSansSeconds(time));
-                tvBilan.setText("Repos réduit non réalisé");
-            }
-            if (time >= 24*60*60*1000 && time < 45*60*60*1000) {
-                int diff = (int) ((45*60*60*1000) - time);
-                tvResultatDifference.setText(formatMilliSecondsToTimeSansSeconds(time));
-                Calendar dernierDimanche  = (Calendar) calFin.clone();
-                dernierDimanche.set(Calendar.HOUR_OF_DAY, 0);
-                dernierDimanche.set(Calendar.MINUTE, 0);
-                dernierDimanche.set(Calendar.SECOND, 0);
-                dernierDimanche.set(Calendar.MILLISECOND, 0);
-                int day = dernierDimanche.get(Calendar.DAY_OF_WEEK);
-                //Toast.makeText(context, "Int day "+ day, Toast.LENGTH_SHORT).show();
-                switch (day){
-                    case 1:
-                        dernierDimanche.add(Calendar.DAY_OF_YEAR, 21);
-                        break;
-                    case 2:
-                        dernierDimanche.add(Calendar.DAY_OF_YEAR, 27);
-                        break;
-                    case 3:
-                        dernierDimanche.add(Calendar.DAY_OF_YEAR, 26);
-                        break;
-                    case 4:
-                        dernierDimanche.add(Calendar.DAY_OF_YEAR, 25);
-
-                        break;
-                    case 5:
-                        dernierDimanche.add(Calendar.DAY_OF_YEAR, 24);
-                        break;
-                    case 6:
-                        dernierDimanche.add(Calendar.DAY_OF_YEAR, 23);
-                        break;
-                    case 7:
-                        dernierDimanche.add(Calendar.DAY_OF_YEAR, 22);
-                        break;
-                }
-                String datetroissemaine = String.format("%02d/%02d/%02d",dernierDimanche.get(Calendar.DAY_OF_MONTH),dernierDimanche.get(Calendar.MONTH)+1,dernierDimanche.get(Calendar.YEAR));
-                tvBilan.setText("Repos réduit réalisé, vous devez compenser " + "\n" + formatMilliSecondsToTimeSansSeconds(diff) +" heures avant le "+ datetroissemaine);
-            }
-            if (time >= 45*60*60*1000) {
-                tvResultatDifference.setText(formatMilliSecondsToTimeSansSeconds(time));
-                tvBilan.setText("Repos normal réalisé. Aucun temps à récupérer");
-
-            }
-        }
     }
 }

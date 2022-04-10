@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ViewPagerReposHebdo ViewPagerReposHebdo = (ViewPagerReposHebdo) getSupportFragmentManager().findFragmentByTag("Repos_hebdo_fragment");
         ReglementationFragment ReglementationFragment = (ReglementationFragment) getSupportFragmentManager().findFragmentByTag("Reglementation_fragment");
         SemaineFragment SemaineFragment = (SemaineFragment) getSupportFragmentManager().findFragmentByTag("Semaine_fragment");
+        ViewPagerCalcTemps ViewPagerCalcTemps = (ViewPagerCalcTemps) getSupportFragmentManager().findFragmentByTag("Calc_temps_fragment");
+        ViewPagerVitesseMoyenne ViewPagerVitesseMoyenne = (ViewPagerVitesseMoyenne) getSupportFragmentManager().findFragmentByTag("Vitesse_fragment");
 
         if (AmplitudeFragment != null && AmplitudeFragment.isVisible()) {
             MainFragment MainFragment = new MainFragment();
@@ -108,7 +110,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
-        } else if(SemaineFragment != null && SemaineFragment.isVisible()){
+        } else if(ViewPagerCalcTemps != null && ViewPagerCalcTemps.isVisible()){
+            MainFragment MainFragment = new MainFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+            transaction.commit();
+        }else if(SemaineFragment != null && SemaineFragment.isVisible()){
+            MainFragment MainFragment = new MainFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+            transaction.commit();
+        }else if(ViewPagerVitesseMoyenne != null && ViewPagerVitesseMoyenne.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
@@ -249,6 +265,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             SemaineFragment SemaineFragment = new SemaineFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, SemaineFragment, "Semaine_fragment"); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+            transaction.commit();
+        }
+        if (id == R.id.nav_calculatrice) {
+            ViewPagerCalcTemps ViewPagerCalcTemps = new ViewPagerCalcTemps();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, ViewPagerCalcTemps, "Calc_temps_fragment"); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+            transaction.commit();
+        }
+        if (id == R.id.nav_vitesse) {
+            ViewPagerVitesseMoyenne ViewPagerVitesseMoyenne = new ViewPagerVitesseMoyenne();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, ViewPagerVitesseMoyenne, "Vitesse_fragment"); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();

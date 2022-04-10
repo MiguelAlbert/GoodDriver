@@ -42,7 +42,7 @@
             android:maxLines="10"
             android:paddingTop="50dp"
             android:text="Suivez votre temps\n\nne commettez\n\nplus d'infractions"
-            android:textColor="@color/red50"
+            android:textColor="#0D1750"
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>

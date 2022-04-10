@@ -97,120 +97,6 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textView15"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:gravity="center_vertical"
-                    android:text="Repos réduit réalisé à partir de :"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tvDateReposReduit"
-                            android:layout_width="110dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="6dp"
-                            android:background="@drawable/bg_rectangle_order"
-                            android:gravity="center"
-                            tools:ignore="SpeakableTextPresentCheck" />
-
-
-                        <TextView
-                            android:id="@+id/tvHeureReposReduit"
-                            android:layout_width="80dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="6dp"
-                            android:background="@drawable/bg_rectangle_order"
-                            android:gravity="center" />
-
-                        <TextView
-                            android:id="@+id/tvTempsRestantReduit"
-                            android:layout_width="120dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="6dp"
-                            android:background="@drawable/bg_rectangle_order"
-                            android:gravity="center" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal"/>
-
-                        <TextView
-                            android:id="@+id/textView16"
-                            android:layout_width="match_parent"
-                            android:layout_height="36dp"
-                            android:gravity="center_vertical"
-                            android:text="Repos normal réalisé à partir de :"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tvDateReposNormal"
-                            android:layout_width="110dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="6dp"
-                            android:background="@drawable/bg_rectangle_order"
-                            android:gravity="center"
-                            tools:ignore="SpeakableTextPresentCheck" />
-
-
-                        <TextView
-                            android:id="@+id/tvHeureReposNormal"
-                            android:layout_width="80dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="6dp"
-                            android:background="@drawable/bg_rectangle_order"
-                            android:gravity="center" />
-
-                        <TextView
-                            android:id="@+id/tvTempsRestantNormal"
-                            android:layout_width="120dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="6dp"
-                            android:background="@drawable/bg_rectangle_order"
-                            android:gravity="center" />
-                    </LinearLayout>
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -298,16 +184,10 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvBilan2"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:gravity="center_vertical"
-                    android:textStyle="bold" />
-
-                <TextView
                     android:id="@+id/textView10"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingTop="10dp"
                     android:gravity="center_vertical"
                     android:text="la réduction est compensée par une période de repos équivalente prise en bloc avant la fin de la troisième semaine suivant la semaine en question."
                     android:textStyle="bold" />

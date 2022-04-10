@@ -23,19 +23,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainFragment extends Fragment {
 
-        Button button1, button2, button3, button4;
-        Button btnLundi10h, btnMardi10h, btnMercredi10h, btnJeudi10h,btnVendredi10h, btnSamedi10h, btnDimanche10h;
-        ImageButton imageButtonDeleteConduite, imageButtonDeleteReposJournaliers;
-        Button btnJ1_9h, btnJ2_9h, btnJ3_9h, btnJ4_9h,btnJ5_9h, btnJ6_9h;
+        Button button1, button2, button3, button4, button5, button6;
+
         Activity thisActivity;
-        int nbConduite10h = 0;
-        int nbRepos9h = 0;
         Context context;
 
-        SharedPreferences prefConduite;
-        SharedPreferences prefRepos;
-        SharedPreferences.Editor editorprefConduite;
-        SharedPreferences.Editor editorprefRepos;
 
         @Nullable
         @Override
@@ -44,10 +36,6 @@ public class MainFragment extends Fragment {
             context = container.getContext();
             View v = inflater.inflate(R.layout.accueil_fragment,container,false);
             thisActivity = getActivity();
-            prefConduite = context.getSharedPreferences("PrefsConduitesRepos", MODE_PRIVATE);
-            prefRepos = context.getSharedPreferences("PrefsRepos", MODE_PRIVATE);
-            editorprefConduite = prefConduite.edit();
-            editorprefRepos  = prefRepos.edit();
 
             button1 = (Button) v.findViewById(R.id.button1);
             button1.setOnClickListener(new View.OnClickListener()
@@ -109,6 +97,36 @@ public class MainFragment extends Fragment {
 
                 }
             });
+            button6 = (Button) v.findViewById(R.id.button6);
+            button6.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    ViewPagerCalcTemps ViewPagerCalcTemps = new ViewPagerCalcTemps();
+                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.content_frame, ViewPagerCalcTemps, "Calc_temps_fragment"); // give your fragment container id in first parameter
+                    transaction.disallowAddToBackStack();
+                    //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+                    transaction.commit();
+
+                }
+            });
+            button5 = (Button) v.findViewById(R.id.button5);
+            button5.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    ViewPagerVitesseMoyenne ViewPagerVitesseMoyenne = new ViewPagerVitesseMoyenne();
+                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.content_frame, ViewPagerVitesseMoyenne, "Vitesse_fragment"); // give your fragment container id in first parameter
+                    transaction.disallowAddToBackStack();
+                    //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+                    transaction.commit();
+
+                }
+            });
 
         return v;
     }
@@ -123,6 +141,5 @@ public class MainFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
             super.onSaveInstanceState(outState);
 
-            //Save the fragment's state here
     }
 }
