@@ -189,6 +189,7 @@ public class TempsCentiemes extends Fragment {
         if(etHeureCentieme2.getText().toString().equals("")){
             Toast.makeText(context, "valeurs vides", Toast.LENGTH_SHORT).show();
         }
+        //
         if(!etHeureCentieme2.getText().toString().equals("")){
             double finalBuildTime = Double.parseDouble(etHeureCentieme2.getText().toString());
             int hours = (int) finalBuildTime;
