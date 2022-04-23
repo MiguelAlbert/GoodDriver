@@ -24,7 +24,7 @@
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="Temps centièmes"
-                android:textColor="#300505"
+                android:textColor="@color/blue"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -44,21 +44,138 @@
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:gravity="center_vertical"
-                    android:text="Heures et minutes"
+                    android:text="Heures minutes --> Heures centièmes"
                     android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etHeure1"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:background="@drawable/bg_rectangle_order"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:text="H"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etMinute1"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:background="@drawable/bg_rectangle_order"
+                        android:gravity="center" />
+
+                    <ImageButton
+                        android:id="@+id/imageButtonCalcul1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:cropToPadding="true"
+                        android:src="@drawable/ic_baseline_arrow_right_24" />
+
+                    <TextView
+                        android:id="@+id/etKilometres"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rectangle_order"
+                        android:gravity="center"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <ImageButton
+                        android:id="@+id/imageButtonDelete"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:cropToPadding="true"
+                        android:src="@drawable/ic_baseline_clear_24" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textView15"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:gravity="center_vertical"
-                    android:text="Heures et centièmes d'heures"
+                    android:text="Heures centièmes --> Heures minutes "
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"/>
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/etHeureCentieme2"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rectangle_order"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:maxLength="8"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <ImageButton
+                        android:id="@+id/imageButtonCalcul2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:cropToPadding="true"
+                        android:src="@drawable/ic_baseline_arrow_right_24" />
+
+                    <TextView
+                        android:id="@+id/tvResultatHeure2"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rectangle_order"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:text="H"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvResultatMinute2"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rectangle_order"
+                        android:gravity="center" />
+
+                    <ImageButton
+                        android:id="@+id/imageButtonDelete2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:cropToPadding="true"
+                        android:src="@drawable/ic_baseline_clear_24" />
+                </LinearLayout>
 
 
             </LinearLayout>

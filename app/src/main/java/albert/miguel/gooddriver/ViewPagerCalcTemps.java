@@ -22,8 +22,6 @@ import java.util.List;
 
 public class ViewPagerCalcTemps extends Fragment {
 
-
-    LinearLayout LinearLayout1;
     ViewPager viewPager;
     TabLayout tabLayout;
     @Nullable
@@ -31,7 +29,6 @@ public class ViewPagerCalcTemps extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.viewpager_fragment,container,false);
-
 
         viewPager = (ViewPager) v.findViewById(R.id.vpPager);
         tabLayout = (TabLayout) v.findViewById(R.id.tab);
@@ -43,14 +40,6 @@ public class ViewPagerCalcTemps extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            getActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else{
-            getActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        getActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LOCKED);
-
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
@@ -76,7 +65,7 @@ public class ViewPagerCalcTemps extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
 
-        viewPagerAdapter.addFragment(new CalculatriceTemps(), "Calculatrice Temps");
+        viewPagerAdapter.addFragment(new CalculatriceTemps(), "Calculatrice\nTemps");
         viewPagerAdapter.addFragment(new TempsCentiemes(), "Temps centièmes");
 
         viewPager.setAdapter(viewPagerAdapter);

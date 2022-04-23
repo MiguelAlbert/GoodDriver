@@ -23,7 +23,7 @@
             app:tabIndicatorHeight="4dp"
             app:tabMode="fixed"
             app:tabSelectedTextColor="#1D2A7C"
-            app:tabTextColor="@color/red100"
+            app:tabTextColor="@color/grey_20"
             tools:ignore="SpeakableTextPresentCheck" />
 
     </com.google.android.material.appbar.AppBarLayout>

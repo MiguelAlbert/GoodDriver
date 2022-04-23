@@ -86,7 +86,7 @@ public class AmplitudeFragment extends Fragment {
         timerGetHeure();
 
         View v = inflater.inflate(R.layout.fragment_amplitude,container,false);
-        imageButtonHeure = (ImageButton) v.findViewById(R.id.imageButtonHeure);
+        imageButtonHeure = (ImageButton) v.findViewById(R.id.imageButtonCalcul1);
         imageButtonHeure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +100,7 @@ public class AmplitudeFragment extends Fragment {
                 selectDate(v);
             }
         });
-        imageButtonDelete = (ImageButton) v.findViewById(R.id.imageButtonDeleteFin);
+        imageButtonDelete = (ImageButton) v.findViewById(R.id.imageButtonDelete);
         imageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +129,7 @@ public class AmplitudeFragment extends Fragment {
                 selectDate(v);
             }
         });
-        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebut);
+        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeure1);
         tvHeureDebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,8 +138,8 @@ public class AmplitudeFragment extends Fragment {
         });
         tvHeureFinAmplitude = (TextView) v.findViewById(R.id.tvHeureReposReduit);
         tvDateFinAmplitude = (TextView) v.findViewById(R.id.tvDateReposReduit);
-        tvHeureJour = (TextView) v.findViewById(R.id.tvHeureJour);
-        tvDateDuJour = (TextView) v.findViewById(R.id.tvDateDuJour);
+        //tvHeureJour = (TextView) v.findViewById(R.id.tvHeureJour);
+        //tvDateDuJour = (TextView) v.findViewById(R.id.tvDateDuJour);
         tvTempsRestant = (TextView) v.findViewById(R.id.tvTempsRestantReduit);
         tvNotificationTimeBefore = (TextView) v.findViewById(R.id.tvNotificationTimeBefore);
         tvNotificationTimeBefore.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +187,7 @@ public class AmplitudeFragment extends Fragment {
                     @Override
                     public void run() {
 
-                        affichageDate_heure_jour();
+                        affichageTempsRestant();
                     }
                 });
             }
@@ -206,19 +206,59 @@ public class AmplitudeFragment extends Fragment {
     private void createPieChart() {
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
-        float b = 6;
         int c = pref.getInt("key_Amplitude_Journaliere", 13);
         if (c == 13){c = 11;} else { c = 9;}
-        float a = 24 - 6- c;
-        List<SliceValue> pieData = new ArrayList<>();
-        pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + "h00"));
-        pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Temps écoulé \n 1h30"));
-        pieData.add(new SliceValue(b, ResourcesCompat.getColor(getResources(), R.color.red200, null)).setLabel("Temps restant 11h30"));
-        PieChartData pieChartData = new PieChartData(pieData);
-        pieChartData.setHasLabels(true).setValueLabelTextSize(10);
-
-        pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.6f).setCenterText1("").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));;
-        pieChartView.setPieChartData(pieChartData);
+        long milliSeconds1 = calendarfin.getTimeInMillis();
+        long milliSeconds2 = now.getTimeInMillis();
+        long time = (milliSeconds1 - milliSeconds2);
+        if(time <=0){
+            int a = 24 - c;
+            List<SliceValue> pieData = new ArrayList<>();
+            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + "h00"));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + "h00"));
+            PieChartData pieChartData = new PieChartData(pieData);
+            pieChartData.setHasLabels(true).setValueLabelTextSize(10);
+            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.6f).setCenterText1("24h").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
+            pieChartView.setPieChartData(pieChartData);
+        } else if (c == 11 && time >= 13*60*60*1000) {
+            int a = 24 - c;
+            List<SliceValue> pieData = new ArrayList<>();
+            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + "h00"));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + "h00"));
+            PieChartData pieChartData = new PieChartData(pieData);
+            pieChartData.setHasLabels(true).setValueLabelTextSize(10);
+            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.6f).setCenterText1("24h").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
+            pieChartView.setPieChartData(pieChartData);
+        } else if(c == 9 && time >= 15*60*60*1000){
+            int a = 24 - c;
+            List<SliceValue> pieData = new ArrayList<>();
+            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + "h00"));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + "h00"));
+            PieChartData pieChartData = new PieChartData(pieData);
+            pieChartData.setHasLabels(true).setValueLabelTextSize(10);
+            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.6f).setCenterText1("24h").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
+            pieChartView.setPieChartData(pieChartData);
+        } else {
+            int minutes = (int) ((time / (1000*60)) % 60) ;
+            int hours   = (int) ((time / (1000*60*60)) % 24);
+            // time to heure minute
+            int minutesfaites = 60 - minutes - 1;
+            int hoursfaites = 24 - c - hours;
+            if(minutesfaites == 59){
+                minutesfaites = -1;
+                hoursfaites++;
+            }
+            float a = 24 - c - Float.parseFloat(hours + "." + (minutes));
+            float b = 24 - c - a ;
+            List<SliceValue> pieData = new ArrayList<>();
+            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + "h00"));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red200, null)).setLabel("Fait "+ (hoursfaites-1) +"h"+ twoDigitString(minutesfaites+1)));
+            pieData.add(new SliceValue(b, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Restant "+ hours +"h"+ (twoDigitString(minutes))));
+            PieChartData pieChartData = new PieChartData(pieData);
+            pieChartData.setHasLabels(true).setValueLabelTextSize(10);
+            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.6f).setCenterText1("24h").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
+            pieChartView.setPieChartData(pieChartData);
+        }
     }
 
     private void disableSelected(boolean b) {
@@ -267,12 +307,12 @@ public class AmplitudeFragment extends Fragment {
             int NomduJour = calendarfin.get(Calendar.DAY_OF_WEEK);
             tvHeureFinAmplitude.setText(String.format("%02d:%02d", HourFin, MinuteFin));
             tvDateFinAmplitude.setText(getDayName(NomduJour-1) + "\n" + String.format("%02d/%02d/%02d",dayOfMonthFin,(monthFin+1),yearFin));
-            affichageDate_heure_jour();
+            affichageTempsRestant();
         }
     }
 
 
-    private void affichageDate_heure_jour() {
+    private void affichageTempsRestant() {
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         now = Calendar.getInstance();
@@ -290,15 +330,6 @@ public class AmplitudeFragment extends Fragment {
         calendardebut.set(Calendar.MINUTE, minuteDebut);
         calendardebut.set(Calendar.SECOND, 0);
         calendardebut.set(Calendar.MILLISECOND, 0);
-        String stringh = null, stringm = null;
-        int h = now.get(Calendar.HOUR_OF_DAY);
-        if(h<10) stringh = ("0" + h);
-        else stringh = String.valueOf(h);
-        int m = now.get(Calendar.MINUTE);
-        if(m<10) stringm = ("0" + m);
-        else stringm = String.valueOf(m);
-        tvHeureJour.setText(stringh + ":" + stringm);
-        tvDateDuJour.setText(String.format("%02d/%02d/%02d",now.get(Calendar.DAY_OF_MONTH) , (now.get(Calendar.MONTH)+1) , now.get(Calendar.YEAR)));
         if(tVDateDebut.getText() =="" || tvHeureDebut.getText() ==""){
             tvTempsRestant.setText("");
         } else{
@@ -425,7 +456,7 @@ public class AmplitudeFragment extends Fragment {
                         tvHeureFinAmplitude.setText(String.format("%02d:%02d", HourFin, MinuteFin));
                         tvDateFinAmplitude.setText(getDayName(NomduJour-1) + "\n" + String.format("%02d/%02d/%02d",dayOfMonthFin,(monthFin+1),yearFin));
 
-                        affichageDate_heure_jour();
+                        affichageTempsRestant();
                     }
                 }, yearDebut, monthDebut, dayOfMonthDebut);
 
@@ -490,7 +521,7 @@ public class AmplitudeFragment extends Fragment {
                 tvHeureFinAmplitude.setText(String.format("%02d:%02d", HourFin, MinuteFin));
                 tvDateFinAmplitude.setText(getDayName(NomduJour-1) + "\n" + String.format("%02d/%02d/%02d",dayOfMonthFin,(monthFin+1),yearFin));
 
-                affichageDate_heure_jour();
+                affichageTempsRestant();
             }
         }, HourDebut, MinuteDebut, true);
         timePickerDialog.show();
@@ -574,6 +605,9 @@ public class AmplitudeFragment extends Fragment {
         editor.putInt("key_Amplitude_Journaliere",13 );
         editor.apply();// commit changes
         radioButton11.toggle();
+        now.clear();
+        calendarfin.clear();
+        createPieChart();
     }
 
     public void reposChange(View view) {
@@ -582,14 +616,16 @@ public class AmplitudeFragment extends Fragment {
             editor = pref.edit();
             editor.putInt("key_Amplitude_Journaliere",15 );
             editor.apply();// commit changes
-            affichageDate_heure_jour();
+            affichageTempsRestant();
+            createPieChart();
         }
         if(radioButton11.isChecked()){
             SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
             editor = pref.edit();
             editor.putInt("key_Amplitude_Journaliere",13 );
             editor.apply();// commit changes
-            affichageDate_heure_jour();
+            affichageTempsRestant();
+            createPieChart();
         }
         testSiDateDebutEtFinEnregistree();
 

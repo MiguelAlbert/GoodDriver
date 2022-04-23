@@ -8,7 +8,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class ReposHebdoFragment2 extends Fragment {
@@ -48,7 +45,7 @@ public class ReposHebdoFragment2 extends Fragment {
         tvResultatDifference = (TextView) v.findViewById(R.id.tvResultatDifference);
         tvBilan = (TextView) v.findViewById(R.id.tvBilan);
         tVDateDebut = (TextView) v.findViewById(R.id.tVDateDebut);
-        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebut);
+        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeure1);
         tVDateFin = (TextView) v.findViewById(R.id.tVDateFin);
         tvHeureFin = (TextView) v.findViewById(R.id.tvHeureFin);
         textView10 = (TextView) v.findViewById(R.id.textView10);
@@ -58,7 +55,7 @@ public class ReposHebdoFragment2 extends Fragment {
         imageButtonDeleteDebut = (ImageButton) v.findViewById(R.id.imageButtonDeleteDebut);
         imageButtonDateFin = (ImageButton) v.findViewById(R.id.imageButtonDateFin);
         imageButtonHeureFin = (ImageButton) v.findViewById(R.id.imageButtonHeureFin);
-        imageButtonDeleteFin = (ImageButton) v.findViewById(R.id.imageButtonDeleteFin);
+        imageButtonDeleteFin = (ImageButton) v.findViewById(R.id.imageButtonDelete);
         imageButtonDateDebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -429,6 +426,7 @@ public class ReposHebdoFragment2 extends Fragment {
         if (tvHeureFin.getText().toString()=="" || tVDateFin.getText().toString() == "" || tVDateDebut.getText().toString() == ""|| tvHeureDebut.getText().toString() == ""){
             tvResultatDifference.setText("");
             tvBilan.setText("");
+            textView10.setVisibility(View.GONE);
         } else {
             debut.set(Calendar.SECOND, 0);
             debut.set(Calendar.MILLISECOND, 0);
