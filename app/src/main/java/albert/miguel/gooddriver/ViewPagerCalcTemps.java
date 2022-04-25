@@ -65,8 +65,8 @@ public class ViewPagerCalcTemps extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
 
-        viewPagerAdapter.addFragment(new CalculatriceTemps(), "Calculatrice\nTemps");
-        viewPagerAdapter.addFragment(new TempsCentiemes(), "Temps centièmes");
+        viewPagerAdapter.addFragment(new TempsCentiemes(), "Conversion");
+        viewPagerAdapter.addFragment(new CalculatriceTemps(), "Calculatrice\n deTemps");
 
         viewPager.setAdapter(viewPagerAdapter);
     }

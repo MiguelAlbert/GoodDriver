@@ -44,7 +44,7 @@ public class ReposHebdoFragment2 extends Fragment {
 
         tvResultatDifference = (TextView) v.findViewById(R.id.tvResultatDifference);
         tvBilan = (TextView) v.findViewById(R.id.tvBilan);
-        tVDateDebut = (TextView) v.findViewById(R.id.tVDateDebut);
+        tVDateDebut = (TextView) v.findViewById(R.id.tvLongueurDispo);
         tvHeureDebut = (TextView) v.findViewById(R.id.tvHeure1);
         tVDateFin = (TextView) v.findViewById(R.id.tVDateFin);
         tvHeureFin = (TextView) v.findViewById(R.id.tvHeureFin);

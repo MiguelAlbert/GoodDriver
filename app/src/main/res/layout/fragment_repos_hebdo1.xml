@@ -65,7 +65,7 @@
                             android:src="@drawable/ic_baseline_calendar_today_24" />
 
                         <TextView
-                            android:id="@+id/tVDateDebut"
+                            android:id="@+id/tvLongueurDispo"
                             android:layout_width="100dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_rectangle_order"
@@ -116,7 +116,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvDateReposReduit"
+                            android:id="@+id/tvNombrePalettes"
                             android:layout_width="110dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="6dp"
@@ -152,7 +152,7 @@
                     android:layout_marginTop="15dp"
                     android:max="24"
                     android:progressDrawable="@drawable/progress_background"
-                    android:progressTint="#79C12C" />
+                    android:progressTint="#29832D" />
 
                 <TextView
                     android:id="@+id/textView15"
@@ -209,7 +209,16 @@
                     android:layout_marginTop="15dp"
                     android:max="45"
                     android:progressDrawable="@drawable/progress_background"
-                    android:progressTint="#79C12C" />
+                    android:progressTint="#29832D" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:paddingTop="40dp"
+                    android:paddingBottom="40dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/image" />
 
             </LinearLayout>
         </ScrollView>

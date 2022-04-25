@@ -24,51 +24,6 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button_clear"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="@dimen/box_size"
-                android:layout_height="@dimen/box_size"
-                android:background="@color/colorAccent"
-                android:textColor="@color/blue"
-                android:text="@string/button_clear"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-            <Button
-                android:id="@+id/button_root"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="@dimen/box_size"
-                android:layout_height="@dimen/box_size"
-                android:background="@color/colorAccent"
-                android:textColor="@color/blue"
-                android:text="@string/button_root"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-            <Button
-                android:id="@+id/button_pow"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="@dimen/box_size"
-                android:layout_height="@dimen/box_size"
-                android:background="@color/colorAccent"
-                android:textColor="@color/blue"
-                android:text="@string/button_pow"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-            <Button
-                android:id="@+id/button_plus"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="@dimen/box_size"
-                android:layout_height="@dimen/box_size"
-                android:background="@color/colorAccent"
-                android:textColor="@color/blue"
-                android:text="@string/button_plus"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
                 android:id="@+id/button_seven"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="@dimen/box_size"
@@ -99,14 +54,15 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <Button
-                android:id="@+id/button_minus"
+                android:id="@+id/button_clear"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="@dimen/box_size"
                 android:layout_height="@dimen/box_size"
                 android:background="@color/colorAccent"
-                android:textColor="@color/blue"
-                android:text="@string/button_minus"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:text="@string/button_clear"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/blue" />
+
         </TableRow>
 
         <TableRow
@@ -148,9 +104,10 @@
                 android:layout_width="@dimen/box_size"
                 android:layout_height="@dimen/box_size"
                 android:background="@color/colorAccent"
-                android:textColor="@color/blue"
                 android:text="@string/button_mul"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/blue" />
+
         </TableRow>
 
         <TableRow
@@ -188,14 +145,15 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <Button
-                android:id="@+id/button_divide"
+                android:id="@+id/button_minus"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="@dimen/box_size"
                 android:layout_height="@dimen/box_size"
                 android:background="@color/colorAccent"
-                android:textColor="@color/blue"
-                android:text="@string/button_div"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:text="@string/button_minus"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/blue" />
+
         </TableRow>
 
         <TableRow
@@ -203,24 +161,24 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button_dot"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="@dimen/box_size"
-                android:layout_height="@dimen/box_size"
-                android:background="@drawable/button_bg_stroke"
-                android:textColor="@color/blue"
-                android:text="@string/button_dot"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-            <Button
                 android:id="@+id/button_zero"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="@dimen/box_size"
                 android:layout_height="@dimen/box_size"
                 android:background="@drawable/button_bg_stroke"
-                android:textColor="@color/blue"
                 android:text="@string/button_0"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/blue" />
+
+            <Button
+                android:id="@+id/button_dot"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="@dimen/box_size"
+                android:layout_height="@dimen/box_size"
+                android:background="@drawable/button_bg_stroke"
+                android:text="H"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/blue" />
 
             <Button
                 android:id="@+id/button_equals"
@@ -234,14 +192,15 @@
                 android:textColor="@android:color/white" />
 
             <Button
-                android:id="@+id/button_mod"
+                android:id="@+id/button_plus"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="@dimen/box_size"
                 android:layout_height="@dimen/box_size"
                 android:background="@color/colorAccent"
-                android:textColor="@color/blue"
-                android:text="@string/button_mod"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:text="@string/button_plus"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/blue" />
+
         </TableRow>
     </TableLayout>
 

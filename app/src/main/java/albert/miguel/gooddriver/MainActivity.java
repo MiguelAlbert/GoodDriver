@@ -1,5 +1,7 @@
 package albert.miguel.gooddriver;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,13 +9,29 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.ump.ConsentForm;
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.ConsentRequestParameters;
+import com.google.android.ump.FormError;
+import com.google.android.ump.UserMessagingPlatform;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
@@ -30,10 +48,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG_MY_FRAGMENT = "myFragment";
     MainFragment mFragment;
 
+    private InterstitialAd mInterstitialAd;
+    private ConsentInformation consentInformation;
+    private ConsentForm consentForm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = getApplicationContext();
 
         if (savedInstanceState == null) {
             MainFragment MainFragment = new MainFragment();
@@ -45,9 +69,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mFragment = (MainFragment) getSupportFragmentManager().findFragmentByTag(TAG_MY_FRAGMENT);
         }
 
+        loadAdd();
+        consentement();
+        
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        context = getApplicationContext();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,6 +85,113 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void consentement() {
+        // Set tag for underage of consent. false means users are not underage.
+        ConsentRequestParameters params = new ConsentRequestParameters
+                .Builder()
+                .setTagForUnderAgeOfConsent(false)
+                .build();
+
+        consentInformation = (ConsentInformation) UserMessagingPlatform.getConsentInformation(context);
+        consentInformation.requestConsentInfoUpdate(
+                this,
+                params,
+                new ConsentInformation.OnConsentInfoUpdateSuccessListener() {
+                    @Override
+                    public void onConsentInfoUpdateSuccess() {
+                        // The consent information state was updated.
+                        // You are now ready to check if a form is available.
+                        if (consentInformation.isConsentFormAvailable()) {
+                            loadForm();
+                        }
+                    }
+                },
+                new ConsentInformation.OnConsentInfoUpdateFailureListener() {
+                    @Override
+                    public void onConsentInfoUpdateFailure(FormError formError) {
+                        // Handle the error.
+                    }
+                });
+    }
+
+    private void loadForm() {
+        UserMessagingPlatform.loadConsentForm(
+                context,
+                new UserMessagingPlatform.OnConsentFormLoadSuccessListener() {
+                    @Override
+                    public void onConsentFormLoadSuccess(ConsentForm consentForm) {
+                        MainActivity.this.consentForm = consentForm;
+                        if(consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED) {
+                            consentForm.show(
+                                    MainActivity.this,
+                                    new ConsentForm.OnConsentFormDismissedListener() {
+                                        @Override
+                                        public void onConsentFormDismissed(@Nullable FormError formError) {
+                                            // Handle dismissal by reloading form.
+                                            loadForm();
+                                        }
+                                    });
+
+                        }
+                    }
+                },
+                new UserMessagingPlatform.OnConsentFormLoadFailureListener() {
+                    @Override
+                    public void onConsentFormLoadFailure(FormError formError) {
+                        // Handle the error
+                    }
+                }
+        );
+    }
+
+    private void loadAdd() {
+        MobileAds.initialize(MainActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+                AdRequest adRequest = new AdRequest.Builder().build();
+                InterstitialAd.load(MainActivity.this,"ca-app-pub-6506972643290681/2038757206", adRequest,
+                        new InterstitialAdLoadCallback() {
+                            @Override
+                            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                                // The mInterstitialAd reference will be null until
+                                // an ad is loaded.
+                                mInterstitialAd = interstitialAd;
+                                Log.i(TAG, "onAdLoaded");
+
+                                mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+                                    @Override
+                                    public void onAdDismissedFullScreenContent() {
+                                        // Called when fullscreen content is dismissed.
+                                        Log.d("TAG", "The ad was dismissed.");
+                                    }
+
+                                    @Override
+                                    public void onAdFailedToShowFullScreenContent(AdError adError) {
+                                        // Called when fullscreen content failed to show.
+                                        Log.d("TAG", "The ad failed to show.");
+                                    }
+
+                                    @Override
+                                    public void onAdShowedFullScreenContent() {
+                                        // Called when fullscreen content is shown.
+                                        // Make sure to set your reference to null so you don't
+                                        // show it a second time.
+                                        mInterstitialAd = null;
+                                        Log.d("TAG", "The ad was shown.");
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                                // Handle the error
+                                Log.i(TAG, loadAdError.getMessage());
+                                mInterstitialAd = null;
+                            }
+                        });
+            }
+        });
+    }
 
 
     @Override
@@ -88,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SemaineFragment SemaineFragment = (SemaineFragment) getSupportFragmentManager().findFragmentByTag("Semaine_fragment");
         ViewPagerCalcTemps ViewPagerCalcTemps = (ViewPagerCalcTemps) getSupportFragmentManager().findFragmentByTag("Calc_temps_fragment");
         ViewPagerVitesseMoyenne ViewPagerVitesseMoyenne = (ViewPagerVitesseMoyenne) getSupportFragmentManager().findFragmentByTag("Vitesse_fragment");
+        CalculPalettes CalculPalettes = (CalculPalettes) getSupportFragmentManager().findFragmentByTag("Palettes_fragment");
 
         if (AmplitudeFragment != null && AmplitudeFragment.isVisible()) {
             MainFragment MainFragment = new MainFragment();
@@ -125,6 +259,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
         }else if(ViewPagerVitesseMoyenne != null && ViewPagerVitesseMoyenne.isVisible()){
+            MainFragment MainFragment = new MainFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+            transaction.commit();
+        }else if(CalculPalettes != null && CalculPalettes.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
@@ -182,7 +323,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (id == R.id.action_rgpd) {
-            Toast.makeText(getApplicationContext(),"RGPD",Toast.LENGTH_SHORT).show();
+            consentInformation.reset();
+            consentement();
             return true;
         }
 
@@ -236,6 +378,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
         }
         if (id == R.id.nav_amplitude) {
             AmplitudeFragment AmplitudeFragment = new AmplitudeFragment();
@@ -244,6 +391,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
         }
         if (id == R.id.nav_repos_hebdo) {
             ViewPagerReposHebdo ViewPagerReposHebdo = new ViewPagerReposHebdo();
@@ -252,6 +404,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
         }
         if (id == R.id.nav_reglementation) {
             ReglementationFragment ReglementationFragment = new ReglementationFragment();
@@ -260,6 +417,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
         }
         if (id == R.id.nav_semaines) {
             SemaineFragment SemaineFragment = new SemaineFragment();
@@ -268,6 +430,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
         }
         if (id == R.id.nav_calculatrice) {
             ViewPagerCalcTemps ViewPagerCalcTemps = new ViewPagerCalcTemps();
@@ -276,6 +443,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
         }
         if (id == R.id.nav_vitesse) {
             ViewPagerVitesseMoyenne ViewPagerVitesseMoyenne = new ViewPagerVitesseMoyenne();
@@ -284,6 +456,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
+        }
+        if (id == R.id.nav_palette) {
+            CalculPalettes CalculPalettes = new CalculPalettes();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, CalculPalettes, "Palettes_fragment"); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+            transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
         }
         if (id == R.id.nav_quit) {
             finish();

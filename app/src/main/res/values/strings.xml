@@ -2,7 +2,7 @@
     <string name="app_name">GoodDriver</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Good Driver</string>
+    <string name="nav_header_title">GoodDriver</string>
     <string name="nav_header_subtitle">miguel.albert79@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
 
@@ -20,6 +20,7 @@
     <string name="conuiteSup10h">Déjà 2 conduites de + de 9h</string>
     <string name="reposInf11h">Déjà 3 repos de moins de 11H</string>
 
+    <string name="banner_ad_unit_id1">ca-app-pub-6506972643290681/6448775507</string>
 
     <string name="button_clear">C</string>
     <string name="button_root"> √ </string>

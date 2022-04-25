@@ -32,7 +32,11 @@
         <item
             android:id="@+id/nav_calculatrice"
             android:icon="@drawable/image"
-            android:title="Calculatrice de temps" />
+            android:title="Heures et centièmes" />
+        <item
+            android:id="@+id/nav_palette"
+            android:icon="@drawable/image"
+            android:title="Nombre de palettes" />
         <item
             android:id="@+id/nav_quit"
             android:icon="@drawable/image"

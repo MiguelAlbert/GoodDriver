@@ -54,20 +54,6 @@ public class CalculatriceTemps extends Fragment {
                 onClearClick(v);
             }
         });
-        button_root = (Button) v.findViewById(R.id.button_root);
-        button_root.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOperatorClick(v);
-            }
-        });
-        button_pow = (Button) v.findViewById(R.id.button_pow);
-        button_pow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOperatorClick(v);
-            }
-        });
         button_plus = (Button) v.findViewById(R.id.button_plus);
         button_plus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,13 +138,6 @@ public class CalculatriceTemps extends Fragment {
                 onNumClick(v);
             }
         });
-        button_divide = (Button) v.findViewById(R.id.button_divide);
-        button_divide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOperatorClick(v);
-            }
-        });
         button_dot = (Button) v.findViewById(R.id.button_dot);
         button_dot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,13 +150,6 @@ public class CalculatriceTemps extends Fragment {
             @Override
             public void onClick(View v) {
                 onNumClick(v);
-            }
-        });
-        button_mod = (Button) v.findViewById(R.id.button_mod);
-        button_mod.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOperatorClick(v);
             }
         });
         button_equals = (Button) v.findViewById(R.id.button_equals);
@@ -298,7 +270,7 @@ public class CalculatriceTemps extends Fragment {
                     if (mInputValue1TextView.getText().toString().contains(".")) {
                         Toast.makeText(context, "Cannot have more than one decimal point in a number", Toast.LENGTH_LONG).show();
                     } else {
-                        mInputValue1TextView.append(".");
+                        mInputValue1TextView.append("H");
                     }
                 } else {
                     if (mInputValue2TextView.getText().toString().contains(".")) {
@@ -329,32 +301,10 @@ public class CalculatriceTemps extends Fragment {
                     operation_string = operator.MUL.name();
                     mOperatorTextView.setText("x");
                     break;
-                case R.id.button_divide:
-                    operation_string = operator.DIV.name();
-                    mOperatorTextView.setText("/");
-                    break;
-                case R.id.button_mod:
-                    operation_string = operator.MOD.name();
-                    mOperatorTextView.setText("%");
-                    break;
-                case R.id.button_pow:
-                    operation_string = operator.POW.name();
-                    mOperatorTextView.setText("^");
-                    break;
-                case R.id.button_root:
-                    operation_string = operator.ROOT.name();
-                    mOperatorTextView.setText("√");
-                    break;
                 default:
                     operation_string = operator.NULL.name();
                     break;
             }
-
-        }
-        else if (view.getId() == R.id.button_root) {
-            mInputValue1TextView.setText("1");
-            operation_string = operator.ROOT.name();
-            mOperatorTextView.setText("√");
         }
         else {
             Toast.makeText(context, "Enter first number before operation", Toast.LENGTH_LONG).show();

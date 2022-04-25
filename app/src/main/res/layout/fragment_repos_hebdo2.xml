@@ -65,7 +65,7 @@
                             android:src="@drawable/ic_baseline_calendar_today_24" />
 
                         <TextView
-                            android:id="@+id/tVDateDebut"
+                            android:id="@+id/tvLongueurDispo"
                             android:layout_width="100dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_rectangle_order"
@@ -191,7 +191,14 @@
                     android:gravity="center_vertical"
                     android:text="la réduction est compensée par une période de repos équivalente prise en bloc avant la fin de la troisième semaine suivant la semaine en question."
                     android:textStyle="bold" />
-
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:paddingTop="40dp"
+                    android:paddingBottom="40dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/image" />
 
             </LinearLayout>
         </ScrollView>

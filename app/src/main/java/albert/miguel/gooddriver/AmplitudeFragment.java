@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -93,7 +94,7 @@ public class AmplitudeFragment extends Fragment {
                 selectHeure(v);
             }
         });
-        imageButtonDate = (ImageButton) v.findViewById(R.id.imageButtonDate);
+        imageButtonDate = (ImageButton) v.findViewById(R.id.imageButtonCalcul);
         imageButtonDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +123,7 @@ public class AmplitudeFragment extends Fragment {
             }
         });
         tvTempsServiveNuit = (TextView) v.findViewById(R.id.tvTempsServiveNuit);
-        tVDateDebut = (TextView) v.findViewById(R.id.tVDateDebut);
+        tVDateDebut = (TextView) v.findViewById(R.id.tvLongueurDispo);
         tVDateDebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,7 +138,7 @@ public class AmplitudeFragment extends Fragment {
             }
         });
         tvHeureFinAmplitude = (TextView) v.findViewById(R.id.tvHeureReposReduit);
-        tvDateFinAmplitude = (TextView) v.findViewById(R.id.tvDateReposReduit);
+        tvDateFinAmplitude = (TextView) v.findViewById(R.id.tvNombrePalettes);
         //tvHeureJour = (TextView) v.findViewById(R.id.tvHeureJour);
         //tvDateDuJour = (TextView) v.findViewById(R.id.tvDateDuJour);
         tvTempsRestant = (TextView) v.findViewById(R.id.tvTempsRestantReduit);
@@ -351,23 +352,35 @@ public class AmplitudeFragment extends Fragment {
             int testminutedebut = calendardebut.get(Calendar.MINUTE);
             if(tempsAmplitude == 13){
                 if(testheuredebut < 5 || testheuredebut >= 11){
-                    tvTempsServiveNuit.setText("Attention !! Temps de service limité à 10h00");
+                    tvTempsServiveNuit.setText("Temps de service maxi : 10h00");
+                    tvTempsServiveNuit.setTypeface(null, Typeface.BOLD);
+                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.red600));
                 }else {
-                    tvTempsServiveNuit.setText("Temps de service maxi de 12h00");
+                    tvTempsServiveNuit.setText("Temps de service maxi : 12h00");
+                    tvTempsServiveNuit.setTypeface(null, Typeface.NORMAL);
+                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.black));
                 }
                 if(testheuredebut == 11 && testminutedebut == 0){
-                    tvTempsServiveNuit.setText("Temps de service maxi de 12h00");
+                    tvTempsServiveNuit.setText("Temps de service maxi : 12h00");
+                    tvTempsServiveNuit.setTypeface(null, Typeface.NORMAL);
+                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.black));
                 }
             }
 
             if(tempsAmplitude == 15){
                 if(testheuredebut < 5 || testheuredebut >= 9){
-                    tvTempsServiveNuit.setText("Attention !! Temps de service limité à 10h00");
+                    tvTempsServiveNuit.setText("Temps de service maxi : 10h00");
+                    tvTempsServiveNuit.setTypeface(null, Typeface.BOLD);
+                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.red600));
                 }else {
-                    tvTempsServiveNuit.setText("Temps de service maxi de 12h00");
+                    tvTempsServiveNuit.setText("Temps de service maxi : 12h00");
+                    tvTempsServiveNuit.setTypeface(null, Typeface.NORMAL);
+                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.black));
                 }
                 if(testheuredebut == 9 && testminutedebut == 0){
-                    tvTempsServiveNuit.setText("Temps de service maxi de 12h00");
+                    tvTempsServiveNuit.setText("Temps de service maxi : 12h00");
+                    tvTempsServiveNuit.setTypeface(null, Typeface.NORMAL);
+                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.black));
                 }
             }
         }
@@ -648,10 +661,10 @@ public class AmplitudeFragment extends Fragment {
                 Toast.makeText(context, "Notification activée", Toast.LENGTH_SHORT).show();
             } else {
                 Intent i = new Intent();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (SDK_INT >= Build.VERSION_CODES.O) {
                     i.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
                     i.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                } else if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                     i.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
                     i.putExtra("app_package", context.getPackageName());
                     i.putExtra("app_uid", context.getApplicationInfo().uid);
@@ -664,7 +677,9 @@ public class AmplitudeFragment extends Fragment {
             }
         } else{
             pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            if (SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            }
             //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             //alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
             Toast.makeText(context, "Notification activée", Toast.LENGTH_SHORT).show();

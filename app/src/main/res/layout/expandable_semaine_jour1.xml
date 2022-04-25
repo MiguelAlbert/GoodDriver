@@ -31,7 +31,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButtonDate"
+                    android:id="@+id/imageButtonCalcul"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
@@ -89,7 +89,7 @@
                     android:src="@drawable/ic_baseline_calendar_today_24" />
 
                 <TextView
-                    android:id="@+id/tVDateDebut"
+                    android:id="@+id/tvLongueurDispo"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_rectangle_order"

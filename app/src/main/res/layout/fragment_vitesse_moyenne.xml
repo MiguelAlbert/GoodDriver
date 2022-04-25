@@ -39,6 +39,38 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:gravity="center_vertical"
+                    android:text="Nombre de kilomètres"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etKilometres"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rectangle_order"
+                        android:gravity="center"
+                        android:inputType="number"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <ImageButton
+                        android:id="@+id/imageButtonDelete2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_baseline_clear_24" />
+
+                </LinearLayout>
+
+                <TextView
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
@@ -88,38 +120,6 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:gravity="center_vertical"
-                    android:text="Nombre de kilomètres"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/etKilometres"
-                        android:layout_width="150dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_rectangle_order"
-                        android:gravity="center"
-                        android:inputType="number"
-                        tools:ignore="SpeakableTextPresentCheck" />
-
-                    <ImageButton
-                        android:id="@+id/imageButtonDelete2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_baseline_clear_24" />
-
-                </LinearLayout>
-
-                <TextView
                     android:id="@+id/textView12"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
@@ -150,10 +150,14 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/imageView2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"/>
+                    android:layout_height="250dp"
+                    android:paddingTop="40dp"
+                    android:paddingBottom="40dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/image" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

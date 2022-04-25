@@ -58,13 +58,13 @@ public class ReposHebdoFragment1 extends Fragment {
         progressBar24 = (ProgressBar) v.findViewById(R.id.progressBar24);
         progressBar45 = (ProgressBar) v.findViewById(R.id.progressBar45);
 
-        tvDateReposReduit = (TextView) v.findViewById(R.id.tvDateReposReduit);
+        tvDateReposReduit = (TextView) v.findViewById(R.id.tvNombrePalettes);
         tvHeureReposReduit = (TextView) v.findViewById(R.id.tvHeureReposReduit);
         tvTempsRestantReduit = (TextView) v.findViewById(R.id.tvTempsRestantReduit);
         tvDateReposNormal = (TextView) v.findViewById(R.id.tvDateReposNormal);
         tvHeureReposNormal = (TextView) v.findViewById(R.id.tvHeureReposNormal);
         tvTempsRestantNormal = (TextView) v.findViewById(R.id.tvTempsRestantNormal);
-        tVDateDebut = (TextView) v.findViewById(R.id.tVDateDebut);
+        tVDateDebut = (TextView) v.findViewById(R.id.tvLongueurDispo);
         tvHeureDebut = (TextView) v.findViewById(R.id.tvHeure1);
 
         imageButtonDateDebut = (ImageButton) v.findViewById(R.id.imageButtonDateDebut);

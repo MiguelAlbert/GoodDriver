@@ -13,22 +13,6 @@
         android:orientation="vertical">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:text="Temps centièmes"
-                android:textColor="@color/blue"
-                android:textSize="20sp" />
-
-        </LinearLayout>
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -45,7 +29,8 @@
                     android:layout_height="36dp"
                     android:gravity="center_vertical"
                     android:text="Heures minutes --> Heures centièmes"
-                    android:textStyle="bold" />
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -55,18 +40,16 @@
                     <EditText
                         android:id="@+id/etHeure1"
                         android:layout_width="70dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:inputType="number"
-                        android:maxLength="4"
+                        android:layout_height="50dp"
                         android:background="@drawable/bg_rectangle_order"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="4" />
 
                     <TextView
                         android:id="@+id/textView19"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:gravity="center"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
@@ -76,29 +59,11 @@
                     <EditText
                         android:id="@+id/etMinute1"
                         android:layout_width="70dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        android:background="@drawable/bg_rectangle_order"
-                        android:gravity="center" />
-
-                    <ImageButton
-                        android:id="@+id/imageButtonCalcul1"
-                        android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:cropToPadding="true"
-                        android:src="@drawable/ic_baseline_arrow_right_24" />
-
-                    <TextView
-                        android:id="@+id/etKilometres"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:background="@drawable/bg_rectangle_order"
                         android:gravity="center"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                        android:inputType="number"
+                        android:maxLength="2" />
 
                     <ImageButton
                         android:id="@+id/imageButtonDelete"
@@ -109,24 +74,55 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/imageButtonCalcul1"
+                        android:layout_width="120dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="30dp"
+                        android:cropToPadding="true"
+                        android:src="@drawable/ic_baseline_arrow_right_24" />
+
+                    <TextView
+                        android:id="@+id/etKilometres"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_rectangle_order"
+                        android:gravity="center"
+                        tools:ignore="SpeakableTextPresentCheck" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/blue" />
+
                 <TextView
                     android:id="@+id/textView15"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
+                    android:layout_marginTop="20dp"
                     android:gravity="center_vertical"
                     android:text="Heures centièmes --> Heures minutes "
-                    android:textStyle="bold" />
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/etHeureCentieme2"
-                        android:layout_width="100dp"
+                        android:layout_width="150dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:background="@drawable/bg_rectangle_order"
                         android:gravity="center"
                         android:inputType="numberDecimal"
@@ -134,10 +130,24 @@
                         tools:ignore="SpeakableTextPresentCheck" />
 
                     <ImageButton
-                        android:id="@+id/imageButtonCalcul2"
+                        android:id="@+id/imageButtonDelete2"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_weight="1"
+                        android:cropToPadding="true"
+                        android:src="@drawable/ic_baseline_clear_24" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/imageButtonCalcul2"
+                        android:layout_width="120dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="30dp"
                         android:cropToPadding="true"
                         android:src="@drawable/ic_baseline_arrow_right_24" />
 
@@ -145,7 +155,6 @@
                         android:id="@+id/tvResultatHeure2"
                         android:layout_width="70dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:background="@drawable/bg_rectangle_order"
                         android:gravity="center" />
 
@@ -153,7 +162,6 @@
                         android:id="@+id/textView22"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:gravity="center"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
@@ -164,19 +172,18 @@
                         android:id="@+id/tvResultatMinute2"
                         android:layout_width="70dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:background="@drawable/bg_rectangle_order"
                         android:gravity="center" />
 
-                    <ImageButton
-                        android:id="@+id/imageButtonDelete2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:cropToPadding="true"
-                        android:src="@drawable/ic_baseline_clear_24" />
                 </LinearLayout>
-
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:paddingTop="40dp"
+                    android:paddingBottom="40dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/image" />
 
             </LinearLayout>
         </ScrollView>

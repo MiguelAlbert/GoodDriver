@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
@@ -50,6 +51,7 @@
                     android:text="Repos hebdomadaire"
                     android:textColor="@color/blue" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
@@ -83,6 +85,7 @@
                     android:text="Réglementation"
                     android:textColor="@color/blue" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
@@ -113,9 +116,31 @@
                     android:paddingTop="10dp"
                     android:paddingRight="10dp"
                     android:paddingBottom="10dp"
-                    android:text="Calculatrice\nde temps"
+                    android:text="Heures et\ncentièmes"
+                    android:textColor="@color/blue" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_border"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="nombre de palettes"
                     android:textColor="@color/blue" />
             </LinearLayout>
+
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
