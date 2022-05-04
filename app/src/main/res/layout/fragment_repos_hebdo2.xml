@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -55,6 +57,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
                         <ImageButton
@@ -65,7 +68,7 @@
                             android:src="@drawable/ic_baseline_calendar_today_24" />
 
                         <TextView
-                            android:id="@+id/tvLongueurDispo"
+                            android:id="@+id/tvDateDebut"
                             android:layout_width="100dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_rectangle_order"
@@ -80,7 +83,7 @@
                             android:src="@drawable/ic_baseline_access_time_24" />
 
                         <TextView
-                            android:id="@+id/tvHeure1"
+                            android:id="@+id/tvHeureDebut"
                             android:layout_width="70dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_rectangle_order"
@@ -119,6 +122,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
                         <ImageButton
@@ -191,18 +195,42 @@
                     android:gravity="center_vertical"
                     android:text="la réduction est compensée par une période de repos équivalente prise en bloc avant la fin de la troisième semaine suivant la semaine en question."
                     android:textStyle="bold" />
+
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
+                    android:layout_weight="1"
                     android:paddingTop="40dp"
                     android:paddingBottom="40dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/image" />
+                    app:srcCompat="@drawable/img_2" />
+
+                <TextView
+                    android:id="@+id/textView37"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
 
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/publisherAdView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id1" />
 
-</LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,12 +2,15 @@ package albert.miguel.gooddriver;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
@@ -32,6 +35,7 @@ import com.google.android.ump.UserMessagingPlatform;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
@@ -44,7 +48,7 @@ import androidx.fragment.app.FragmentTransaction;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     Context context;
-    public static String id = "test_channel_01";
+    //public static String id = "test_channel_01";
     private static final String TAG_MY_FRAGMENT = "myFragment";
     MainFragment mFragment;
 
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         loadAdd();
         consentement();
-        
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -124,12 +128,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if(consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED) {
                             consentForm.show(
                                     MainActivity.this,
-                                    new ConsentForm.OnConsentFormDismissedListener() {
-                                        @Override
-                                        public void onConsentFormDismissed(@Nullable FormError formError) {
-                                            // Handle dismissal by reloading form.
-                                            loadForm();
-                                        }
+                                    formError -> {
+                                        // Handle dismissal by reloading form.
+                                        loadForm();
                                     });
 
                         }
@@ -228,50 +229,72 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
-            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
             transaction.commit();
         } else if(ViewPagerReposHebdo != null && ViewPagerReposHebdo.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
+            transaction.replace(R.id.content_frame, MainFragment,"TAG_Repos_Hebdo"); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
-            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
-            transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }transaction.commit();
         } else if(ReglementationFragment != null && ReglementationFragment.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
-            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
-            transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }transaction.commit();
         } else if(ViewPagerCalcTemps != null && ViewPagerCalcTemps.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
-            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
-            transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }transaction.commit();
         }else if(SemaineFragment != null && SemaineFragment.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
-            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
-            transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }transaction.commit();
         }else if(ViewPagerVitesseMoyenne != null && ViewPagerVitesseMoyenne.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
-            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
-            transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }transaction.commit();
         }else if(CalculPalettes != null && CalculPalettes.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
+            transaction.replace(R.id.content_frame, MainFragment,"TAG_Palettes"); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
-            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
-            transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }transaction.commit();
         }else {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle(R.string.app_name);

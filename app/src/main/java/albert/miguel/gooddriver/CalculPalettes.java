@@ -22,21 +22,32 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+import java.util.Objects;
+
 
 public class CalculPalettes extends Fragment {
 
     Context context;
-    ImageButton imageButtonDelete, imageButtonCalcul;
+    ImageButton imageButtonDelete;
     EditText etLongueurDispo;
     TextView tvNombrePalettes;
     RadioButton radioButton11, radioButton9;
     SharedPreferences.Editor editor;
+    private AdView mPublisherAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context = container.getContext();
+        context = Objects.requireNonNull(container).getContext();
 
         View v = inflater.inflate(R.layout.fragment_palettes,container,false);
+
+        mPublisherAdView = v.findViewById(R.id.publisherAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
+
         etLongueurDispo = (EditText) v.findViewById(R.id.etLongueurDispo);
         radioButton11 = (RadioButton) v.findViewById(R.id.radioButton11);
         radioButton11.setOnClickListener(new View.OnClickListener() {
@@ -61,18 +72,17 @@ public class CalculPalettes extends Fragment {
                 delete();
             }
         });
-        imageButtonCalcul = (ImageButton) v.findViewById(R.id.imageButtonCalcul);
-        imageButtonCalcul.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                calcul();
-            }
-        });
         etLongueurDispo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String str = etLongueurDispo.getText().toString();
+                if (str.isEmpty()){
+                    tvNombrePalettes.setText("");
+                }
+                calcul();
+            }
             @Override
             public void afterTextChanged(Editable s) {
                 String str = etLongueurDispo.getText().toString();
@@ -112,12 +122,12 @@ public class CalculPalettes extends Fragment {
         SharedPreferences pref = context.getSharedPreferences("PrefPalettes", MODE_PRIVATE);
         editor = pref.edit();
 
-        double longueur = pref.getFloat("key_longueur", 0.0F);
-        if(longueur == 0.0 ){
+        double longueur = pref.getFloat("key_longueur", 0.00F);
+        if(longueur == 0.00F ){
             etLongueurDispo.setText("");
         } else {
-            longueur = Math.round(longueur * 100);
-            longueur = longueur / 100;
+            longueur = Math.round(longueur * 100.00);
+            longueur = longueur / 100.00;
             etLongueurDispo.setText(String.valueOf(longueur));
         }
 
@@ -140,7 +150,7 @@ public class CalculPalettes extends Fragment {
 
         if(!etLongueurDispo.getText().toString().equals("")){
             if (radioButton11.isChecked()){
-                int pal = (int) (Double.parseDouble(etLongueurDispo.getText().toString())/0.4);
+                int pal = (int) ((Float.parseFloat(etLongueurDispo.getText().toString()) + 0.001)/0.40F);
                 tvNombrePalettes.setText(String.valueOf(pal));
                 editor.putBoolean("key_taille", true);
                 editor.putFloat("key_longueur", Float.parseFloat(etLongueurDispo.getText().toString()));
@@ -151,8 +161,8 @@ public class CalculPalettes extends Fragment {
         if(!etLongueurDispo.getText().toString().equals("")){
             if (radioButton9.isChecked()){
                 editor.putBoolean("key_taille", false);
-                int pal = (int) (Double.parseDouble(etLongueurDispo.getText().toString())/0.5);
-                if ((pal % 2) == 0) {
+                int pal = (int) (Double.parseDouble(etLongueurDispo.getText().toString())/0.50F);
+                if ((pal % 2) == 0.00) {
                     tvNombrePalettes.setText(String.valueOf(pal));
                     editor.putFloat("key_longueur", Float.parseFloat(etLongueurDispo.getText().toString()));
                     editor.putInt("key_palettes", Integer.parseInt(tvNombrePalettes.getText().toString()));

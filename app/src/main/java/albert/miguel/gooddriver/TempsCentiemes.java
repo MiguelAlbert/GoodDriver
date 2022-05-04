@@ -21,48 +21,45 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+import java.util.Objects;
+
 
 public class TempsCentiemes extends Fragment {
-    ImageButton imageButtonCalcul1, imageButtonCalcul2, imageButtonDelete1, imageButtonDelete2;
+    ImageButton imageButtonDelete1, imageButtonDelete2;
     EditText etHeure1, etMinute1, etHeureCentieme2;
     TextView tVResultat1, tvResultatHeure2,tvResultatMinute2;
     Context context;
     SharedPreferences.Editor editor;
+    private AdView mPublisherAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context = container.getContext();
+        context = Objects.requireNonNull(container).getContext();
 
         View v = inflater.inflate(R.layout.fragment_temps_centiemes,container,false);
-        imageButtonCalcul1 = (ImageButton) v.findViewById(R.id.imageButtonCalcul1);
-        imageButtonCalcul1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calculCentieme(v);
-            }
-        });
+
+        mPublisherAdView = v.findViewById(R.id.publisherAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
+
         tVResultat1 = (TextView) v.findViewById(R.id.etKilometres);
         tvResultatHeure2 = (TextView) v.findViewById(R.id.tvResultatHeure2);
         tvResultatMinute2 = (TextView) v.findViewById(R.id.tvResultatMinute2);
-        imageButtonCalcul2 = (ImageButton) v.findViewById(R.id.imageButtonCalcul2);
-        imageButtonCalcul2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calculHeureMinute(v);
-            }
-        });
         imageButtonDelete1 = (ImageButton) v.findViewById(R.id.imageButtonDelete);
         imageButtonDelete1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteligne1(v);
+                deleteligne1();
             }
         });
         imageButtonDelete2 = (ImageButton) v.findViewById(R.id.imageButtonDelete2);
         imageButtonDelete2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteligne2(v);
+                deleteligne2();
             }
         });
         etHeure1 = (EditText) v.findViewById(R.id.etHeure1);
@@ -73,32 +70,26 @@ public class TempsCentiemes extends Fragment {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (etHeure1.getText().toString().equals("")){
                 } else {
                     editor.putInt("key_heures1", Integer.parseInt(etHeure1.getText().toString()));
                     editor.apply();
                 }
+                calculCentieme();
             }
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
         etMinute1 = (EditText) v.findViewById(R.id.etMinute1);
         etMinute1.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
         etMinute1.setInputType(InputType.TYPE_CLASS_NUMBER);
         etMinute1.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
                 if(!s.toString().equals("")){
                     int n = Integer.parseInt(String.valueOf(s));
                     if(n > 59){
@@ -111,16 +102,25 @@ public class TempsCentiemes extends Fragment {
                     editor.putInt("key_minutes1", Integer.parseInt(etMinute1.getText().toString()));
                     editor.apply();
                 }
+                calculCentieme();
+
             }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
         etHeureCentieme2 = (EditText) v.findViewById(R.id.etHeureCentieme2);
         etHeureCentieme2.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
-
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
-
-            public void afterTextChanged(Editable arg0) {
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                 String str = etHeureCentieme2.getText().toString();
+                if (etHeureCentieme2.getText().toString().equals("") || etHeureCentieme2.getText().toString().equals("0") || etHeureCentieme2.getText().toString().equals("00")){
+                    tvResultatMinute2.setText("");
+                    tvResultatHeure2.setText("");
+                } else {
+                    editor.putFloat("key_heurescentiemes", Float.parseFloat(etHeureCentieme2.getText().toString()));
+                    editor.apply();
+                }
+                calculHeureMinute();
                 if (str.isEmpty()) return;
                 String str2 = PerfectDecimal(str, 4, 2);
 
@@ -128,12 +128,11 @@ public class TempsCentiemes extends Fragment {
                     etHeureCentieme2.setText(str2);
                     etHeureCentieme2.setSelection(str2.length());
                 }
-                if (etHeureCentieme2.getText().toString().equals("")){
-                } else {
-                    editor.putFloat("key_heurescentiemes", Float.parseFloat(etHeureCentieme2.getText().toString()));
-                    editor.apply();
-                }
             }
+
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+
+            public void afterTextChanged(Editable arg0) {}
         });
         testSiValeursEnregistrees();
         return v;
@@ -152,7 +151,7 @@ public class TempsCentiemes extends Fragment {
             etHeure1.setText(twoDigitString(heures1));
             etMinute1.setText(twoDigitString(minutes1));
         }
-        double vitesse = pref.getFloat("key_resultat1", 0.0F);
+        double vitesse = pref.getFloat("key_resultat1", 0.00F);
         vitesse = Math.round(vitesse * 100);
         vitesse = vitesse / 100;
         if(vitesse == 0.0 ){
@@ -164,7 +163,7 @@ public class TempsCentiemes extends Fragment {
         }
 
         //ligne2
-        double heureCentieme2 = pref.getFloat("key_heurescentiemes", 0.0F);
+        double heureCentieme2 = pref.getFloat("key_heurescentiemes", 0.00F);
         heureCentieme2 = Math.round(heureCentieme2 * 100);
         heureCentieme2 = heureCentieme2 / 100;
         if(heureCentieme2 == 0.0 ){
@@ -185,42 +184,65 @@ public class TempsCentiemes extends Fragment {
         }
     }
 
-    private void calculHeureMinute(View v) {
-        if(etHeureCentieme2.getText().toString().equals("")){
-            Toast.makeText(context, "valeurs vides", Toast.LENGTH_SHORT).show();
+    private void calculHeureMinute() {
+        if(etHeureCentieme2.getText().toString().equals("") || etHeureCentieme2.getText().toString().equals("0") || etHeureCentieme2.getText().toString().equals("00")){
+            tvResultatMinute2.setText("");
+            tvResultatHeure2.setText("");
+            //Toast.makeText(context, "valeurs vides", Toast.LENGTH_SHORT).show();
         }
         //
         if(!etHeureCentieme2.getText().toString().equals("")){
-            double finalBuildTime = Double.parseDouble(etHeureCentieme2.getText().toString());
+            float finalBuildTime = Float.parseFloat(etHeureCentieme2.getText().toString());
+            finalBuildTime = finalBuildTime + Float.parseFloat(String.valueOf(0.006666666));
             int hours = (int) finalBuildTime;
             int minutes = (int) (finalBuildTime * 60) % 60;
             int secondes = (int) (finalBuildTime * 60) % 60 % 60;
-            if(secondes >30) minutes++;
-            tvResultatMinute2.setText(String.valueOf(minutes));
-            tvResultatHeure2.setText(String.valueOf(hours));
+
+            tvResultatMinute2.setText(String.valueOf(twoDigitString(minutes)));
+            tvResultatHeure2.setText(String.valueOf(twoDigitString(hours)));
             editor.putInt("key_minutes2", Integer.parseInt(tvResultatMinute2.getText().toString()));
             editor.putInt("key_heures2", Integer.parseInt(tvResultatHeure2.getText().toString()));
             editor.apply();
         }
     }
 
-    private void calculCentieme(View v) {
+    private void calculCentieme() {
         if(etHeure1.getText().toString().equals("") || etMinute1.getText().toString().equals("")){
-            Toast.makeText(context, "valeurs vides", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "valeurs vides", Toast.LENGTH_SHORT).show();
         }
         if(!etHeure1.getText().toString().equals("") && !etMinute1.getText().toString().equals("")){
             int heures =  Integer.parseInt(String.valueOf(etHeure1.getText()));
-            double minutes = (Double.parseDouble(String.valueOf(etMinute1.getText()))*100/60)/100;
+            double minutes = (Double.parseDouble(String.valueOf(etMinute1.getText()))*100.00f/60.00f)/100.00f;
             double number = heures + minutes;
-            number = Math.round(number * 100);
-            number = number / 100;
+            number = Math.round(number * 100.00f);
+            number = number / 100.00f;
+            tVResultat1.setText(String.valueOf(number));
+            editor.putFloat("key_resultat1", (float) number);
+            editor.apply();
+        }
+        if(!etHeure1.getText().toString().equals("") && etMinute1.getText().toString().equals("") && ( etMinute1.getText().toString().equals("") || etMinute1.getText().toString().equals("0")|| etMinute1.getText().toString().equals("00"))){
+            int heures =  Integer.parseInt(String.valueOf(etHeure1.getText()));
+            //double minutes = (Double.parseDouble(String.valueOf(etMinute1.getText()))*100/60)/100;
+            double number = heures ; //+ minutes;
+            number = Math.round(number * 100.00f);
+            number = number / 100.00f;
+            tVResultat1.setText(String.valueOf(number));
+            editor.putFloat("key_resultat1", (float) number);
+            editor.apply();
+        }
+        if((etHeure1.getText().toString().equals("") ||etHeure1.getText().toString().equals("0") ||etHeure1.getText().toString().equals("00")) && !etMinute1.getText().toString().equals("")){
+            //int heures =  Integer.parseInt(String.valueOf(etHeure1.getText()));
+            double minutes = (Double.parseDouble(String.valueOf(etMinute1.getText()))*100.00f/60.00f)/100.00f;
+            double number = minutes;
+            number = Math.round(number * 100.00f);
+            number = number / 100.00f;
             tVResultat1.setText(String.valueOf(number));
             editor.putFloat("key_resultat1", (float) number);
             editor.apply();
         }
     }
 
-    private void deleteligne1(View v) {
+    private void deleteligne1() {
         etHeure1.setText("");
         etMinute1.setText("");
         tVResultat1.setText("");
@@ -230,7 +252,7 @@ public class TempsCentiemes extends Fragment {
         editor.apply();
     }
 
-    private void deleteligne2(View v) {
+    private void deleteligne2() {
         etHeureCentieme2.setText("");
         tvResultatHeure2.setText("");
         tvResultatMinute2.setText("");

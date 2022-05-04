@@ -41,10 +41,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.alespero.expandablecardview.ExpandableCardView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -60,12 +63,16 @@ public class ReglementationFragment extends Fragment {
     Context context;
     Button button;
     ExpandableCardView card ;
-
+    private AdView mPublisherAdView;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        context = container.getContext();
+        context = Objects.requireNonNull(container).getContext();
         View v = inflater.inflate(R.layout.fragment_reglementation,container,false);
+
+        mPublisherAdView = v.findViewById(R.id.publisherAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
         /*
         card = v.findViewById(R.id.conduite);
         card.setOnExpandedListener(new ExpandableCardView.OnExpandedListener() {

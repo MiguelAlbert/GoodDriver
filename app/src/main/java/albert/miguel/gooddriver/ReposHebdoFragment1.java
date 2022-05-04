@@ -24,7 +24,11 @@ import androidx.annotation.Nullable;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,20 +44,25 @@ public class ReposHebdoFragment1 extends Fragment {
     Calendar now, debut, debutAdd24, debutAdd45, calFin;
     private Timer timer;
     SharedPreferences.Editor editorReposHebdo;
-
+    private AdView mPublisherAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context = container.getContext();
+        context = Objects.requireNonNull(container).getContext();
         SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo", MODE_PRIVATE);
         editorReposHebdo = pref.edit();
+
+        View v = inflater.inflate(R.layout.fragment_repos_hebdo1,container,false);
+        mPublisherAdView = v.findViewById(R.id.publisherAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
+
         debut = Calendar.getInstance();
         calFin = Calendar.getInstance();
         debutAdd24 = Calendar.getInstance();
         debutAdd45 = Calendar.getInstance();
 
         timerGetHeure();
-        View v = inflater.inflate(R.layout.fragment_repos_hebdo1,container,false);
 
         progressBar24 = (ProgressBar) v.findViewById(R.id.progressBar24);
         progressBar45 = (ProgressBar) v.findViewById(R.id.progressBar45);
@@ -64,8 +73,8 @@ public class ReposHebdoFragment1 extends Fragment {
         tvDateReposNormal = (TextView) v.findViewById(R.id.tvDateReposNormal);
         tvHeureReposNormal = (TextView) v.findViewById(R.id.tvHeureReposNormal);
         tvTempsRestantNormal = (TextView) v.findViewById(R.id.tvTempsRestantNormal);
-        tVDateDebut = (TextView) v.findViewById(R.id.tvLongueurDispo);
-        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeure1);
+        tVDateDebut = (TextView) v.findViewById(R.id.tvDateDebut);
+        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebut);
 
         imageButtonDateDebut = (ImageButton) v.findViewById(R.id.imageButtonDateDebut);
         imageButtonHeureDebut = (ImageButton) v.findViewById(R.id.imageButtonHeureDebut);
@@ -104,7 +113,20 @@ public class ReposHebdoFragment1 extends Fragment {
         return v;
     }
 
-    private void testSiDonneeEnregistrees() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        testSiDonneeEnregistrees();
+        Log.e("Frontales","resume");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("Frontales", "Pause");
+    }
+
+    public void testSiDonneeEnregistrees() {
         SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo", MODE_PRIVATE);
         editorReposHebdo = pref.edit();
         int monthDebut = pref.getInt("key_Debut_Month", 0);
@@ -295,30 +317,30 @@ public class ReposHebdoFragment1 extends Fragment {
         }else {
             if(debutAdd24.compareTo(maintenant) < 0){
                 tvTempsRestantReduit.setText("Repos réduit terminé");
-                progressBar24.setProgress(24);
+                progressBar24.setProgress(25);
             } else if(debut.compareTo(maintenant) > 0){
                 tvTempsRestantReduit.setText("Repos non débuté");
                 progressBar24.setProgress(0);
             } else{
                 tvTempsRestantReduit.setText(formatMilliSecondsToTime(time));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    progressBar24.setProgress(24-formatMilliSecondsToHours(time)-1,true);
+                    progressBar24.setProgress(25-formatMilliSecondsToHours(time)-1,true);
                 } else{
-                    progressBar24.setProgress(24-formatMilliSecondsToHours(time)-1);
+                    progressBar24.setProgress(25-formatMilliSecondsToHours(time)-1);
                 }
             }
             if(debutAdd45.compareTo(maintenant) < 0){
                 tvTempsRestantNormal.setText("Repos normal terminé");
-                progressBar45.setProgress(45);
+                progressBar45.setProgress(46);
             } else if(debut.compareTo(maintenant) > 0){
                 tvTempsRestantNormal.setText("Repos non débuté");
                 progressBar45.setProgress(0);
             } else{
                 tvTempsRestantNormal.setText(formatMilliSecondsToTime(time2));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    progressBar45.setProgress(45-formatMilliSecondsToHours(time2)-1,true);
+                    progressBar45.setProgress(46-formatMilliSecondsToHours(time2)-1,true);
                 }else {
-                    progressBar45.setProgress(45-formatMilliSecondsToHours(time2)-1);
+                    progressBar45.setProgress(46-formatMilliSecondsToHours(time2)-1);
                 }
             }
         }

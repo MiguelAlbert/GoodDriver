@@ -7,39 +7,39 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_accueil"
-            android:icon="@drawable/image"
+            android:icon="@drawable/ic_logo"
             android:title="Accueil" />
         <item
             android:id="@+id/nav_amplitude"
-            android:icon="@drawable/image"
+            android:icon="@drawable/ic_logo"
             android:title="Amplitude" />
         <item
             android:id="@+id/nav_repos_hebdo"
-            android:icon="@drawable/image"
+            android:icon="@drawable/ic_logo"
             android:title="Repos hebdomadaire" />
         <item
             android:id="@+id/nav_reglementation"
-            android:icon="@drawable/image"
+            android:icon="@drawable/ic_logo"
             android:title="Réglementation" />
         <item
             android:id="@+id/nav_semaines"
-            android:icon="@drawable/image"
+            android:icon="@drawable/ic_logo"
             android:title="Ma semaine" />
         <item
             android:id="@+id/nav_vitesse"
-            android:icon="@drawable/image"
+            android:icon="@drawable/ic_logo"
             android:title="Vitesse moyenne" />
         <item
             android:id="@+id/nav_calculatrice"
-            android:icon="@drawable/image"
+            android:icon="@drawable/ic_logo"
             android:title="Heures et centièmes" />
         <item
             android:id="@+id/nav_palette"
-            android:icon="@drawable/image"
+            android:icon="@drawable/ic_logo"
             android:title="Nombre de palettes" />
         <item
             android:id="@+id/nav_quit"
-            android:icon="@drawable/image"
+            android:icon="@drawable/ic_logo"
             android:title="Quitter" />
     </group>
 </menu>

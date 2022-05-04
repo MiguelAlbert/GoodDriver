@@ -16,7 +16,7 @@
 
     <string name="channel_name">Channel Amplitude</string>
     <string name="channel_description">Sur ce canal, vous recevrez un message avant la fin de votre amplitude</string>
-    <string name="notification_time"><u><b><i>15 mn avant</i></b></u></string>
+    <string name="notification_time">15 mn avant.</string>
     <string name="conuiteSup10h">Déjà 2 conduites de + de 9h</string>
     <string name="reposInf11h">Déjà 3 repos de moins de 11H</string>
 

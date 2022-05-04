@@ -19,19 +19,29 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+import java.util.Objects;
+
 
 public class CalculTempsTrajet extends Fragment {
 
     Context context;
     EditText etKilometres,etVitesseMoyenne;
-    ImageButton imageButtonDelete, imageButtonDelete2, imageButtonCalcul;
+    ImageButton imageButtonDelete, imageButtonDelete2;
     TextView tvHeure, tvMinute;
     SharedPreferences.Editor editor;
+    private AdView mPublisherAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context = container.getContext();
+        context = Objects.requireNonNull(container).getContext();
         View v = inflater.inflate(R.layout.fragment_temps_trajet,container,false);
+
+        mPublisherAdView = v.findViewById(R.id.publisherAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
 
         etKilometres = (EditText) v.findViewById(R.id.etKilometres);
         etKilometres.addTextChangedListener(new TextWatcher() {
@@ -45,6 +55,7 @@ public class CalculTempsTrajet extends Fragment {
                     editor.putInt("key_km", Integer.parseInt(etKilometres.getText().toString()));
                     editor.apply();
                 }
+                calcul();
             }
         });
         etVitesseMoyenne = (EditText) v.findViewById(R.id.etVitesseMoyenne);
@@ -62,12 +73,12 @@ public class CalculTempsTrajet extends Fragment {
                     etVitesseMoyenne.setText(str2);
                     etVitesseMoyenne.setSelection(str2.length());
                 }
-
                 if (etVitesseMoyenne.getText().toString().equals("")){
                 } else {
                     editor.putFloat("key_vitesse", Float.parseFloat(etVitesseMoyenne.getText().toString()));
                     editor.apply();
                 }
+                calcul();
             }
 
         });
@@ -85,13 +96,6 @@ public class CalculTempsTrajet extends Fragment {
             @Override
             public void onClick(View v) {
                 delete2();
-            }
-        });
-        imageButtonCalcul = (ImageButton) v.findViewById(R.id.imageButtonCalcul);
-        imageButtonCalcul.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                calcul();
             }
         });
         testSiValeursEnregistrees();
@@ -128,7 +132,7 @@ public class CalculTempsTrajet extends Fragment {
 
     private void calcul() {
         if (etKilometres.getText().toString().equals("") || etVitesseMoyenne.getText().toString().equals("")) {
-            Toast.makeText(context, "valeurs vides", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "valeurs vides", Toast.LENGTH_SHORT).show();
         } else {
             int km = Integer.parseInt(etKilometres.getText().toString());
             double vitesse = Double.parseDouble(etVitesseMoyenne.getText().toString());

@@ -34,7 +34,7 @@ public class MyReceiverBoot extends BroadcastReceiver {
 
     public void sendNoti(Context context, int notiID) {
 
-        String info = "Je suis GoodDriver";
+        String info = "Surveillez votre temps d'amplitude";
         NotificationManager mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         //---PendingIntent to launch activity if the user selects
         // the notification---
@@ -45,13 +45,13 @@ public class MyReceiverBoot extends BroadcastReceiver {
         PendingIntent contentIntent = PendingIntent.getActivity(context, notiID, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
         //create the notification
-        Notification notif = new NotificationCompat.Builder(context, MainActivity.id)
-                .setSmallIcon(R.drawable.ic_baseline_access_time_24)
+        Notification notif = new NotificationCompat.Builder(context, AmplitudeFragment.id)
+                .setSmallIcon(R.drawable.ic_logo)
                 .setWhen(System.currentTimeMillis()) //When the event occurred, now, since noti are stored by time.
-                .setContentTitle("!GoodDriver!") //Title message top row.
+                .setContentTitle("GoodDriver") //Title message top row.
                 .setContentText(info) //message when looking at the notification, second row
                 .setContentIntent(contentIntent) //what activity to open.
-                .setChannelId(MainActivity.id)
+                .setChannelId(AmplitudeFragment.id)
                 .setAutoCancel(true) //allow auto cancel when pressed.
                 .build(); //finally build and return a Notification.
         //Show the notification

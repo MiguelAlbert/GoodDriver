@@ -145,10 +145,10 @@
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
+                android:layout_weight="1"
                 android:paddingTop="40dp"
                 android:paddingBottom="40dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/image" />
+                app:srcCompat="@drawable/img_2" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

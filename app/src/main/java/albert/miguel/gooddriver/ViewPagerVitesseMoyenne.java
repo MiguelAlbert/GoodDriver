@@ -32,7 +32,6 @@ public class ViewPagerVitesseMoyenne extends Fragment {
 
         View v = inflater.inflate(R.layout.viewpager_fragment,container,false);
 
-
         viewPager = (ViewPager) v.findViewById(R.id.vpPager);
         tabLayout = (TabLayout) v.findViewById(R.id.tab);
 

@@ -2,6 +2,7 @@ package albert.miguel.gooddriver;
 
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.content.Context.POWER_SERVICE;
 import static android.os.Build.VERSION.SDK_INT;
 
 import android.annotation.SuppressLint;
@@ -20,6 +21,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,9 +42,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -56,7 +62,6 @@ public class AmplitudeFragment extends Fragment {
     Context context;
     TextView tVDateDebut,tvHeureDebut, tvTempsServiveNuit, tvNotificationTimeBefore,tvTempsRestant,tvHeureJour,tvDateDuJour,tvDateFinAmplitude,tvHeureFinAmplitude;
     PieChartView pieChartView;
-    String[] selectedoption;
     RadioButton radioButton11, radioButton9;
     SharedPreferences.Editor editor;
     ImageButton imageButtonHeure, imageButtonDate, imageButtonDelete;
@@ -64,12 +69,12 @@ public class AmplitudeFragment extends Fragment {
     Calendar calendardebut = now;
     Calendar calendarfin = now;
     Switch switchAlarm;
+    boolean booleanalarm;
 
     private Timer timer;
 
     public static final int requestCode = 9999;
 
-    private Calendar calendar;
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
 
@@ -77,16 +82,23 @@ public class AmplitudeFragment extends Fragment {
     public static final String ACTION = "miguel.albert.AlarmManager.myAction";
     final int[] checkedItem = {-1};
     private static final String TAG_MY_FRAGMENT = "myFragment";
-    MainFragment mFragment;
+
+    private AdView mPublisherAdView;
+
+    final String[] listItems = new String[]{"15 mn", "30 mn", "45 mn", "1h", "1h30"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        context = container.getContext();
+        context = Objects.requireNonNull(container).getContext();
 
         timerGetHeure();
 
         View v = inflater.inflate(R.layout.fragment_amplitude,container,false);
+
+        mPublisherAdView = v.findViewById(R.id.publisherAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
+
         imageButtonHeure = (ImageButton) v.findViewById(R.id.imageButtonCalcul1);
         imageButtonHeure.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,14 +135,14 @@ public class AmplitudeFragment extends Fragment {
             }
         });
         tvTempsServiveNuit = (TextView) v.findViewById(R.id.tvTempsServiveNuit);
-        tVDateDebut = (TextView) v.findViewById(R.id.tvLongueurDispo);
+        tVDateDebut = (TextView) v.findViewById(R.id.tvDateDebut);
         tVDateDebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectDate(v);
             }
         });
-        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeure1);
+        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebut);
         tvHeureDebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,19 +165,25 @@ public class AmplitudeFragment extends Fragment {
 
 
         createchannel();
-        testSiDateDebutEtFinEnregistree();
+        testSiValeursEnregistrees();
 
         switchAlarm = (Switch) v.findViewById(R.id.switchAlarm);
         switchAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     if (tvHeureDebut.getText() == "" || tVDateDebut.getText() == ""){
-                        Toast.makeText(context, "Vous devez sélectionner une heure", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Sélectionnez une heure de début", Toast.LENGTH_SHORT).show();
                         switchAlarm.setChecked(false);
                     } else{
-                        //Toast.makeText(context, "Heure paramétrée", Toast.LENGTH_SHORT).show();
-                        setAlarm();
-                        disableSelected(false);
+                        if(now.compareTo(calendarfin) > 0){
+                            Toast.makeText(context, "Amplitude terminée", Toast.LENGTH_SHORT).show();
+                            switchAlarm.setChecked(false);
+                        } else{
+                            setAlarm();
+                            disableSelected(false);
+                        }
+
+
                     }
 
                 } else {
@@ -194,7 +212,16 @@ public class AmplitudeFragment extends Fragment {
             }
         },0,1000);
         clearNotification();
-        //testSiDateDebutEtFinEnregistree();
+    }
+
+    @Override
+    public void onResume() {
+        SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
+        booleanalarm = pref.getBoolean("Key_alarm",false);
+        //Toast.makeText(context, "Alarm activée " + booleanalarm, Toast.LENGTH_SHORT).show();
+        switchAlarm.setChecked(booleanalarm);
+        super.onResume();
     }
 
     @Override
@@ -215,29 +242,29 @@ public class AmplitudeFragment extends Fragment {
         if(time <=0){
             int a = 24 - c;
             List<SliceValue> pieData = new ArrayList<>();
-            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + "h00"));
-            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + "h00"));
+            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + ":00"));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + ":00"));
             PieChartData pieChartData = new PieChartData(pieData);
             pieChartData.setHasLabels(true).setValueLabelTextSize(10);
-            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.6f).setCenterText1("24h").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
+            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.4f).setCenterText1("24:00").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
             pieChartView.setPieChartData(pieChartData);
         } else if (c == 11 && time >= 13*60*60*1000) {
             int a = 24 - c;
             List<SliceValue> pieData = new ArrayList<>();
-            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + "h00"));
-            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + "h00"));
+            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + ":00"));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + ":00"));
             PieChartData pieChartData = new PieChartData(pieData);
             pieChartData.setHasLabels(true).setValueLabelTextSize(10);
-            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.6f).setCenterText1("24h").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
+            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.4f).setCenterText1("24:00").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
             pieChartView.setPieChartData(pieChartData);
         } else if(c == 9 && time >= 15*60*60*1000){
             int a = 24 - c;
             List<SliceValue> pieData = new ArrayList<>();
-            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + "h00"));
-            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + "h00"));
+            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + ":00"));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + ":00"));
             PieChartData pieChartData = new PieChartData(pieData);
             pieChartData.setHasLabels(true).setValueLabelTextSize(10);
-            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.6f).setCenterText1("24h").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
+            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.4f).setCenterText1("24:00").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
             pieChartView.setPieChartData(pieChartData);
         } else {
             int minutes = (int) ((time / (1000*60)) % 60) ;
@@ -252,12 +279,12 @@ public class AmplitudeFragment extends Fragment {
             float a = 24 - c - Float.parseFloat(hours + "." + (minutes));
             float b = 24 - c - a ;
             List<SliceValue> pieData = new ArrayList<>();
-            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + "h00"));
-            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red200, null)).setLabel("Fait "+ (hoursfaites-1) +"h"+ twoDigitString(minutesfaites+1)));
-            pieData.add(new SliceValue(b, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Restant "+ hours +"h"+ (twoDigitString(minutes))));
+            pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + ":00"));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red200, null)).setLabel("Fait "+ (hoursfaites-1) +":"+ twoDigitString(minutesfaites+1)));
+            pieData.add(new SliceValue(b, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Restant "+ hours +":"+ (twoDigitString(minutes))));
             PieChartData pieChartData = new PieChartData(pieData);
             pieChartData.setHasLabels(true).setValueLabelTextSize(10);
-            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.6f).setCenterText1("24h").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
+            pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.4f).setCenterText1("24:00").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
             pieChartView.setPieChartData(pieChartData);
         }
     }
@@ -269,11 +296,11 @@ public class AmplitudeFragment extends Fragment {
         radioButton11.setClickable(b);
         imageButtonHeure.setClickable(b);
         imageButtonDate.setClickable(b);
+        imageButtonDelete.setClickable(b);
         tvNotificationTimeBefore.setClickable(b);
     }
 
-
-    private void testSiDateDebutEtFinEnregistree() {
+    private void testSiValeursEnregistrees() {
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         int tempsAmplitude = pref.getInt("key_Amplitude_Journaliere", 13);
@@ -282,6 +309,8 @@ public class AmplitudeFragment extends Fragment {
         int dayOfMonthDebut = pref.getInt("key_Debut_Day", 0);
         int heureDebut = pref.getInt("key_Debut_Hour", 0);
         int minuteDebut = pref.getInt("key_Debut_Minute", 0);
+        int dureeRappel = pref.getInt("key_duree_rappel", 0);
+        tvNotificationTimeBefore.setText(listItems[dureeRappel] + " avant.");
         if(monthDebut == 0 && yearDebut == 0 && dayOfMonthDebut == 0 && heureDebut == 0 && minuteDebut == 0) {
             tvHeureDebut.setText("");
             tVDateDebut.setText("");
@@ -311,7 +340,6 @@ public class AmplitudeFragment extends Fragment {
             affichageTempsRestant();
         }
     }
-
 
     private void affichageTempsRestant() {
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
@@ -354,16 +382,16 @@ public class AmplitudeFragment extends Fragment {
                 if(testheuredebut < 5 || testheuredebut >= 11){
                     tvTempsServiveNuit.setText("Temps de service maxi : 10h00");
                     tvTempsServiveNuit.setTypeface(null, Typeface.BOLD);
-                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.red600));
+                    tvTempsServiveNuit.setTextColor(context.getResources().getColor(R.color.red600));
                 }else {
                     tvTempsServiveNuit.setText("Temps de service maxi : 12h00");
                     tvTempsServiveNuit.setTypeface(null, Typeface.NORMAL);
-                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.black));
+                    tvTempsServiveNuit.setTextColor(context.getResources().getColor(R.color.black));
                 }
                 if(testheuredebut == 11 && testminutedebut == 0){
                     tvTempsServiveNuit.setText("Temps de service maxi : 12h00");
                     tvTempsServiveNuit.setTypeface(null, Typeface.NORMAL);
-                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.black));
+                    tvTempsServiveNuit.setTextColor(context.getResources().getColor(R.color.black));
                 }
             }
 
@@ -371,16 +399,16 @@ public class AmplitudeFragment extends Fragment {
                 if(testheuredebut < 5 || testheuredebut >= 9){
                     tvTempsServiveNuit.setText("Temps de service maxi : 10h00");
                     tvTempsServiveNuit.setTypeface(null, Typeface.BOLD);
-                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.red600));
+                    tvTempsServiveNuit.setTextColor(context.getResources().getColor(R.color.red600));
                 }else {
                     tvTempsServiveNuit.setText("Temps de service maxi : 12h00");
                     tvTempsServiveNuit.setTypeface(null, Typeface.NORMAL);
-                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.black));
+                    tvTempsServiveNuit.setTextColor(context.getResources().getColor(R.color.black));
                 }
                 if(testheuredebut == 9 && testminutedebut == 0){
                     tvTempsServiveNuit.setText("Temps de service maxi : 12h00");
                     tvTempsServiveNuit.setTypeface(null, Typeface.NORMAL);
-                    tvTempsServiveNuit.setTextColor(getResources().getColor(R.color.black));
+                    tvTempsServiveNuit.setTextColor(context.getResources().getColor(R.color.black));
                 }
             }
         }
@@ -407,9 +435,6 @@ public class AmplitudeFragment extends Fragment {
 
         return String.valueOf(number);
     }
-
-
-
 
     public void selectDate(View v) {
         int yearDebut,monthDebut,dayOfMonthDebut,HourDebut,MinuteDebut;
@@ -475,7 +500,6 @@ public class AmplitudeFragment extends Fragment {
 
         datePickerDialog.show();
     }
-
 
     public void selectHeure(View view) {
         int yearDebut,monthDebut,dayOfMonthDebut,HourDebut,MinuteDebut;
@@ -547,6 +571,9 @@ public class AmplitudeFragment extends Fragment {
     }
 
     public void selectTimeRappel() {
+        SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
+        int dureeRappel = pref.getInt("key_duree_rappel", 0);
         // AlertDialog builder instance to build the alert dialog
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
@@ -559,12 +586,11 @@ public class AmplitudeFragment extends Fragment {
         // list of the items to be displayed to
         // the user in the form of list
         // so that user can select the item from
-        final String[] listItems = new String[]{"15 mn", "30 mn", "45 mn", "1h", "1h30"};
+        //final String[] listItems = new String[]{"15 mn", "30 mn", "45 mn", "1h", "1h30"};
 
         // the function setSingleChoiceItems is the function which builds
         // the alert dialog with the single item selection
-        alertDialog.setSingleChoiceItems(listItems, checkedItem[0], new DialogInterface.OnClickListener() {
-            @SuppressLint("SetTextI18n")
+        alertDialog.setSingleChoiceItems(listItems, dureeRappel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -575,7 +601,8 @@ public class AmplitudeFragment extends Fragment {
 
                 // now also update the TextView which previews the selected item
                 tvNotificationTimeBefore.setText(listItems[which] + " avant.");
-
+                editor.putInt("key_duree_rappel",which );
+                editor.apply(); // commit changes
                 // when selected an item the dialog should be closed with the dismiss method
                 dialog.dismiss();
             }
@@ -584,12 +611,15 @@ public class AmplitudeFragment extends Fragment {
         // set the negative button if the user
         // is not interested to select or change
         // already selected item
+        /*
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
             }
         });
+
+         */
 
         // create and build the AlertDialog instance
         // with the AlertDialog builder instance
@@ -599,11 +629,10 @@ public class AmplitudeFragment extends Fragment {
         customAlertDialog.show();
     }
 
-
-
     public void delete() {
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
+        tvTempsServiveNuit.setText("");
         tVDateDebut.setText("");
         tvHeureDebut.setText("");
         tvHeureFinAmplitude.setText("");
@@ -640,29 +669,59 @@ public class AmplitudeFragment extends Fragment {
             affichageTempsRestant();
             createPieChart();
         }
-        testSiDateDebutEtFinEnregistree();
+        testSiValeursEnregistrees();
 
     }
 
     private void setAlarm() {
-        calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE,2);
-
+        testBatterieOptimisation();
+        SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
+        editor.putBoolean("Key_alarm", true);
+        editor.apply();
+        int minutesEnMoins;
+        int dureeRappel = pref.getInt("key_duree_rappel", 0);
+        //final String[] listItems = new String[]{"15 mn", "30 mn", "45 mn", "1h", "1h30"};
+        switch(dureeRappel) {
+            case 0:
+                minutesEnMoins = 15;
+                break;
+            case 1:
+                minutesEnMoins = 30;
+                break;
+            case 2:
+                minutesEnMoins = 45;
+                break;
+            case 3:
+                minutesEnMoins = 60;
+                break;
+            case 4:
+                minutesEnMoins = 90;
+                break;
+            default:
+                minutesEnMoins = 0;
+                break;
+        }
+        int tempsAmplitude = pref.getInt("key_Amplitude_Journaliere", 13);
+        Calendar calendarAlarm = (Calendar) calendardebut.clone();
+        calendarAlarm.add(Calendar.MINUTE, (tempsAmplitude*60) - minutesEnMoins);
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction("SomeAction");
-        intent.putExtra("int_value", 10);
+        String dateFin = tvDateFinAmplitude.getText().toString() + " " + tvHeureFinAmplitude.getText().toString();
+        intent.putExtra("int_value", minutesEnMoins);
+
         //sendBroadcast(intent);
         if (SDK_INT >= Build.VERSION_CODES.S) {
             pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_IMMUTABLE |PendingIntent.FLAG_UPDATE_CURRENT);
             if (alarmManager.canScheduleExactAlarms()){
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendarAlarm.getTimeInMillis(), pendingIntent);
                 Toast.makeText(context, "Notification activée", Toast.LENGTH_SHORT).show();
             } else {
                 Intent i = new Intent();
                 if (SDK_INT >= Build.VERSION_CODES.O) {
-                    i.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                    i.setAction(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                     i.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
                 } else if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                     i.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
@@ -678,17 +737,16 @@ public class AmplitudeFragment extends Fragment {
         } else{
             pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             if (SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendarAlarm.getTimeInMillis(), pendingIntent);
             }
-            //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-            //alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
             Toast.makeText(context, "Notification activée", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private void cancelAlarm() {
-
+        editor.putBoolean("Key_alarm", false);
+        editor.apply();
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction("SomeAction");
 
@@ -703,7 +761,6 @@ public class AmplitudeFragment extends Fragment {
             Toast.makeText(context, "Notification supprimée", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void createchannel() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -724,6 +781,7 @@ public class AmplitudeFragment extends Fragment {
 
         }
     }
+
     public static String getDayName(int day){
         switch(day){
             case 0:
@@ -742,6 +800,19 @@ public class AmplitudeFragment extends Fragment {
                 return "Samedi";
         }
         return "Worng Day";
+    }
+
+    private void testBatterieOptimisation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent intent = new Intent();
+            String packageName = context.getPackageName();
+            PowerManager pm = (PowerManager) context.getSystemService(POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+                startActivity(intent);
+            }
+        }
     }
 
 }

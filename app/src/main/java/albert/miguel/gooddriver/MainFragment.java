@@ -32,6 +32,8 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
+import java.util.Objects;
+
 
 public class MainFragment extends Fragment {
 
@@ -47,7 +49,7 @@ public class MainFragment extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-            context = container.getContext();
+            context = Objects.requireNonNull(container).getContext();
             View v = inflater.inflate(R.layout.accueil_fragment,container,false);
             thisActivity = getActivity();
             loadAdd();

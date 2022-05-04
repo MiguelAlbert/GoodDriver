@@ -21,21 +21,31 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+import java.util.Objects;
 
 
 public class CalculVitesseMoyenne extends Fragment {
 
     Context context;
-    ImageButton imageButtonDelete, imageButtonDelete2, imageButtonCalcul;
+    ImageButton imageButtonDelete, imageButtonDelete2;
     EditText etKilometres,etHeure1, etMinute1;
     TextView tvResultat;
     SharedPreferences.Editor editor;
+    private AdView mPublisherAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context = container.getContext();
+        context = Objects.requireNonNull(container).getContext();
 
         View v = inflater.inflate(R.layout.fragment_vitesse_moyenne,container,false);
+
+        mPublisherAdView = v.findViewById(R.id.publisherAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
+
         etKilometres = (EditText) v.findViewById(R.id.etKilometres);
         etHeure1 = (EditText) v.findViewById(R.id.etHeure1);
         etMinute1 = (EditText) v.findViewById(R.id.etMinute1);
@@ -54,13 +64,6 @@ public class CalculVitesseMoyenne extends Fragment {
                 delete2();
             }
         });
-        imageButtonCalcul = (ImageButton) v.findViewById(R.id.imageButtonCalcul);
-        imageButtonCalcul.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                calcul();
-            }
-        });
         etHeure1.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
         etHeure1.setShowSoftInputOnFocus(true);
         etHeure1.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -72,9 +75,13 @@ public class CalculVitesseMoyenne extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (etHeure1.getText().toString().equals("")){
+                    editor.putInt("key_heures", 0);
+                    editor.apply();
+                    calcul();
                 } else {
                     editor.putInt("key_heures", Integer.parseInt(etHeure1.getText().toString()));
                     editor.apply();
+                    calcul();
                 }
             }
         });
@@ -95,9 +102,13 @@ public class CalculVitesseMoyenne extends Fragment {
                     }
                 }
                 if (etMinute1.getText().toString().equals("")){
+                    editor.putInt("key_minutes", 0);
+                    editor.apply();
+                    calcul();
                 } else {
                     editor.putInt("key_minutes", Integer.parseInt(etMinute1.getText().toString()));
                     editor.apply();
+                    calcul();
                 }
             }
         });
@@ -109,9 +120,13 @@ public class CalculVitesseMoyenne extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (etKilometres.getText().toString().equals("")){
+                    editor.putInt("key_km", 0);
+                    editor.apply();
+                    calcul();
                 } else {
                     editor.putInt("key_km", Integer.parseInt(etKilometres.getText().toString()));
                     editor.apply();
+                    calcul();
                 }
             }
         });
@@ -148,13 +163,13 @@ public class CalculVitesseMoyenne extends Fragment {
     }
 
     private void calcul() {
-        if(etHeure1.getText().toString().equals("") || etMinute1.getText().toString().equals("") ||etKilometres.getText().toString().equals("")){
-            Toast.makeText(context, "valeurs vides", Toast.LENGTH_SHORT).show();
-        }
-        if(!etHeure1.getText().toString().equals("")
-                && !etMinute1.getText().toString().equals("")
-                && !etKilometres.getText().toString().equals("")){
-            double minutes = Integer.parseInt(String.valueOf(etHeure1.getText()))*60 + Integer.parseInt(String.valueOf(etMinute1.getText()));
+        double minutes;
+        if(!etHeure1.getText().toString().equals("") && !etKilometres.getText().toString().equals("")){
+            if(!etMinute1.getText().toString().equals("")){
+                minutes = Integer.parseInt(String.valueOf(etHeure1.getText()))*60 + Integer.parseInt(String.valueOf(etMinute1.getText()));
+            } else {
+                minutes = Integer.parseInt(String.valueOf(etHeure1.getText()))*60;
+            }
             double km = Integer.parseInt(String.valueOf(etKilometres.getText()));
             double result = km * 60/minutes;
             result = Math.round(result * 100);
@@ -162,6 +177,24 @@ public class CalculVitesseMoyenne extends Fragment {
             editor.putFloat("key_vitesse", (float) result);
             editor.apply();
             tvResultat.setText(""+result);
+        } else {
+            tvResultat.setText("");
+        }
+        if((etHeure1.getText().toString().equals("0") || etHeure1.getText().toString().equals("00") )&& !etKilometres.getText().toString().equals("")){
+            tvResultat.setText("");
+        }
+        if((etHeure1.getText().toString().equals("0") || etHeure1.getText().toString().equals("00") || etHeure1.getText().toString().equals("")) && !etKilometres.getText().toString().equals("") && !etMinute1.getText().toString().equals("")){
+            minutes = Integer.parseInt(String.valueOf(etMinute1.getText()));
+            double km = Integer.parseInt(String.valueOf(etKilometres.getText()));
+            double result = km * 60/minutes;
+            result = Math.round(result * 100);
+            result = result / 100;
+            editor.putFloat("key_vitesse", (float) result);
+            editor.apply();
+            tvResultat.setText(""+result);
+        }
+        if((etHeure1.getText().toString().equals("0") || etHeure1.getText().toString().equals("00") || etHeure1.getText().toString().equals("") )&& (etMinute1.getText().toString().equals("0") || etMinute1.getText().toString().equals("00") || etMinute1.getText().toString().equals(""))){
+            tvResultat.setText("");
         }
     }
 

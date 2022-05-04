@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
@@ -67,7 +70,7 @@
                             android:src="@drawable/ic_baseline_calendar_today_24" />
 
                         <TextView
-                            android:id="@+id/tvLongueurDispo"
+                            android:id="@+id/tvDateDebut"
                             android:layout_width="100dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_rectangle_order"
@@ -82,7 +85,7 @@
                             android:src="@drawable/ic_baseline_access_time_24" />
 
                         <TextView
-                            android:id="@+id/tvHeure1"
+                            android:id="@+id/tvHeureDebut"
                             android:layout_width="70dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_rectangle_order"
@@ -119,7 +122,7 @@
                         android:layout_gravity="center_vertical"
                         android:checked="true"
                         android:ems="6"
-                        android:minHeight="48dp"
+                        android:minHeight="32dp"
                         android:text="11 heures (amplitude 13 heures)" />
 
                     <RadioButton
@@ -128,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:ems="16"
-                        android:minHeight="48dp"
+                        android:minHeight="32dp"
                         android:text="9 heures (amplitude 15 heures ) 3x/semaine" />
                 </RadioGroup>
 
@@ -218,9 +221,9 @@
                 <TextView
                     android:id="@+id/textView17"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:gravity="center_vertical"
-                    android:text="Réglage de notication"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="Notication"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -231,24 +234,61 @@
                     <Switch
                         android:id="@+id/switchAlarm"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Notification avant la fin de l'amplitude" />
 
-                    <TextView
-                        android:id="@+id/tvNotificationTimeBefore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
 
-                        android:text="@string/notification_time"
-                        android:textAlignment="textEnd"
-                        android:textColor="#3949AB" />
+                        <TextView
+                            android:id="@+id/textView35"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:text="Réglage : " />
+
+                        <TextView
+                            android:id="@+id/tvNotificationTimeBefore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+
+                            android:text="@string/notification_time"
+                            android:textAlignment="textEnd"
+                            android:textStyle="bold"
+                            android:textColor="@color/blue" />
+                    </LinearLayout>
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/publisherAdView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id1" />
 
-</LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

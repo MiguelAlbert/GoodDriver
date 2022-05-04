@@ -7,7 +7,9 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,11 @@ import android.widget.TimePicker;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.Calendar;
+import java.util.Objects;
 
 
 public class ReposHebdoFragment2 extends Fragment {
@@ -30,11 +36,11 @@ public class ReposHebdoFragment2 extends Fragment {
     TextView tVDateDebut,tVDateFin,tvHeureDebut, tvHeureFin, tvResultatDifference, tvBilan,textView10;
     Calendar now, debut, calFin;
     SharedPreferences.Editor editorReposHebdo2;
-
+    private AdView mPublisherAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context = container.getContext();
+        context = Objects.requireNonNull(container).getContext();
         SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo2", MODE_PRIVATE);
         editorReposHebdo2 = pref.edit();
         debut = Calendar.getInstance();
@@ -42,10 +48,14 @@ public class ReposHebdoFragment2 extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_repos_hebdo2,container,false);
 
+        mPublisherAdView = v.findViewById(R.id.publisherAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
+
         tvResultatDifference = (TextView) v.findViewById(R.id.tvResultatDifference);
         tvBilan = (TextView) v.findViewById(R.id.tvBilan);
-        tVDateDebut = (TextView) v.findViewById(R.id.tvLongueurDispo);
-        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeure1);
+        tVDateDebut = (TextView) v.findViewById(R.id.tvDateDebut);
+        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebut);
         tVDateFin = (TextView) v.findViewById(R.id.tVDateFin);
         tvHeureFin = (TextView) v.findViewById(R.id.tvHeureFin);
         textView10 = (TextView) v.findViewById(R.id.textView10);
@@ -119,8 +129,20 @@ public class ReposHebdoFragment2 extends Fragment {
         testSiDonneeEnregistrees();
         return v;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        testSiDonneeEnregistrees();
+        Log.e("Frontales","resume");
+    }
 
-    private void testSiDonneeEnregistrees() {
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("Frontales", "Pause");
+    }
+
+    void testSiDonneeEnregistrees() {
         SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo2", MODE_PRIVATE);
         editorReposHebdo2 = pref.edit();
         int monthDebut = pref.getInt("key_Debut_Month", 0);
@@ -181,12 +203,14 @@ public class ReposHebdoFragment2 extends Fragment {
         }
         return "Worng Day";
     }
+
     private String formatMilliSecondsToTimeSansSeconds(long milliseconds) {
 
         int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
         int hours = (int) ((milliseconds / (1000 * 60 * 60)) );
-        return twoDigitString(hours) + " H " + twoDigitString(minutes) ;
+        return twoDigitString(hours) + ":" + twoDigitString(minutes) ;
     }
+
     private String twoDigitString(long number) {
 
         if (number == 0) {

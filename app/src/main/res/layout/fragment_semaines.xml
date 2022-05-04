@@ -26,8 +26,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textView13"
@@ -38,6 +38,15 @@
                         android:textColor="@color/blue"
                         android:textSize="20sp" />
 
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="Développement en cours"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp" />
+
                 </LinearLayout>
 
                 <com.alespero.expandablecardview.ExpandableCardView
@@ -46,7 +55,7 @@
                     android:layout_height="wrap_content"
                     app:expandOnClick="true"
                     app:icon="@drawable/ic_baseline_timer_24"
-                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:inner_view="@layout/expandable_semaine_rh1"
                     app:title="Repos hebdo" />
 
                 <com.alespero.expandablecardview.ExpandableCardView
@@ -64,7 +73,7 @@
                     android:layout_height="wrap_content"
                     app:expandOnClick="true"
                     app:icon="@drawable/ic_baseline_timer_24"
-                    app:inner_view="@layout/expandable_semaine_jour1"
+                    app:inner_view="@layout/expandable_semaine_jour2"
                     app:title="Jour 2" />
 
                 <com.alespero.expandablecardview.ExpandableCardView
@@ -73,7 +82,7 @@
                     android:layout_height="wrap_content"
                     app:expandOnClick="true"
                     app:icon="@drawable/ic_baseline_timer_24"
-                    app:inner_view="@layout/expandable_conduite_hebdomadaire"
+                    app:inner_view="@layout/expandable_semaine_jour3"
                     app:title="Jour 3" />
 
                 <com.alespero.expandablecardview.ExpandableCardView
@@ -82,7 +91,7 @@
                     android:layout_height="wrap_content"
                     app:expandOnClick="true"
                     app:icon="@drawable/ic_baseline_timer_24"
-                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:inner_view="@layout/expandable_semaine_jour4"
                     app:title="Jour 4" />
 
                 <com.alespero.expandablecardview.ExpandableCardView
@@ -91,7 +100,7 @@
                     android:layout_height="wrap_content"
                     app:expandOnClick="true"
                     app:icon="@drawable/ic_baseline_timer_24"
-                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:inner_view="@layout/expandable_semaine_jour5"
                     app:title="Jour 5" />
 
                 <com.alespero.expandablecardview.ExpandableCardView
@@ -100,7 +109,7 @@
                     android:layout_height="wrap_content"
                     app:expandOnClick="true"
                     app:icon="@drawable/ic_baseline_timer_24"
-                    app:inner_view="@layout/expandable_conduite_bihebdo"
+                    app:inner_view="@layout/expandable_semaine_jour6"
                     app:title="Jour 6" />
 
                 <com.alespero.expandablecardview.ExpandableCardView
@@ -109,9 +118,136 @@
                     android:layout_height="wrap_content"
                     app:expandOnClick="true"
                     app:icon="@drawable/ic_baseline_timer_24"
-                    app:inner_view="@layout/expandable_conduite_bihebdo"
-                    app:title="Repos hebdo" />
+                    app:inner_view="@layout/expandable_semaine_rh2"
+                    app:title="Repos hebdo" >
 
+                </com.alespero.expandablecardview.ExpandableCardView>
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="Total de la semaine"
+                    android:textStyle="bold" />
+
+                <TableLayout
+                    android:id="@+id/tableLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:stretchColumns="0,1,2,3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Conduite" />
+
+                        <TextView
+                            android:id="@+id/textView25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00:00" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Travail" />
+
+                        <TextView
+                            android:id="@+id/textView26"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00:00" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView27"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Disponibilité" />
+
+                        <TextView
+                            android:id="@+id/textView28"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00:00" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView30"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Service" />
+
+                        <TextView
+                            android:id="@+id/textView29"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00:00" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView31"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Conduite de + de 9:00" />
+
+                        <TextView
+                            android:id="@+id/textView32"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0/2" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView33"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Repos de - de 11:00" />
+
+                        <TextView
+                            android:id="@+id/textView34"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0/3" />
+                    </TableRow>
+                </TableLayout>
             </LinearLayout>
 
 
