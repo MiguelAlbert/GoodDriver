@@ -13,11 +13,16 @@
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:padding="6dp"
             android:text="Chaque conducteur doit bénéficier d’une pause : \nD’au moins 30 min, lorsque son temps de travail quotidien est supérieur à 6h.\nD’au moins 45 min, lorsque son temps de travail quotidien est supérieur à 9h.\n\nLes pauses peuvent être subdivisées en périodes d’une durée d’au moins 15min chacune."
             android:textSize="14sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView44"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
 
     </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,6 +1,7 @@
 package albert.miguel.gooddriver;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.content.Context.POWER_SERVICE;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -12,7 +13,9 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.os.PowerManager;
 
 import androidx.core.app.NotificationCompat;
 
@@ -87,6 +90,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         //Show the notification
         mManager.notify(1, notif);  //and if we want different notifications, use notiID here instead of 1.
 
+        PowerManager pm = (PowerManager) context.getSystemService(POWER_SERVICE);
+        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "myApp:notificationLock");
+        wl.acquire(3000); //set your time in milliseconds
+        wl.release();
         // handler to dismiss notification after seconds
         //Handler h = new Handler() ;
         //long delayInMilliseconds = 60000 ;

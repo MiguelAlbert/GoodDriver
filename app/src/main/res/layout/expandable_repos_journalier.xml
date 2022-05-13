@@ -13,11 +13,16 @@
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="wrap_content"
             android:padding="6dp"
             android:text="Par période de 24h00 \n11h00 consécutives pouvant être réduites à 9h00 consécutives trois fois par semaine"
             android:textSize="14sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView46"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

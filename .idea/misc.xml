@@ -38,7 +38,7 @@
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/app_bar_main.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/content_main.xml" value="0.2" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_conduite-hebdomadaire.xml" value="0.19739583333333333" />
-        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_conduite_bihebdo.xml" value="0.19739583333333333" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_conduite_bihebdo.xml" value="0.15" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_conduite_continue.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_conduite_hebdomadaire.xml" value="0.22" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_conduite_journaliere.xml" value="0.19739583333333333" />
@@ -55,17 +55,18 @@
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_semaine_jour6.xml" value="0.16196581196581197" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_semaine_rh1.xml" value="0.16196581196581197" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_semaine_rh2.xml" value="0.16196581196581197" />
-        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_service_hebdo.xml" value="0.19739583333333333" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_service_hebdo.xml" value="0.22" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_service_journalier.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_temps_pause.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fe_fragment.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_amplitude.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_calculatrice_temps.xml" value="0.16196581196581197" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_calculatrice_temps2.xml" value="0.15256410256410258" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_carte.xml" value="0.25" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_gallery.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_palettes.xml" value="0.25" />
-        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_reglementation.xml" value="0.19739583333333333" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_reglementation.xml" value="0.1" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_reglementation2.xml" value="0.15256410256410258" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_repos_hebdo.xml" value="0.22" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_repos_hebdo1.xml" value="0.19739583333333333" />
@@ -93,5 +94,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.1" />
+      </ProjectState>
+    </option>
   </component>
 </project>

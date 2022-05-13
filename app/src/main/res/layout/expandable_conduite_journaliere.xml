@@ -13,11 +13,16 @@
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="wrap_content"
             android:padding="6dp"
             android:text="Temps de conduite journalier limité à \n9 heures par jour \npouvant être porté à \n10 heures deux fois par semaine"
             android:textSize="14sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView49"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

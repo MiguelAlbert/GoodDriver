@@ -105,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:gravity="center_vertical"
-                    android:text="Repos normal réalisé à partir de :"
+                    android:text="Repos réduit 24h réalisé à partir de :"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -165,7 +165,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:gravity="center_vertical"
-                    android:text="Repos réduit réalisé à partir de :"
+                    android:text="Repos normal 45h réalisé à partir de :"
                     android:textStyle="bold" />
 
 

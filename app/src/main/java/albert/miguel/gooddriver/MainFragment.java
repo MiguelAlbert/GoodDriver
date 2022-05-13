@@ -37,7 +37,7 @@ import java.util.Objects;
 
 public class MainFragment extends Fragment {
 
-        Button button1, button2, button3, button4, button5, button6, button7;
+        Button button1, button2, button3, button4, button5, button6, button7, button8;
 
         Activity thisActivity;
         Context context;
@@ -176,6 +176,25 @@ public class MainFragment extends Fragment {
                     CalculPalettes CalculPalettes = new CalculPalettes();
                     FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.content_frame, CalculPalettes, "Palettes_fragment"); // give your fragment container id in first parameter
+                    transaction.disallowAddToBackStack();
+                    //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+                    transaction.commit();
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.show(thisActivity);
+                    } else {
+                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                    }
+                }
+            });
+            button8 = (Button) v.findViewById(R.id.button8);
+            button8.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    CarteFragment CarteFragment = new CarteFragment();
+                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.content_frame, CarteFragment, "Carte_fragment"); // give your fragment container id in first parameter
                     transaction.disallowAddToBackStack();
                     //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
                     transaction.commit();

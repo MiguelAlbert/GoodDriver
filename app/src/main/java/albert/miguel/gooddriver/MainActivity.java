@@ -223,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ViewPagerCalcTemps ViewPagerCalcTemps = (ViewPagerCalcTemps) getSupportFragmentManager().findFragmentByTag("Calc_temps_fragment");
         ViewPagerVitesseMoyenne ViewPagerVitesseMoyenne = (ViewPagerVitesseMoyenne) getSupportFragmentManager().findFragmentByTag("Vitesse_fragment");
         CalculPalettes CalculPalettes = (CalculPalettes) getSupportFragmentManager().findFragmentByTag("Palettes_fragment");
+        CarteFragment CarteFragment = (CarteFragment) getSupportFragmentManager().findFragmentByTag("Carte_fragment");
 
         if (AmplitudeFragment != null && AmplitudeFragment.isVisible()) {
             MainFragment MainFragment = new MainFragment();
@@ -289,6 +290,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment,"TAG_Palettes"); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }transaction.commit();
+        }else if(CarteFragment != null && CarteFragment.isVisible()){
+            MainFragment MainFragment = new MainFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, MainFragment,"TAG_Carte"); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(MainActivity.this);

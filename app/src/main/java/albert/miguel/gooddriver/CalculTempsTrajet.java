@@ -30,7 +30,7 @@ public class CalculTempsTrajet extends Fragment {
     Context context;
     EditText etKilometres,etVitesseMoyenne;
     ImageButton imageButtonDelete, imageButtonDelete2;
-    TextView tvHeure, tvMinute;
+    TextView tvHeure, tvMinute, tvTempsPause;
     SharedPreferences.Editor editor;
     private AdView mPublisherAdView;
 
@@ -60,13 +60,11 @@ public class CalculTempsTrajet extends Fragment {
         });
         etVitesseMoyenne = (EditText) v.findViewById(R.id.etVitesseMoyenne);
         etVitesseMoyenne.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
-
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
-
-            public void afterTextChanged(Editable arg0) {
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                 String str = etVitesseMoyenne.getText().toString();
-                if (str.isEmpty()) return;
+                if (str.isEmpty()){
+                    return;
+                }
                 String str2 = PerfectDecimal(str, 3, 2);
 
                 if (!str2.equals(str)) {
@@ -74,6 +72,8 @@ public class CalculTempsTrajet extends Fragment {
                     etVitesseMoyenne.setSelection(str2.length());
                 }
                 if (etVitesseMoyenne.getText().toString().equals("")){
+                    tvHeure.setText("");
+                    tvMinute.setText("");
                 } else {
                     editor.putFloat("key_vitesse", Float.parseFloat(etVitesseMoyenne.getText().toString()));
                     editor.apply();
@@ -81,9 +81,14 @@ public class CalculTempsTrajet extends Fragment {
                 calcul();
             }
 
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+
+            public void afterTextChanged(Editable arg0) {}
+
         });
         tvHeure = (TextView) v.findViewById(R.id.tvHeure);
         tvMinute = (TextView) v.findViewById(R.id.tvMinute);
+        tvTempsPause = (TextView) v.findViewById(R.id.tvTempsPause);
         imageButtonDelete = (ImageButton) v.findViewById(R.id.imageButtonDelete);
         imageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,17 +132,22 @@ public class CalculTempsTrajet extends Fragment {
         } else {
             tvHeure.setText(twoDigitString(heures));
             tvMinute.setText(twoDigitString(minutes));
+            testtempsdetrajet(minutes, heures);
         }
+
     }
 
     private void calcul() {
         if (etKilometres.getText().toString().equals("") || etVitesseMoyenne.getText().toString().equals("")) {
+            tvHeure.setText("");
+            tvMinute.setText("");
             //Toast.makeText(context, "valeurs vides", Toast.LENGTH_SHORT).show();
         } else {
             int km = Integer.parseInt(etKilometres.getText().toString());
             double vitesse = Double.parseDouble(etVitesseMoyenne.getText().toString());
             if (km == 0 || vitesse == 0) {
-                Toast.makeText(context, "valeurs 0", Toast.LENGTH_SHORT).show();
+                tvHeure.setText("");
+                tvMinute.setText("");
             } else {
                 double dureeminutes = km/(vitesse/60);
                 int heures = (int) (dureeminutes/60);
@@ -149,11 +159,32 @@ public class CalculTempsTrajet extends Fragment {
                 editor.putFloat("key_vitesse", (float) vitesse);
                 editor.putInt("key_km",km);
                 editor.apply();
+                testtempsdetrajet(minutes, heures);
             }
         }
     }
 
+    private void testtempsdetrajet(int minutes, int heures) {
+        int totalminutes = heures*60 + minutes;
+        if (totalminutes<= 270){
+            tvTempsPause.setText("");
+        }
+        if (totalminutes > 270 && totalminutes <= 540 ){
+            tvTempsPause.setText("Vous devez ajouter 45mn de pause à votre temps de trajet");
+        }
+        if (totalminutes > 540 && totalminutes <=600 ){
+            tvTempsPause.setText("Vous devez ajouter 2 pauses de 45mn à votre temps de trajet");
+        }
+        if (totalminutes > 600 && totalminutes <=870){
+            tvTempsPause.setText("Vous devez ajouter 2 pauses de 45mn et un temps de repos d'au moins 9:00 ");
+        }
+        if (totalminutes > 870 ){
+            tvTempsPause.setText("Attention de bien respecter les temps de pause et de repos");
+        }
+    }
+
     private void delete1() {
+        tvTempsPause.setText("");
         tvHeure.setText("");
         editor.remove("key_heures");
         tvMinute.setText("");
@@ -170,6 +201,7 @@ public class CalculTempsTrajet extends Fragment {
         editor.remove("key_minutes");
         etVitesseMoyenne.setText("");
         editor.remove("key_vitesse");
+        tvTempsPause.setText("");
         editor.apply();
     }
 

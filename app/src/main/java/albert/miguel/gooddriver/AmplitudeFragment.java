@@ -243,7 +243,7 @@ public class AmplitudeFragment extends Fragment {
             int a = 24 - c;
             List<SliceValue> pieData = new ArrayList<>();
             pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + ":00"));
-            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + ":00"));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + ":00"));
             PieChartData pieChartData = new PieChartData(pieData);
             pieChartData.setHasLabels(true).setValueLabelTextSize(10);
             pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.4f).setCenterText1("24:00").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
@@ -252,7 +252,7 @@ public class AmplitudeFragment extends Fragment {
             int a = 24 - c;
             List<SliceValue> pieData = new ArrayList<>();
             pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + ":00"));
-            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + ":00"));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + ":00"));
             PieChartData pieChartData = new PieChartData(pieData);
             pieChartData.setHasLabels(true).setValueLabelTextSize(10);
             pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.4f).setCenterText1("24:00").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
@@ -261,7 +261,7 @@ public class AmplitudeFragment extends Fragment {
             int a = 24 - c;
             List<SliceValue> pieData = new ArrayList<>();
             pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + ":00"));
-            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + ":00"));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Amplitude : "+ a + ":00"));
             PieChartData pieChartData = new PieChartData(pieData);
             pieChartData.setHasLabels(true).setValueLabelTextSize(10);
             pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.4f).setCenterText1("24:00").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
@@ -280,8 +280,8 @@ public class AmplitudeFragment extends Fragment {
             float b = 24 - c - a ;
             List<SliceValue> pieData = new ArrayList<>();
             pieData.add(new SliceValue(c, Color.GRAY).setLabel("Repos : "+ c + ":00"));
-            pieData.add(new SliceValue(a, ResourcesCompat.getColor(getResources(), R.color.red200, null)).setLabel("Fait "+ (hoursfaites-1) +":"+ twoDigitString(minutesfaites+1)));
-            pieData.add(new SliceValue(b, ResourcesCompat.getColor(getResources(), R.color.red600, null)).setLabel("Restant "+ hours +":"+ (twoDigitString(minutes))));
+            pieData.add(new SliceValue(a, ResourcesCompat.getColor(context.getResources(), R.color.red200, null)).setLabel("Fait "+ (hoursfaites-1) +":"+ twoDigitString(minutesfaites+1)));
+            pieData.add(new SliceValue(b, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant "+ hours +":"+ (twoDigitString(minutes))));
             PieChartData pieChartData = new PieChartData(pieData);
             pieChartData.setHasLabels(true).setValueLabelTextSize(10);
             pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.4f).setCenterText1("24:00").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#000000"));;
@@ -709,7 +709,7 @@ public class AmplitudeFragment extends Fragment {
 
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction("SomeAction");
-        String dateFin = tvDateFinAmplitude.getText().toString() + " " + tvHeureFinAmplitude.getText().toString();
+        //String dateFin = tvDateFinAmplitude.getText().toString() + " " + tvHeureFinAmplitude.getText().toString();
         intent.putExtra("int_value", minutesEnMoins);
 
         //sendBroadcast(intent);
