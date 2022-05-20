@@ -170,16 +170,16 @@ public class CalculTempsTrajet extends Fragment {
             tvTempsPause.setText("");
         }
         if (totalminutes > 270 && totalminutes <= 540 ){
-            tvTempsPause.setText("Vous devez ajouter 45mn de pause à votre temps de trajet");
+            tvTempsPause.setText("Vous devez ajouter 45mn de pause à votre temps de trajet.");
         }
         if (totalminutes > 540 && totalminutes <=600 ){
-            tvTempsPause.setText("Vous devez ajouter 2 pauses de 45mn à votre temps de trajet");
+            tvTempsPause.setText("Vous devez ajouter 2 pauses de 45mn à votre temps de trajet.");
         }
         if (totalminutes > 600 && totalminutes <=870){
-            tvTempsPause.setText("Vous devez ajouter 2 pauses de 45mn et un temps de repos d'au moins 9:00 ");
+            tvTempsPause.setText("Vous devez ajouter 2 pauses de 45mn et un temps de repos d'au moins 9:00.");
         }
         if (totalminutes > 870 ){
-            tvTempsPause.setText("Attention de bien respecter les temps de pause et de repos");
+            tvTempsPause.setText("Attention de bien respecter les temps de pause et de repos.");
         }
     }
 

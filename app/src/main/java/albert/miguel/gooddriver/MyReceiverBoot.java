@@ -20,7 +20,7 @@ public class MyReceiverBoot extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        int NotiID = 1;
+        int NotiID = 9;
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             //boot has completed, now time to start our background service.
             Log.wtf(TAG, "Got the boot one!");
@@ -55,7 +55,7 @@ public class MyReceiverBoot extends BroadcastReceiver {
                 .setAutoCancel(true) //allow auto cancel when pressed.
                 .build(); //finally build and return a Notification.
         //Show the notification
-        mManager.notify(1, notif);  //and if we want different notifications, use notiID here instead of 1.
+        mManager.notify(1000, notif);  //and if we want different notifications, use notiID here instead of 1.
     }
 
 }

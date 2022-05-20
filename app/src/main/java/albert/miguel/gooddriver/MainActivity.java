@@ -205,6 +205,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
+        try {
+            Bundle extras = getIntent().getExtras();
+            String message = extras.getString("fragment");
+            if (message.equals("amplitude")) {
+                AmplitudeFragment AmplitudeFragment = new AmplitudeFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, AmplitudeFragment, "Amplitude_fragment"); // give your fragment container id in first parameter
+                transaction.disallowAddToBackStack();
+                //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+                transaction.commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            Bundle extras = getIntent().getExtras();
+            String message = extras.getString("fragment");
+            if (message.equals("carte")) {
+                CarteFragment CarteFragment = new CarteFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, CarteFragment, "Carte_fragment"); // give your fragment container id in first parameter
+                transaction.disallowAddToBackStack();
+                //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+                transaction.commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

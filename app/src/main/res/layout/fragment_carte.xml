@@ -45,6 +45,51 @@
                 android:orientation="vertical">
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Result"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/resultEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:background="@null"
+                        android:hint=""
+                        android:padding="5dp"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Image Preview"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/imageIv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="250dp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textView8"
@@ -67,13 +112,12 @@
 
                         <EditText
                             android:id="@+id/etNumeroCarte"
-                            android:layout_width="190dp"
+                            android:layout_width="210dp"
                             android:layout_height="50dp"
                             android:background="@drawable/bg_rectangle_order"
                             android:gravity="center"
-                            android:inputType="number"
-                            android:maxLength="13"
-                            tools:ignore="SpeakableTextPresentCheck" />
+                            android:inputType="none"
+                            android:maxLength="16"/>
 
                         <ImageButton
                             android:id="@+id/imageButtonPhoto"
@@ -97,6 +141,7 @@
                     android:id="@+id/textView7"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
+                    android:layout_marginTop="15dp"
                     android:gravity="center_vertical"
                     android:text="Date de fin de validité"
                     android:textStyle="bold" />
@@ -122,12 +167,20 @@
                         android:cropToPadding="true"
                         android:src="@drawable/ic_baseline_calendar_today_24" />
 
+                    <ImageButton
+                        android:id="@+id/imageButtonDeleteEcheance"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:cropToPadding="true"
+                        android:src="@drawable/ic_baseline_clear_24" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
 
                     <Switch
                         android:id="@+id/switchAlarm"
@@ -140,7 +193,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp">
 
                         <TextView
                             android:id="@+id/textView35"
@@ -166,6 +220,7 @@
                     android:id="@+id/textView15"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
+                    android:layout_marginTop="15dp"
                     android:gravity="center_vertical"
                     android:text="Date du dernier déchargement"
                     android:textStyle="bold" />
@@ -191,12 +246,45 @@
                         android:cropToPadding="true"
                         android:src="@drawable/ic_baseline_calendar_today_24" />
 
+                    <ImageButton
+                        android:id="@+id/imageButtonDeleteVidage"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:cropToPadding="true"
+                        android:src="@drawable/ic_baseline_clear_24" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:id="@+id/textView53"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:text="Prochain déchargement\navant le : " />
+
+                    <TextView
+                        android:id="@+id/tvDateProchainDechargement"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/bg_rectangle_order"
+                        android:gravity="center"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
 
                     <Switch
                         android:id="@+id/switchAlarm2"
@@ -209,7 +297,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp">
 
                         <TextView
                             android:id="@+id/textView351"

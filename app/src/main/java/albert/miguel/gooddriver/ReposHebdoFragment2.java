@@ -17,9 +17,11 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -32,16 +34,24 @@ public class ReposHebdoFragment2 extends Fragment {
 
     ImageButton imageButtonDateDebut,imageButtonHeureDebut,imageButtonDeleteDebut,imageButtonDateFin, imageButtonHeureFin,
             imageButtonDeleteFin;
-    Context context;
-    TextView tVDateDebut,tVDateFin,tvHeureDebut, tvHeureFin, tvResultatDifference, tvBilan,textView10;
-    Calendar now, debut, calFin;
-    SharedPreferences.Editor editorReposHebdo2;
+    static Context context;
+    static TextView tVDateDebut;
+    static TextView tVDateFin;
+    static TextView tvHeureDebut;
+    static TextView tvHeureFin;
+    static TextView tvResultatDifference;
+    static TextView tvBilan;
+    static TextView textView10;
+    Calendar now;
+    static Calendar debut;
+    static Calendar calFin;
+    static SharedPreferences.Editor editorReposHebdo2;
     private AdView mPublisherAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = Objects.requireNonNull(container).getContext();
-        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo2", MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo", MODE_PRIVATE);
         editorReposHebdo2 = pref.edit();
         debut = Calendar.getInstance();
         calFin = Calendar.getInstance();
@@ -81,7 +91,9 @@ public class ReposHebdoFragment2 extends Fragment {
         imageButtonDeleteDebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 deleteDateDebut();
+                ReposHebdoFragment1.deleteDateDebut();
             }
         });
         imageButtonDateFin.setOnClickListener(new View.OnClickListener() {
@@ -137,13 +149,25 @@ public class ReposHebdoFragment2 extends Fragment {
     }
 
     @Override
+    public void setMenuVisibility(boolean isvisible) {
+        super.setMenuVisibility(isvisible);
+        if (isvisible){
+            //testSiDonneeEnregistrees();
+            //Toast.makeText(getView().getContext(), "ReposHebdoFragment2 is visible", Toast.LENGTH_SHORT).show();
+        }else {
+            Log.d("ReposHebdoFragment1", "ReposHebdoFragment2 is not visible ");
+            //Toast.makeText(context, "ReposHebdoFragment2 is not visible", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         Log.e("Frontales", "Pause");
     }
 
-    void testSiDonneeEnregistrees() {
-        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo2", MODE_PRIVATE);
+    static void testSiDonneeEnregistrees() {
+        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo", MODE_PRIVATE);
         editorReposHebdo2 = pref.edit();
         int monthDebut = pref.getInt("key_Debut_Month", 0);
         int yearDebut = pref.getInt("key_Debut_Year", 0);
@@ -204,14 +228,14 @@ public class ReposHebdoFragment2 extends Fragment {
         return "Worng Day";
     }
 
-    private String formatMilliSecondsToTimeSansSeconds(long milliseconds) {
+    private static String formatMilliSecondsToTimeSansSeconds(long milliseconds) {
 
         int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
         int hours = (int) ((milliseconds / (1000 * 60 * 60)) );
         return twoDigitString(hours) + ":" + twoDigitString(minutes) ;
     }
 
-    private String twoDigitString(long number) {
+    private static String twoDigitString(long number) {
 
         if (number == 0) {
             return "00";
@@ -420,8 +444,8 @@ public class ReposHebdoFragment2 extends Fragment {
         calculDifference();
     }
 
-    private void calculDifference() {
-        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo2", MODE_PRIVATE);
+    private static void calculDifference() {
+        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo", MODE_PRIVATE);
         editorReposHebdo2 = pref.edit();
         calFin = Calendar.getInstance();
         int monthFin = pref.getInt("key_Fin_Month", 0);

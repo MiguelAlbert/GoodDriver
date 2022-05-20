@@ -65,8 +65,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         //---PendingIntent to launch activity if the user selects
         // the notification---
         Intent notificationIntent = new Intent(context, MainActivity.class);
-
-        notificationIntent.putExtra("mText", info);
+        notificationIntent.putExtra("fragment", "amplitude");
 
         PendingIntent contentIntent = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -76,14 +75,14 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         //create the notification
-        Notification notif = new NotificationCompat.Builder(context, AmplitudeFragment.id)
+        Notification notif = new NotificationCompat.Builder(context, AmplitudeFragment.id1)
                 .setSmallIcon(R.drawable.ic_logo)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_logo))
                 .setWhen(System.currentTimeMillis()) //When the event occurred, now, since noti are stored by time.
                 .setContentTitle(Titre) //Title message top row.
                 .setContentText("Fin d'amplitude de " + tempsAmplitude +" heures dans " +temps + " mn à " + heurefin) //message when looking at the notification, second row
                 .setContentIntent(contentIntent) //what activity to open.
-                .setChannelId(AmplitudeFragment.id)
+                .setChannelId(AmplitudeFragment.id1)
                 .setSound(alarmSound)
                 .setAutoCancel(true) //allow auto cancel when pressed.
                 .build(); //finally build and return a Notification.

@@ -65,9 +65,11 @@ public class ViewPagerReposHebdo extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition() == 0){
                     //Toast.makeText(context, "View selected 0", Toast.LENGTH_SHORT).show();
+                    ReposHebdoFragment1.testSiDonneeEnregistrees();
                 }
                 if(tab.getPosition() == 1) {
-
+                    //Toast.makeText(context, "View selected 1", Toast.LENGTH_SHORT).show();
+                    ReposHebdoFragment2.testSiDonneeEnregistrees();
                 }
             }
 

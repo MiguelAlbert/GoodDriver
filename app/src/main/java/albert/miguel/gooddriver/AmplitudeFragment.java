@@ -78,7 +78,8 @@ public class AmplitudeFragment extends Fragment {
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
 
-    public static String id = "test_channel_01";
+    public static String id1 = "test_channel_01";
+    public static String id = "test_channel_boot";
     public static final String ACTION = "miguel.albert.AlarmManager.myAction";
     final int[] checkedItem = {-1};
     private static final String TAG_MY_FRAGMENT = "myFragment";
@@ -183,7 +184,6 @@ public class AmplitudeFragment extends Fragment {
                             disableSelected(false);
                         }
 
-
                     }
 
                 } else {
@@ -216,6 +216,7 @@ public class AmplitudeFragment extends Fragment {
 
     @Override
     public void onResume() {
+        createchannel();
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         booleanalarm = pref.getBoolean("Key_alarm",false);
@@ -765,7 +766,7 @@ public class AmplitudeFragment extends Fragment {
     private void createchannel() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationChannel mChannel = new NotificationChannel(id,
+            NotificationChannel mChannel = new NotificationChannel(id1,
                     getString(R.string.channel_name),  //name of the channel
                     NotificationManager.IMPORTANCE_DEFAULT);   //importance level
             //important level: default is is high on the phone.  high is urgent on the phone.  low is medium, so none is low?

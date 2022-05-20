@@ -19,10 +19,12 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -36,14 +38,24 @@ import java.util.TimerTask;
 public class ReposHebdoFragment1 extends Fragment {
 
     ImageButton imageButtonDateDebut,imageButtonHeureDebut,imageButtonDeleteDebut;
-    Context context;
-    TextView tvDateReposReduit, tvHeureReposReduit, tvTempsRestantReduit, tvDateReposNormal,
-            tvHeureReposNormal, tvTempsRestantNormal,tVDateDebut,
-            tvHeureDebut;
-    ProgressBar progressBar24, progressBar45;
-    Calendar now, debut, debutAdd24, debutAdd45, calFin;
+    static Context context;
+    static TextView tvDateReposReduit;
+    static TextView tvHeureReposReduit;
+    static TextView tvTempsRestantReduit;
+    static TextView tvDateReposNormal;
+    static TextView tvHeureReposNormal;
+    static TextView tvTempsRestantNormal;
+    static TextView tVDateDebut;
+    static TextView tvHeureDebut;
+    static ProgressBar progressBar24;
+    static ProgressBar progressBar45;
+    Calendar now;
+    static Calendar debut;
+    static Calendar debutAdd24;
+    static Calendar debutAdd45;
+    Calendar calFin;
     private Timer timer;
-    SharedPreferences.Editor editorReposHebdo;
+    static SharedPreferences.Editor editorReposHebdo;
     private AdView mPublisherAdView;
 
     @Override
@@ -113,6 +125,21 @@ public class ReposHebdoFragment1 extends Fragment {
         return v;
     }
 
+
+    @Override
+    public void setMenuVisibility(boolean isvisible) {
+        super.setMenuVisibility(isvisible);
+        if (isvisible){
+            Log.d("ReposHebdoFragment1", "ReposHebdoFragment1 is visible ");
+            //testSiDonneeEnregistrees();
+            //Toast.makeText( getView().getContext(), "ReposHebdoFragment1 is visible", Toast.LENGTH_SHORT).show();
+        }else {
+            Log.d("ReposHebdoFragment1", "ReposHebdoFragment1 is not visible ");
+            //testSiDonneeEnregistrees();
+            //Toast.makeText(getContext(), "ReposHebdoFragment1 is not visible", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -126,7 +153,7 @@ public class ReposHebdoFragment1 extends Fragment {
         Log.e("Frontales", "Pause");
     }
 
-    public void testSiDonneeEnregistrees() {
+    public static void testSiDonneeEnregistrees() {
         SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo", MODE_PRIVATE);
         editorReposHebdo = pref.edit();
         int monthDebut = pref.getInt("key_Debut_Month", 0);
@@ -263,19 +290,19 @@ public class ReposHebdoFragment1 extends Fragment {
         return "Worng Day";
     }
 
-    private String formatMilliSecondsToTime(long milliseconds) {
+    private static String formatMilliSecondsToTime(long milliseconds) {
 
         int seconds = (int) (milliseconds / 1000) % 60;
         int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
         int hours = (int) ((milliseconds / (1000 * 60 * 60)) );
         return twoDigitString(hours) + ":" + twoDigitString(minutes) + ":" + twoDigitString(seconds);
     }
-    private int formatMilliSecondsToHours(long milliseconds) {
+    private static int formatMilliSecondsToHours(long milliseconds) {
 
         int hours = (int) ((milliseconds / (1000 * 60 * 60)) );
         return hours ;
     }
-    private String twoDigitString(long number) {
+    private static String twoDigitString(long number) {
 
         if (number == 0) {
             return "00";
@@ -304,7 +331,7 @@ public class ReposHebdoFragment1 extends Fragment {
         },0,1000);
     }
 
-    private void refreshUI() {
+    private static void refreshUI() {
         Calendar maintenant = Calendar.getInstance();
         long milliSeconds1 = debutAdd24.getTimeInMillis();
         long milliSeconds2 = maintenant.getTimeInMillis();
@@ -355,7 +382,7 @@ public class ReposHebdoFragment1 extends Fragment {
         Log.d("Tag", "FragmentA.onDestroyView() has been called.");
     }
 
-    private void add45hour() {
+    private static void add45hour() {
         //Calendar maintenant = Calendar.getInstance();
         debutAdd45 = (Calendar) debut.clone();
         debutAdd45.add(debut.HOUR_OF_DAY, 45);
@@ -367,7 +394,7 @@ public class ReposHebdoFragment1 extends Fragment {
         refreshUI();
     }
 
-    private void add24hour() {
+    private static void add24hour() {
         //Calendar maintenant = Calendar.getInstance();
         //maintenant.set(Calendar.SECOND, 1);
         debutAdd24 = (Calendar) debut.clone();
@@ -381,7 +408,7 @@ public class ReposHebdoFragment1 extends Fragment {
     }
 
 
-    private void deleteDateDebut() {
+    static void deleteDateDebut() {
         tVDateDebut.setText("");
         tvHeureDebut.setText("");
         tvDateReposReduit.setText("");
