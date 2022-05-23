@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F4EDED"
+        android:padding="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="Les frais de repas se décompose en 2 catégories, les frais de déplacement dîner et les frais de déplacement déjeuner. Les montants sont les mêmes pour les deux indemnités de déplacement, la différence est sur leur condition d’obtention."
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView55"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="Dîner: le dîner est un frais de déplacement que les conducteurs obtiennent s’ils ont été en poste sur l’intervalle de 18:45 à 21:15. Si leur amplitude couvre cet intervalle de temps, l’ouvrier roulant à le droit à un repas dîner"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView56"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="Déjeuner : le déjeuner est un frais de déplacement qui s’obtient en ayant été en poste sur la plage horaire de 11:45 à 14:15.  Dans le cas où l’amplitude du conducteur englobe cet espace temps, le routier aura le droit à l’obtention de cette indemnité de déplacement. Contrairement au repas unique de nuit, les dîners, déjeuner et casse-croute peuvent se cumuler."
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView57"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text=" Un conducteur peut donc prendre son poste à 18:30 puis finir son amplitude à 6:00 et aura donc le droit à un dîner ainsi qu’un petit déjeuner."
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView48"
+            android:layout_width="match_parent"
+            android:layout_height="450dp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

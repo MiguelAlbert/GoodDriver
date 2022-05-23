@@ -17,6 +17,7 @@
     <string name="channel_name">Channel Amplitude</string>
     <string name="channel_name2">Channel Carte échéance</string>
     <string name="channel_name3">Channel Carte vidage</string>
+    <string name="channel_name4">Channel Boot</string>
     <string name="channel_description">Sur ce canal, vous recevrez un message avant la fin de votre amplitude</string>
     <string name="notification_time">15 mn avant.</string>
     <string name="conuiteSup10h">Déjà 2 conduites de + de 9h</string>
@@ -46,5 +47,6 @@
     <string name="button_pow"> ^ </string>
     <string name="error">Error</string>
     <string name="backspace">Backspace</string>
+
 
 </resources>

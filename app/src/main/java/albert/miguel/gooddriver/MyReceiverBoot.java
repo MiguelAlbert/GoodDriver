@@ -58,4 +58,6 @@ public class MyReceiverBoot extends BroadcastReceiver {
         mManager.notify(1000, notif);  //and if we want different notifications, use notiID here instead of 1.
     }
 
+
+
 }

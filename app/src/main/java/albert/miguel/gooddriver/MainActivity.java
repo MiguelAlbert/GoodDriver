@@ -2,10 +2,12 @@ package albert.miguel.gooddriver;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         loadAdd();
         consentement();
+        createchannel();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -87,6 +90,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void createchannel() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel mChannel = new NotificationChannel(AmplitudeFragment.id,
+                    getString(R.string.channel_name4),  //name of the channel
+                    NotificationManager.IMPORTANCE_DEFAULT);   //importance level
+            //important level: default is is high on the phone.  high is urgent on the phone.  low is medium, so none is low?
+            // Configure the notification channel.
+            mChannel.setDescription(getString(R.string.channel_description));
+            mChannel.enableLights(true);
+            // Sets the notification light color for notifications posted to this channel, if the device supports this feature.
+            mChannel.setLightColor(Color.RED);
+            mChannel.enableVibration(true);
+            mChannel.setShowBadge(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            nm.createNotificationChannel(mChannel);
+
+        }
     }
 
     private void consentement() {
@@ -252,6 +275,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ViewPagerVitesseMoyenne ViewPagerVitesseMoyenne = (ViewPagerVitesseMoyenne) getSupportFragmentManager().findFragmentByTag("Vitesse_fragment");
         CalculPalettes CalculPalettes = (CalculPalettes) getSupportFragmentManager().findFragmentByTag("Palettes_fragment");
         CarteFragment CarteFragment = (CarteFragment) getSupportFragmentManager().findFragmentByTag("Carte_fragment");
+        FraisFragment FraisFragment = (FraisFragment) getSupportFragmentManager().findFragmentByTag("Frais_fragment");
 
         if (AmplitudeFragment != null && AmplitudeFragment.isVisible()) {
             MainFragment MainFragment = new MainFragment();
@@ -325,6 +349,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }transaction.commit();
         }else if(CarteFragment != null && CarteFragment.isVisible()){
+            MainFragment MainFragment = new MainFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, MainFragment,"TAG_Carte"); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }transaction.commit();
+        }else if(FraisFragment != null && FraisFragment.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment,"TAG_Carte"); // give your fragment container id in first parameter

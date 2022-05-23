@@ -165,7 +165,7 @@ public class AlarmService extends BroadcastReceiver {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         //create the notification
         Notification notif = new NotificationCompat.Builder(context, CarteFragment.id2)
-                .setSmallIcon(R.drawable.ic_baseline_more_time_24)
+                .setSmallIcon(R.drawable.ic_baseline_clear_24)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_baseline_access_time_24))
                 .setWhen(System.currentTimeMillis()) //When the event occurred, now, since noti are stored by time.
                 .setContentTitle("GoodDriver - Validité de carte") //Title message top row.
@@ -198,7 +198,7 @@ public class AlarmService extends BroadcastReceiver {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         //create the notification
         Notification notif = new NotificationCompat.Builder(context, CarteFragment.id3)
-                .setSmallIcon(R.drawable.ic_baseline_more_time_24)
+                .setSmallIcon(android.R.drawable.stat_sys_upload_done)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_baseline_access_time_24))
                 .setWhen(System.currentTimeMillis()) //When the event occurred, now, since noti are stored by time.
                 .setContentTitle("GoodDriver - Vidage de carte") //Title message top row.

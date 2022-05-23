@@ -51,7 +51,7 @@ public class ReposHebdoFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = Objects.requireNonNull(container).getContext();
-        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo", MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo2", MODE_PRIVATE);
         editorReposHebdo2 = pref.edit();
         debut = Calendar.getInstance();
         calFin = Calendar.getInstance();
@@ -167,7 +167,7 @@ public class ReposHebdoFragment2 extends Fragment {
     }
 
     static void testSiDonneeEnregistrees() {
-        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo", MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo2", MODE_PRIVATE);
         editorReposHebdo2 = pref.edit();
         int monthDebut = pref.getInt("key_Debut_Month", 0);
         int yearDebut = pref.getInt("key_Debut_Year", 0);
@@ -445,7 +445,7 @@ public class ReposHebdoFragment2 extends Fragment {
     }
 
     private static void calculDifference() {
-        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo", MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences("PrefReposHebdo2", MODE_PRIVATE);
         editorReposHebdo2 = pref.edit();
         calFin = Calendar.getInstance();
         int monthFin = pref.getInt("key_Fin_Month", 0);

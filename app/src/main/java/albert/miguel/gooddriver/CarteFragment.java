@@ -28,6 +28,7 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -354,7 +355,7 @@ public class CarteFragment extends Fragment {
                     for (int i = 0; i < items.size(); i++) {
                         TextBlock myItem = items.valueAt(i);
                         sb.append(myItem.getValue());
-                        sb.append("\n");
+                        sb.append(" ");
                     }
 
                     //set text to edit text
@@ -396,7 +397,7 @@ public class CarteFragment extends Fragment {
     private void selectTimeRappelVidage() {
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
         editor = pref.edit();
-        int dureeRappel = pref.getInt("key_duree_rappel_vidage", 0);
+        int dureeRappel = pref.getInt("key_duree_rappel_vidage", 2);
         // AlertDialog builder instance to build the alert dialog
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         // set the custom icon to the alert dialog
@@ -406,7 +407,7 @@ public class CarteFragment extends Fragment {
         alertDialog.setSingleChoiceItems(listItems2, dureeRappel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                checkedItem2[0] = which;
+                checkedItem2[2] = which;
                 tvNotificationTimeBeforeEnd.setText(listItems2[which] + " avant.");
                 editor.putInt("key_duree_rappel_vidage",which );
                 editor.apply(); // commit changes
@@ -426,7 +427,7 @@ public class CarteFragment extends Fragment {
         int dayOfMonthDebut = pref.getInt("key_Echeance_Day", 0);
         int dureeRappel = pref.getInt("key_duree_rappel_echeance", 0);
         tvNotificationTimeBefore.setText(listItems[dureeRappel] + " avant.");
-        int dureeRappel2 = pref.getInt("key_duree_rappel_vidage", 0);
+        int dureeRappel2 = pref.getInt("key_duree_rappel_vidage", 2);
         tvNotificationTimeBeforeEnd.setText(listItems2[dureeRappel2] + " avant.");
         if(monthDebut == 0 && yearDebut == 0 && dayOfMonthDebut == 0) {
             tvDateEcheance.setText("");
@@ -764,18 +765,32 @@ public class CarteFragment extends Fragment {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        finEcheance.set(Calendar.YEAR, yearDebut);
-                        finEcheance.set(Calendar.MONTH, monthDebut);
-                        finEcheance.set(Calendar.DAY_OF_MONTH, dayOfMonthDebut);
-                        int NomduJour = finEcheance.get(Calendar.DAY_OF_WEEK);
-                        editor.putInt("key_Echeance_Year",year );  // Saving int
-                        editor.putInt("key_Echeance_Month",month );  // Saving int
-                        editor.putInt("key_Echeance_Day",day );  // Saving int// Saving int
-                        editor.apply();// commit changes
-                        tvDateEcheance.setText(getDayName(NomduJour-1) + "\n" + String.format("%02d/%02d/%02d",day,(month+1),year));
+                        finEcheance.set(Calendar.YEAR, year);
+                        finEcheance.set(Calendar.MONTH, month);
+                        finEcheance.set(Calendar.DAY_OF_MONTH, day);
+                        finEcheance.set(Calendar.HOUR_OF_DAY, 0);
+                        finEcheance.set(Calendar.MINUTE, 0);
+                        finEcheance.set(Calendar.SECOND, 0);
+                        finEcheance.set(Calendar.MILLISECOND,0);
+                        //initiation du calendrier du jour actuel
+                        Calendar now = Calendar.getInstance();
+                        now.set(Calendar.HOUR_OF_DAY, 0);
+                        now.set(Calendar.MINUTE, 0);
+                        now.set(Calendar.SECOND, 0);
+                        now.set(Calendar.MILLISECOND,0);
+                        if (finEcheance.compareTo(now) >= 0){
+                            int NomduJour = finEcheance.get(Calendar.DAY_OF_WEEK);
+                            editor.putInt("key_Echeance_Year",year );  // Saving int
+                            editor.putInt("key_Echeance_Month",month );  // Saving int
+                            editor.putInt("key_Echeance_Day",day );  // Saving int// Saving int
+                            editor.apply();// commit changes
+                            tvDateEcheance.setText(getDayName(NomduJour-1) + "\n" + String.format("%02d/%02d/%02d",day,(month+1),year));
+                        } else {
+                            tvDateEcheance.setText("");
+                            Toast.makeText(context, "La date de l'échéance doit être supérieure à la date du jour" + booleanalarm, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }, yearDebut, monthDebut, dayOfMonthDebut);
-
         datePickerDialog.show();
     }
 
@@ -802,23 +817,38 @@ public class CarteFragment extends Fragment {
                         dateDechargement.set(Calendar.MONTH, month);
                         dateDechargement.set(Calendar.YEAR, year);
                         dateDechargement.set(Calendar.DAY_OF_MONTH, day);
-                        int NomduJour = dateDechargement.get(Calendar.DAY_OF_WEEK);
-                        editor.putInt("key_dechargement_Year",year );  // Saving int
-                        editor.putInt("key_dechargement_Month",month );  // Saving int
-                        editor.putInt("key_dechargement_Day",day );  // Saving int// Saving int
-                        editor.apply();// commit changes
-                        tvDateDechargement.setText(getDayName(NomduJour-1) + "\n" + String.format("%02d/%02d/%02d",day,(month+1),year));
-                        dateDechargement.add(Calendar.DAY_OF_MONTH, 28);
-                        int yearFinD = dateDechargement.get(Calendar.YEAR);
-                        int monthFinD = dateDechargement.get(Calendar.MONTH);
-                        int dayofmonthFinD = dateDechargement.get(Calendar.DAY_OF_MONTH);
-                        int nomdujourFinD = dateDechargement.get(Calendar.DAY_OF_WEEK);
-                        editor.putInt("key_fin_dechargement_Year",yearFinD );  // Saving int
-                        editor.putInt("key_fin_dechargement_Month",monthFinD );  // Saving int
-                        editor.putInt("key_fin_dechargement_Day",dayofmonthFinD );  // Saving int// Saving int
-                        editor.apply();// commit changes
-                        tvDateProchainDechargement.setText(getDayName(nomdujourFinD-1) + "\n" + String.format("%02d/%02d/%02d",dayofmonthFinD,(monthFinD+1),yearFinD));
-
+                        dateDechargement.set(Calendar.HOUR_OF_DAY, 0);
+                        dateDechargement.set(Calendar.MINUTE, 0);
+                        dateDechargement.set(Calendar.SECOND, 0);
+                        dateDechargement.set(Calendar.MILLISECOND, 0);
+                        Calendar now = Calendar.getInstance();
+                        now.set(Calendar.HOUR_OF_DAY, 0);
+                        now.set(Calendar.MINUTE, 0);
+                        now.set(Calendar.SECOND, 0);
+                        now.set(Calendar.MILLISECOND,0);
+                        if (dateDechargement.compareTo(now) <= 0) {
+                            int NomduJour = dateDechargement.get(Calendar.DAY_OF_WEEK);
+                            editor.putInt("key_dechargement_Year",year );  // Saving int
+                            editor.putInt("key_dechargement_Month",month );  // Saving int
+                            editor.putInt("key_dechargement_Day",day );  // Saving int// Saving int
+                            editor.apply();// commit changes
+                            tvDateDechargement.setText(getDayName(NomduJour-1) + "\n" + String.format("%02d/%02d/%02d",day,(month+1),year));
+                            //échéance déchargement
+                            dateDechargement.add(Calendar.DAY_OF_MONTH, 28);
+                            int yearFinD = dateDechargement.get(Calendar.YEAR);
+                            int monthFinD = dateDechargement.get(Calendar.MONTH);
+                            int dayofmonthFinD = dateDechargement.get(Calendar.DAY_OF_MONTH);
+                            int nomdujourFinD = dateDechargement.get(Calendar.DAY_OF_WEEK);
+                            editor.putInt("key_fin_dechargement_Year",yearFinD );  // Saving int
+                            editor.putInt("key_fin_dechargement_Month",monthFinD );  // Saving int
+                            editor.putInt("key_fin_dechargement_Day",dayofmonthFinD );  // Saving int// Saving int
+                            editor.apply();// commit changes
+                            tvDateProchainDechargement.setText(getDayName(nomdujourFinD-1) + "\n" + String.format("%02d/%02d/%02d",dayofmonthFinD,(monthFinD+1),yearFinD));
+                        } else {
+                            tvDateDechargement.setText("");
+                            tvDateProchainDechargement.setText("");
+                            Toast.makeText(context, "La date de déchargement doit être supérieure ou égale à la date du jour" + booleanalarm, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }, yearDebut, monthDebut, dayOfMonthDebut);
 

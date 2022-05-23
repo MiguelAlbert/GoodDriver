@@ -42,6 +42,13 @@
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_conduite_continue.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_conduite_hebdomadaire.xml" value="0.22" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_conduite_journaliere.xml" value="0.19739583333333333" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_frais_cc.xml" value="0.15256410256410258" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_frais_etranger.xml" value="0.15256410256410258" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_frais_grd.xml" value="0.30512820512820515" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_frais_montants.xml" value="0.33" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_frais_rpa.xml" value="0.25" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_frais_rpu.xml" value="0.15256410256410258" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_frais_run.xml" value="0.25" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_pause_cc.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_repos_hebdo.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_repos_hebdo_normal.xml" value="0.19739583333333333" />
@@ -63,6 +70,7 @@
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_calculatrice_temps.xml" value="0.16196581196581197" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_calculatrice_temps2.xml" value="0.15256410256410258" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_carte.xml" value="0.25" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_fraisdeplacement.xml" value="0.15256410256410258" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_gallery.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/fragment_palettes.xml" value="0.25" />

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F4EDED"
+        android:padding="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="C’est le cas si le conducteur ne peut pas rentrer à son domicile entre deux prises de poste. \nDans ce cadre, il cumule l’indemnité de découcher + 1 ou 2 repas.\n\nLa différence entre 1 ou 2 repas varient en fonction des horaires :\n\n1 repas : vous roulez de jour et revenez à votre point initial le lendemain avant 14h15. \nSi vous roulez de nuit, vous devez revenir à votre point initial avant 21h15. \n\n2 repas : c'est le cas inverse. Autrement dit, vous rentrez au point initial après 14h15 (travail de jour) ou 21h15 (travail de nuit).\n\nDans les deux cas, le petit-déjeuner est compris."
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView48"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
