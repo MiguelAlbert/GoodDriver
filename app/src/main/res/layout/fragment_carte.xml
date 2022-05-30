@@ -182,7 +182,7 @@
                     android:orientation="vertical"
                     android:paddingTop="10dp">
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchAlarm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -286,7 +286,7 @@
                     android:orientation="vertical"
                     android:paddingTop="10dp">
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchAlarm2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

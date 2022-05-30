@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.navigation.NavigationView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +34,11 @@ public class SemaineFragment extends Fragment {
 
         return v;
     }
-
+    @Override
+    public void onResume() {
+        NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_semaines).setChecked(true);
+        super.onResume();
+    }
 
 }

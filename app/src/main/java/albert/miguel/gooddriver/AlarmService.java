@@ -165,11 +165,14 @@ public class AlarmService extends BroadcastReceiver {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         //create the notification
         Notification notif = new NotificationCompat.Builder(context, CarteFragment.id2)
-                .setSmallIcon(R.drawable.ic_baseline_clear_24)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_baseline_access_time_24))
+                //.setSmallIcon(R.drawable.ic_logo)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_logo))
                 .setWhen(System.currentTimeMillis()) //When the event occurred, now, since noti are stored by time.
                 .setContentTitle("GoodDriver - Validité de carte") //Title message top row.
-                .setContentText("Votre carte tachygraphe va le expirer "+ twoDigitString(dayOfMonthEcheance)+ "/" + twoDigitString(monthEcheance+1) + "/"+ twoDigitString(yearEcheance)) //message when looking at the notification, second row
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Votre carte tachygraphe va le expirer "+ twoDigitString(dayOfMonthEcheance)+ "/" + twoDigitString(monthEcheance+1) + "/"+ twoDigitString(yearEcheance)))
+                //.setContentText("Votre carte tachygraphe va le expirer "+ twoDigitString(dayOfMonthEcheance)+ "/" + twoDigitString(monthEcheance+1) + "/"+ twoDigitString(yearEcheance)) //message when looking at the notification, second row
                 .setContentIntent(contentIntent) //what activity to open.
                 .setChannelId(CarteFragment.id2)
                 .setSound(alarmSound)
@@ -186,7 +189,7 @@ public class AlarmService extends BroadcastReceiver {
         //---PendingIntent to launch activity if the user selects
         // the notification---
         Intent notificationIntent = new Intent(context, MainActivity.class);
-        notificationIntent.putExtra("fragment", "carte");
+        notificationIntent.putExtra("fragment", "amplitude");
         //notificationIntent.putExtra("mText", info);
 
         PendingIntent contentIntent = null;
@@ -198,11 +201,14 @@ public class AlarmService extends BroadcastReceiver {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         //create the notification
         Notification notif = new NotificationCompat.Builder(context, CarteFragment.id3)
-                .setSmallIcon(android.R.drawable.stat_sys_upload_done)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_baseline_access_time_24))
+                //.setSmallIcon(R.drawable.ic_logo)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_logo))
                 .setWhen(System.currentTimeMillis()) //When the event occurred, now, since noti are stored by time.
                 .setContentTitle("GoodDriver - Vidage de carte") //Title message top row.
-                .setContentText("Déchargez votre carte avant le : "+ twoDigitString(dayOfMonthProchainVidage)+ "/" + twoDigitString(monthProchainVidage + 1) + "/"+ twoDigitString(yearProchainVidage)) //message when looking at the notification, second row
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Déchargez votre carte avant le : "+ twoDigitString(dayOfMonthProchainVidage)+ "/" + twoDigitString(monthProchainVidage + 1) + "/"+ twoDigitString(yearProchainVidage)))
+                //.setContentText("Déchargez votre carte avant le : "+ twoDigitString(dayOfMonthProchainVidage)+ "/" + twoDigitString(monthProchainVidage + 1) + "/"+ twoDigitString(yearProchainVidage)) //message when looking at the notification, second row
                 .setContentIntent(contentIntent) //what activity to open.
                 .setChannelId(CarteFragment.id3)
                 .setSound(alarmSound)

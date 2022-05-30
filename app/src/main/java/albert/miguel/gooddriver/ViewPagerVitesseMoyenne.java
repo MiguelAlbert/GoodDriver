@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -36,6 +37,13 @@ public class ViewPagerVitesseMoyenne extends Fragment {
         tabLayout = (TabLayout) v.findViewById(R.id.tab);
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_vitesse).setChecked(true);
+        super.onResume();
     }
 
     @Override

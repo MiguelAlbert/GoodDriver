@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -124,6 +125,13 @@ public class ViewPagerReposHebdo extends Fragment {
             fragmentList.add(fragment);
             fragmentTitles.add(name);
         }
+    }
+
+    @Override
+    public void onResume() {
+        NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_repos_hebdo).setChecked(true);
+        super.onResume();
     }
 
 }

@@ -76,7 +76,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         //create the notification
         Notification notif = new NotificationCompat.Builder(context, AmplitudeFragment.id1)
-                .setSmallIcon(R.drawable.ic_logo)
+                //.setSmallIcon(R.drawable.ic_logo)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_logo))
                 .setWhen(System.currentTimeMillis()) //When the event occurred, now, since noti are stored by time.
                 .setContentTitle(Titre) //Title message top row.

@@ -44,6 +44,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -222,6 +223,8 @@ public class AmplitudeFragment extends Fragment {
         booleanalarm = pref.getBoolean("Key_alarm",false);
         //Toast.makeText(context, "Alarm activée " + booleanalarm, Toast.LENGTH_SHORT).show();
         switchAlarm.setChecked(booleanalarm);
+        NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_amplitude).setChecked(true);
         super.onResume();
     }
 

@@ -571,6 +571,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
             }
         }
+        if (id == R.id.nav_carte) {
+            CarteFragment CarteFragment = new CarteFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, CarteFragment, "Carte_fragment"); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+            transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
+        }
+        if (id == R.id.nav_frais) {
+            FraisFragment FraisFragment = new FraisFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, FraisFragment, "Frais_fragment"); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+            transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
+        }
         if (id == R.id.nav_quit) {
             finish();
         }

@@ -43,6 +43,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.alespero.expandablecardview.ExpandableCardView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -98,6 +99,13 @@ public class ReglementationFragment extends Fragment {
          */
         return v;
 
+    }
+
+    @Override
+    public void onResume() {
+        NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_reglementation).setChecked(true);
+        super.onResume();
     }
 
 }

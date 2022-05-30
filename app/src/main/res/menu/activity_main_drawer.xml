@@ -38,6 +38,14 @@
             android:icon="@drawable/ic_logo"
             android:title="Nombre de palettes" />
         <item
+            android:id="@+id/nav_carte"
+            android:icon="@drawable/ic_logo"
+            android:title="Ma carte tachygraphe" />
+        <item
+            android:id="@+id/nav_frais"
+            android:icon="@drawable/ic_logo"
+            android:title="Frais de déplacement" />
+        <item
             android:id="@+id/nav_quit"
             android:icon="@drawable/ic_logo"
             android:title="Quitter" />

@@ -295,4 +295,5 @@ public class TempsCentiemes extends Fragment {
             i++;
         }return rFinal;
     }
+
 }

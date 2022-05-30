@@ -1,16 +1,13 @@
 package albert.miguel.gooddriver;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
-import static android.os.Build.VERSION.SDK_INT;
+
 
 import android.Manifest;
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,19 +18,15 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -45,18 +38,27 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.android.material.navigation.NavigationView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.Calendar;
 import java.util.Objects;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 
 public class CarteFragment extends Fragment {
@@ -68,30 +70,26 @@ public class CarteFragment extends Fragment {
     TextView tvDateEcheance,tvDateDechargement, tvNotificationTimeBefore, tvNotificationTimeBeforeEnd, tvDateProchainDechargement;
     public static String id2 = "test_channel_02";
     public static String id3 = "test_channel_03";
-    Switch switchAlarm, switchAlarm2;
+    SwitchCompat switchAlarm, switchAlarm2;
     boolean booleanalarm, booleanalarm2;
-    private AlarmManager alarmManager;
-    private PendingIntent pendingIntent;
-    public static int ALARM_TYPE_RTC = 100;
-    public static int ALARM_TYPE_RTC2 = 200;
-    public static final int requestCode = 9998;
     final int[] checkedItem = {-1};
     final String[] listItems = new String[]{"90 jours", "60 jours", "45 jours", "30 jours", "15 jours"};
     final int[] checkedItem2 = {-1};
     final String[] listItems2 = new String[]{"21 jours", "14 jours", "7 jours", "3 jours", "2 jours"};
 
     private ImageView mPreviewIv;
+    PeriodicWorkRequest periodicWorkRequest, periodicWorkRequest2;
 
     //Permission Code
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
     private static final int IMAGE_PICK_GALLERY_CODE = 1000;
     private static final int IMAGE_PICK_CAMERA_CODE = 2001;
-
     String[] cameraPermission;
     String[] storagePermission;
-
     Uri image_uri;
+
+    private AdView mPublisherAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,6 +97,10 @@ public class CarteFragment extends Fragment {
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
         editor = pref.edit();
         View v = inflater.inflate(R.layout.fragment_carte,container,false);
+        mPublisherAdView = v.findViewById(R.id.publisherAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
+
         tvDateEcheance = (TextView) v.findViewById(R.id.tvDateEcheance);
         tvDateEcheance.setOnClickListener(v110 -> selectDate1());
         imageButtonDeleteVidage = (ImageButton) v.findViewById(R.id.imageButtonDeleteVidage);
@@ -121,7 +123,7 @@ public class CarteFragment extends Fragment {
         imageButtonDate2.setOnClickListener(v15 -> selectDate2());
         tvDateDechargement = (TextView) v.findViewById(R.id.tvDateDechargement);
         tvDateDechargement.setOnClickListener(v16 -> selectDate2());
-        switchAlarm = (Switch) v.findViewById(R.id.switchAlarm);
+        switchAlarm = (SwitchCompat) v.findViewById(R.id.switchAlarm);
         switchAlarm.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 SharedPreferences pref1 = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
@@ -147,7 +149,7 @@ public class CarteFragment extends Fragment {
                 }
             }
         });
-        switchAlarm2 = (Switch) v.findViewById(R.id.switchAlarm2);
+        switchAlarm2 = (SwitchCompat) v.findViewById(R.id.switchAlarm2);
         switchAlarm2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 SharedPreferences pref12 = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
@@ -497,6 +499,8 @@ public class CarteFragment extends Fragment {
         } else {
             disableSelected2(true);
         }
+        NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_carte).setChecked(true);
         super.onResume();
     }
 
@@ -559,82 +563,39 @@ public class CarteFragment extends Fragment {
     }
 
     private void setAlarmEcheance() {
-        //get calendar instance to be able to select what time notification should be scheduled
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        //Setting time of the day (8am here) when notification will be sent every day (default)
-
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
         calendar.set(Calendar.HOUR_OF_DAY,8);
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,0);
-        //calendar.add(Calendar.DAY_OF_MONTH, 1);
+        Calendar now = Calendar.getInstance();
+        long diffInMillisec = calendar.getTimeInMillis() - now.getTimeInMillis();
+        long diffInMin = TimeUnit.MILLISECONDS.toMinutes(diffInMillisec);
 
-        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        periodicWorkRequest = new PeriodicWorkRequest.Builder(DailyWorkerEcheanceCarte.class,
+                1 , TimeUnit.DAYS)
+                .setInitialDelay(diffInMin, TimeUnit.MINUTES)
+                .addTag("tag")
+                .build();
 
-        Intent intent = new Intent(context, AlarmService.class);
-        intent.setAction("echeance");
-        intent.putExtra("int_value", 10);
-        //Setting intent to class where Alarm broadcast message will be handled
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork("DailyTask"
+                , ExistingPeriodicWorkPolicy.REPLACE
+                ,periodicWorkRequest);
 
-        if (SDK_INT >= Build.VERSION_CODES.S) {
-            pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_IMMUTABLE |PendingIntent.FLAG_UPDATE_CURRENT);
-            if (alarmManager.canScheduleExactAlarms()){
-                alarmManager.setInexactRepeating(AlarmManager.RTC,
-                        calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-                Toast.makeText(context, "Notification activée", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent i = new Intent();
-                if (SDK_INT >= Build.VERSION_CODES.O) {
-                    i.setAction(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
-                    i.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
-                } else if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-                    i.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-                    i.putExtra("app_package", context.getPackageName());
-                    i.putExtra("app_uid", context.getApplicationInfo().uid);
-                } else {
-                    i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    i.addCategory(Intent.CATEGORY_DEFAULT);
-                    i.setData(Uri.parse("package:" + context.getPackageName()));
-                }
-                startActivity(i);
-            }
-        } else{
-            pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            if (SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setInexactRepeating(AlarmManager.RTC,
-                        calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-            }
-            //Toast.makeText(context, "Notification activée", Toast.LENGTH_SHORT).show();
-        }
-
-        if (SDK_INT >= Build.VERSION_CODES.S) {
-            pendingIntent = PendingIntent.getBroadcast(context, ALARM_TYPE_RTC, intent, PendingIntent.FLAG_IMMUTABLE |PendingIntent.FLAG_UPDATE_CURRENT);
-        } else{
-            pendingIntent = PendingIntent.getBroadcast(context, ALARM_TYPE_RTC, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-        alarmManager.setInexactRepeating(AlarmManager.RTC,
-                calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        Toast.makeText(context, "Notification activée", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Notification échéance activée", Toast.LENGTH_SHORT).show();
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
         editor = pref.edit();
         editor.putBoolean("Key_alarm_echeance", true);
         editor.apply();
+
     }
 
     private void cancelAlarmEcheance() {
-        Intent intent = new Intent(context, AlarmService.class);
-        intent.setAction("echeance");
 
-        if (SDK_INT >= Build.VERSION_CODES.S) {
-            pendingIntent = PendingIntent.getBroadcast(context, ALARM_TYPE_RTC, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_NO_CREATE);
-        } else {
-            pendingIntent = PendingIntent.getBroadcast(context, ALARM_TYPE_RTC, intent,  PendingIntent.FLAG_NO_CREATE);
-        }
-        alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        if(pendingIntent != null) {
-            alarmManager.cancel(pendingIntent);
-            Toast.makeText(context, "Notification supprimée", Toast.LENGTH_SHORT).show();
-        }
+        UUID getId = periodicWorkRequest.getId();
+        WorkManager.getInstance(context).cancelWorkById(getId);
+
+        Toast.makeText(context, "Notification échéance supprimée", Toast.LENGTH_SHORT).show();
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
         editor = pref.edit();
         editor.putBoolean("Key_alarm_echeance", false);
@@ -642,64 +603,26 @@ public class CarteFragment extends Fragment {
     }
 
     private void setAlarmDechargement() {
-        //get calendar instance to be able to select what time notification should be scheduled
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        //Setting time of the day (8am here) when notification will be sent every day (default)
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
         calendar.set(Calendar.HOUR_OF_DAY,8);
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,0);
-        //calendar.add(calendar.DAY_OF_MONTH, 1);
+        Calendar now = Calendar.getInstance();
+        long diffInMillisec = calendar.getTimeInMillis() - now.getTimeInMillis();
+        long diffInMin = TimeUnit.MILLISECONDS.toMinutes(diffInMillisec);
 
+        periodicWorkRequest2 = new PeriodicWorkRequest.Builder(DailyWorkerVidageCarte.class,
+                1 , TimeUnit.DAYS)
+                .setInitialDelay(diffInMin, TimeUnit.MINUTES)
+                .addTag("tag")
+                .build();
 
-
-        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        Intent intent = new Intent(context, AlarmService.class);
-        intent.setAction("vidage");
-        intent.putExtra("int_value", 10);
-        //Setting intent to class where Alarm broadcast message will be handled
-
-        if (SDK_INT >= Build.VERSION_CODES.S) {
-            pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_IMMUTABLE |PendingIntent.FLAG_UPDATE_CURRENT);
-            if (alarmManager.canScheduleExactAlarms()){
-                alarmManager.setInexactRepeating(AlarmManager.RTC,
-                        calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-                Toast.makeText(context, "Notification activée", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent i = new Intent();
-                if (SDK_INT >= Build.VERSION_CODES.O) {
-                    i.setAction(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
-                    i.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
-                } else if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-                    i.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-                    i.putExtra("app_package", context.getPackageName());
-                    i.putExtra("app_uid", context.getApplicationInfo().uid);
-                } else {
-                    i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    i.addCategory(Intent.CATEGORY_DEFAULT);
-                    i.setData(Uri.parse("package:" + context.getPackageName()));
-                }
-                startActivity(i);
-            }
-        } else{
-            pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            if (SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setInexactRepeating(AlarmManager.RTC,
-                        calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-            }
-            //Toast.makeText(context, "Notification activée", Toast.LENGTH_SHORT).show();
-        }
-
-        if (SDK_INT >= Build.VERSION_CODES.S) {
-            pendingIntent = PendingIntent.getBroadcast(context, ALARM_TYPE_RTC2, intent, PendingIntent.FLAG_IMMUTABLE |PendingIntent.FLAG_UPDATE_CURRENT);
-        } else{
-            pendingIntent = PendingIntent.getBroadcast(context, ALARM_TYPE_RTC2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-        alarmManager.setInexactRepeating(AlarmManager.RTC,
-                calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        Toast.makeText(context, "Notification activée", Toast.LENGTH_SHORT).show();
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork("DailyTask"
+                , ExistingPeriodicWorkPolicy.REPLACE
+                ,periodicWorkRequest2);
+        Toast.makeText(context, "Notification déchargement activée", Toast.LENGTH_SHORT).show();
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
         editor = pref.edit();
         editor.putBoolean("Key_alarm_vidage", true);
@@ -707,19 +630,9 @@ public class CarteFragment extends Fragment {
     }
 
     private void cancelAlarmDechargement() {
-        Intent intent = new Intent(context, AlarmService.class);
-        intent.setAction("vidage");
-
-        if (SDK_INT >= Build.VERSION_CODES.S) {
-            pendingIntent = PendingIntent.getBroadcast(context, ALARM_TYPE_RTC2, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_NO_CREATE);
-        } else {
-            pendingIntent = PendingIntent.getBroadcast(context, ALARM_TYPE_RTC2, intent,  PendingIntent.FLAG_NO_CREATE);
-        }
-        alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        if(pendingIntent != null) {
-            alarmManager.cancel(pendingIntent);
-            Toast.makeText(context, "Notification supprimée", Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(context, "Notification déchargement supprimée", Toast.LENGTH_SHORT).show();
+        UUID getId = periodicWorkRequest2.getId();
+        WorkManager.getInstance(context).cancelWorkById(getId);
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
         editor = pref.edit();
         editor.putBoolean("Key_alarm_vidage", false);

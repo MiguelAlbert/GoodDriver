@@ -269,16 +269,16 @@ public class CalculatriceTemps extends Fragment {
                 break;
             case R.id.button_dot:
                 if (operation_string.equals(operator.NULL.name())) {
-                    if (mInputValue1TextView.getText().toString().contains(".")) {
+                    if (mInputValue1TextView.getText().toString().contains("H")) {
                         Toast.makeText(context, "Cannot have more than one decimal point in a number", Toast.LENGTH_LONG).show();
                     } else {
                         mInputValue1TextView.append("H");
                     }
                 } else {
-                    if (mInputValue2TextView.getText().toString().contains(".")) {
+                    if (mInputValue2TextView.getText().toString().contains("H")) {
                         Toast.makeText(context, "Cannot have more than one decimal point in a number", Toast.LENGTH_LONG).show();
                     } else {
-                        mInputValue2TextView.append(".");
+                        mInputValue2TextView.append("H");
                     }
                 }
                 break;
@@ -344,18 +344,6 @@ public class CalculatriceTemps extends Fragment {
                         operation = "";
                         clearAll();
                     }
-                    break;
-                case MOD:
-                    mFinalResultTextView.setText(String.valueOf(mCalculator.modulus(number_one, number_two)));
-                    operation = mInputValue1TextView.getText().toString() + getString(R.string.button_mod) + mInputValue2TextView.getText().toString();
-                    break;
-                case ROOT:
-                    mFinalResultTextView.setText(String.valueOf(mCalculator.squareRoot(number_one, number_two)));
-                    operation = mInputValue1TextView.getText().toString() + getString(R.string.button_root) + mInputValue2TextView.getText().toString();
-                    break;
-                case POW:
-                    mFinalResultTextView.setText(String.valueOf(mCalculator.power(number_one, number_two)));
-                    operation = mInputValue1TextView.getText().toString() + getString(R.string.button_pow) + mInputValue2TextView.getText().toString();
                     break;
                 case NULL:
                     mFinalResultTextView.setText(getString(R.string.error));

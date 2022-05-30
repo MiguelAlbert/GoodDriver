@@ -1,9 +1,15 @@
 package albert.miguel.gooddriver;
 
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.alespero.expandablecardview.ExpandableCardView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
@@ -26,11 +33,14 @@ public class FraisFragment extends Fragment {
     Button button;
     ExpandableCardView card ;
     private AdView mPublisherAdView;
+    private Activity v;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         context = Objects.requireNonNull(container).getContext();
         View v = inflater.inflate(R.layout.fragment_fraisdeplacement,container,false);
+
 
         mPublisherAdView = v.findViewById(R.id.publisherAdView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -60,6 +70,12 @@ public class FraisFragment extends Fragment {
          */
         return v;
 
+    }
+    @Override
+    public void onResume() {
+        NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_frais).setChecked(true);
+        super.onResume();
     }
 
 }

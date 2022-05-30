@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
@@ -99,6 +100,13 @@ public class CalculPalettes extends Fragment {
         });
         testSiValeursEnregistrees();
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.nav_palette).setChecked(true);
+        super.onResume();
     }
 
     private void paletteChange(View v) {
