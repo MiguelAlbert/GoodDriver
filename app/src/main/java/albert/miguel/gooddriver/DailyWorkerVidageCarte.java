@@ -65,7 +65,7 @@ public class DailyWorkerVidageCarte extends Worker {
         long diff = millis2 - millis1;
         differenceDayVidage = (int) (diff / (24 * 60 * 60 * 1000));
 
-        reglagedayVidage = pref.getInt("key_duree_rappel_vidage", 0);
+        reglagedayVidage = pref.getInt("key_duree_rappel_vidage", 2);
         transform2(reglagedayVidage);
 
         if((differenceDayVidage <= reglagedayVidage2) && (differenceDayVidage >= 0)){
@@ -82,7 +82,7 @@ public class DailyWorkerVidageCarte extends Worker {
         //---PendingIntent to launch activity if the user selects
         // the notification---
         Intent notificationIntent = new Intent(context, MainActivity.class);
-        notificationIntent.putExtra("fragment", "amplitude");
+        notificationIntent.putExtra("fragment", "carte");
         //notificationIntent.putExtra("mText", info);
 
         PendingIntent contentIntent = null;
@@ -100,7 +100,7 @@ public class DailyWorkerVidageCarte extends Worker {
                 .setWhen(System.currentTimeMillis()) //When the event occurred, now, since noti are stored by time.
                 .setContentTitle("GoodDriver - Vidage de carte") //Title message top row.
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Déchargez votre carte avant le : "+ twoDigitString(dayOfMonthProchainVidage)+ "/" + twoDigitString(monthProchainVidage + 1) + "/"+ twoDigitString(yearProchainVidage)))
+                        .bigText("Déchargez votre carte avant le : "+ twoDigitString(dayOfMonthProchainVidage)+ "/" + twoDigitString(monthProchainVidage + 1) + "/"+ twoDigitString(yearProchainVidage) +"\n" + differenceDayVidage + " jour(s) restant(s)"))
                 //.setContentText("Déchargez votre carte avant le : "+ twoDigitString(dayOfMonthProchainVidage)+ "/" + twoDigitString(monthProchainVidage + 1) + "/"+ twoDigitString(yearProchainVidage)) //message when looking at the notification, second row
                 .setContentIntent(contentIntent) //what activity to open.
                 .setChannelId(CarteFragment.id3)

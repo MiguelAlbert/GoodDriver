@@ -19,12 +19,10 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -79,7 +77,7 @@ public class ReposHebdoFragment1 extends Fragment {
         progressBar24 = (ProgressBar) v.findViewById(R.id.progressBar24);
         progressBar45 = (ProgressBar) v.findViewById(R.id.progressBar45);
 
-        tvDateReposReduit = (TextView) v.findViewById(R.id.tvNombrePalettes);
+        tvDateReposReduit = (TextView) v.findViewById(R.id.tvReposPalettes);
         tvHeureReposReduit = (TextView) v.findViewById(R.id.tvHeureReposReduit);
         tvTempsRestantReduit = (TextView) v.findViewById(R.id.tvTempsRestantReduit);
         tvDateReposNormal = (TextView) v.findViewById(R.id.tvDateReposNormal);

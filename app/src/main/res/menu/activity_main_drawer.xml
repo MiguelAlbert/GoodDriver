@@ -18,33 +18,38 @@
             android:icon="@drawable/ic_logo"
             android:title="Repos hebdomadaire" />
         <item
-            android:id="@+id/nav_reglementation"
-            android:icon="@drawable/ic_logo"
-            android:title="Réglementation" />
-        <item
             android:id="@+id/nav_semaines"
             android:icon="@drawable/ic_logo"
             android:title="Ma semaine" />
         <item
-            android:id="@+id/nav_vitesse"
+            android:id="@+id/nav_actu"
             android:icon="@drawable/ic_logo"
-            android:title="Vitesse moyenne" />
-        <item
-            android:id="@+id/nav_calculatrice"
-            android:icon="@drawable/ic_logo"
-            android:title="Heures et centièmes" />
-        <item
-            android:id="@+id/nav_palette"
-            android:icon="@drawable/ic_logo"
-            android:title="Nombre de palettes" />
+            android:title="Actualités" />
         <item
             android:id="@+id/nav_carte"
             android:icon="@drawable/ic_logo"
             android:title="Ma carte tachygraphe" />
         <item
+            android:id="@+id/nav_calculatrice"
+            android:icon="@drawable/ic_logo"
+            android:title="Heures et centièmes" />
+        <item
+            android:id="@+id/nav_vitesse"
+            android:icon="@drawable/ic_logo"
+            android:title="Vitesse moyenne" />
+        <item
+            android:id="@+id/nav_palette"
+            android:icon="@drawable/ic_logo"
+            android:title="Nombre de palettes" />
+        <item
+            android:id="@+id/nav_reglementation"
+            android:icon="@drawable/ic_logo"
+            android:title="Réglementation" />
+        <item
             android:id="@+id/nav_frais"
             android:icon="@drawable/ic_logo"
             android:title="Frais de déplacement" />
+
         <item
             android:id="@+id/nav_quit"
             android:icon="@drawable/ic_logo"

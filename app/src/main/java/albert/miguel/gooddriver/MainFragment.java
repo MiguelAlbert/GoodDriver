@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MainFragment extends Fragment {
 
-        Button button1, button2, button3, button4, button5, button6, button7, button8, button9;
+        Button button1, button2, button3, button4, button5, button6, button7, button8, button9, button10;
 
         Activity thisActivity;
         Context context;
@@ -67,9 +67,9 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onClick(View v)
                     {
-                            AmplitudeFragment AmplitudeFragment = new AmplitudeFragment();
+                            ViewPagerAmplitude ViewPagerAmplitude = new ViewPagerAmplitude();
                             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                            transaction.replace(R.id.content_frame, AmplitudeFragment, "Amplitude_fragment"); // give your fragment container id in first parameter
+                            transaction.replace(R.id.content_frame, ViewPagerAmplitude, "Amplitude_fragment"); // give your fragment container id in first parameter
                             transaction.disallowAddToBackStack();
                             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
                             transaction.commit();
@@ -222,6 +222,25 @@ public class MainFragment extends Fragment {
                     FraisFragment FraisFragment = new FraisFragment();
                     FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.content_frame, FraisFragment, "Frais_fragment"); // give your fragment container id in first parameter
+                    transaction.disallowAddToBackStack();
+                    //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+                    transaction.commit();
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.show(thisActivity);
+                    } else {
+                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
+                    }
+                }
+            });
+            button10 = (Button) v.findViewById(R.id.button10);
+            button10.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    ActuWebView ActuWebView = new ActuWebView();
+                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.content_frame, ActuWebView, "Actu_fragment"); // give your fragment container id in first parameter
                     transaction.disallowAddToBackStack();
                     //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
                     transaction.commit();

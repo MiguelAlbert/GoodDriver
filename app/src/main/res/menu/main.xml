@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_share"
+        android:checkable="false"
+        android:checked="false"
+        android:icon="?attr/actionModeShareDrawable"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/action_settings"
         android:checkable="false"
         android:checked="false"

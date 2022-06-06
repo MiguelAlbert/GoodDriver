@@ -93,7 +93,7 @@ public class DailyWorkerEcheanceCarte extends Worker {
                 .setWhen(System.currentTimeMillis()) //When the event occurred, now, since noti are stored by time.
                 .setContentTitle("GoodDriver - Validité de carte") //Title message top row.
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Votre carte tachygraphe va le expirer "+ twoDigitString(dayOfMonthEcheance)+ "/" + twoDigitString(monthEcheance+1) + "/"+ twoDigitString(yearEcheance)))
+                        .bigText("Votre carte tachygraphe va le expirer "+ twoDigitString(dayOfMonthEcheance)+ "/" + twoDigitString(monthEcheance+1) + "/"+ twoDigitString(yearEcheance) +"\n" + differenceDay + " jour(s) restant(s)"))
                 //.setContentText("Votre carte tachygraphe va le expirer "+ twoDigitString(dayOfMonthEcheance)+ "/" + twoDigitString(monthEcheance+1) + "/"+ twoDigitString(yearEcheance)) //message when looking at the notification, second row
                 .setContentIntent(contentIntent) //what activity to open.
                 .setChannelId(CarteFragment.id2)

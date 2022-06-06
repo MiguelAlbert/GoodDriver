@@ -140,7 +140,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvNombrePalettes"
+                            android:id="@+id/tvReposPalettes"
                             android:layout_width="150dp"
                             android:layout_height="50dp"
                             android:background="@drawable/bg_rectangle_order"

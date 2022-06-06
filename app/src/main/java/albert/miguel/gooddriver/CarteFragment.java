@@ -68,6 +68,7 @@ public class CarteFragment extends Fragment {
     EditText etNumeroCarte;
     ImageButton imageButtonPhoto, imageButtonDelete, imageButtonDeleteEcheance, imageButtonDeleteVidage, imageButtonDate1, imageButtonDate2;
     TextView tvDateEcheance,tvDateDechargement, tvNotificationTimeBefore, tvNotificationTimeBeforeEnd, tvDateProchainDechargement;
+    TextView tvValiditeJoursRestants, tvDechargementJoursRestants;
     public static String id2 = "test_channel_02";
     public static String id3 = "test_channel_03";
     SwitchCompat switchAlarm, switchAlarm2;
@@ -89,6 +90,7 @@ public class CarteFragment extends Fragment {
     String[] storagePermission;
     Uri image_uri;
 
+    UUID getId, getId2;
     private AdView mPublisherAdView;
 
     @Override
@@ -111,6 +113,8 @@ public class CarteFragment extends Fragment {
         imageButtonPhoto.setOnClickListener(v17 -> showImageImportDialog());
         tvDateProchainDechargement = (TextView) v.findViewById(R.id.tvDateProchainDechargement);
         tvDateDechargement = (TextView) v.findViewById(R.id.tvDateDechargement);
+        tvValiditeJoursRestants = (TextView) v.findViewById(R.id.tvValiditeJoursRestants);
+        tvDechargementJoursRestants = (TextView) v.findViewById(R.id.tvDechargementJoursRestants);
         tvNotificationTimeBefore = (TextView) v.findViewById(R.id.tvNotificationTimeBefore);
         tvNotificationTimeBefore.setOnClickListener(v1 -> selectTimeRappelValidite());
         tvNotificationTimeBeforeEnd = (TextView) v.findViewById(R.id.tvNotificationTimeBeforeEnd);
@@ -475,6 +479,60 @@ public class CarteFragment extends Fragment {
             int nomdujourFinD = dateProchainVidage.get(Calendar.DAY_OF_WEEK);
             tvDateProchainDechargement.setText(getDayName(nomdujourFinD-1) + "\n" + String.format("%02d/%02d/%02d",dayofmonthFinD,(monthFinD+1),yearFinD));
         }
+        CalculJoursRestantsValidité();
+        CalculJoursRestantsVidage();
+    }
+
+    private void CalculJoursRestantsValidité() {
+        SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
+        editor = pref.edit();
+
+        if(tvDateEcheance.getText() == ""){
+            tvValiditeJoursRestants.setText("");
+        }else {
+            Calendar now = Calendar.getInstance();
+            Calendar DateEcheance = Calendar.getInstance();
+            int yearEcheance = pref.getInt("key_Echeance_Year", 0);
+            int monthEcheance = pref.getInt("key_Echeance_Month", 0);
+            int dayOfMonthEcheance = pref.getInt("key_Echeance_Day", 0);
+            DateEcheance.set(Calendar.YEAR, yearEcheance);
+            DateEcheance.set(Calendar.MONTH, monthEcheance);
+            DateEcheance.set(Calendar.DAY_OF_MONTH, dayOfMonthEcheance);
+
+            long millis1 = now.getTimeInMillis();
+            long millis2 = DateEcheance.getTimeInMillis();
+
+            long diff = millis2 - millis1;
+            int differenceDay = (int) (diff / (24 * 60 * 60 * 1000));
+            tvValiditeJoursRestants.setText(differenceDay + " jour(s) restant(s).");
+        }
+    }
+
+    private void CalculJoursRestantsVidage() {
+        SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
+        editor = pref.edit();
+
+        if(tvDateDechargement.getText() == ""){
+            tvDechargementJoursRestants.setText("");
+        }else {
+            Calendar now = Calendar.getInstance();
+            Calendar DateVidage = Calendar.getInstance();
+            int yearEcheance = pref.getInt("key_dechargement_Year", 0);
+            int monthEcheance = pref.getInt("key_dechargement_Month", 0);
+            int dayOfMonthEcheance = pref.getInt("key_dechargement_Day", 0);
+            DateVidage.set(Calendar.YEAR, yearEcheance);
+            DateVidage.set(Calendar.MONTH, monthEcheance);
+            DateVidage.set(Calendar.DAY_OF_MONTH, dayOfMonthEcheance);
+            DateVidage.add(Calendar.DAY_OF_MONTH, 28);
+
+            long millis1 = now.getTimeInMillis();
+            long millis2 = DateVidage.getTimeInMillis();
+
+            long diff = millis2 - millis1;
+            int differenceDay = (int) (diff / (24 * 60 * 60 * 1000));
+            tvDechargementJoursRestants.setText(differenceDay + " jour(s) restant(s).");
+        }
+
     }
 
     @Override
@@ -575,10 +633,12 @@ public class CarteFragment extends Fragment {
         periodicWorkRequest = new PeriodicWorkRequest.Builder(DailyWorkerEcheanceCarte.class,
                 1 , TimeUnit.DAYS)
                 .setInitialDelay(diffInMin, TimeUnit.MINUTES)
-                .addTag("tag")
+                .addTag("tagEcheance")
                 .build();
 
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork("DailyTask"
+        getId = periodicWorkRequest.getId();
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork("DailyTaskEcheance"
                 , ExistingPeriodicWorkPolicy.REPLACE
                 ,periodicWorkRequest);
 
@@ -586,24 +646,24 @@ public class CarteFragment extends Fragment {
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
         editor = pref.edit();
         editor.putBoolean("Key_alarm_echeance", true);
+        editor.putString("key_uuid", String.valueOf(getId));
         editor.apply();
 
     }
 
     private void cancelAlarmEcheance() {
-
-        UUID getId = periodicWorkRequest.getId();
-        WorkManager.getInstance(context).cancelWorkById(getId);
-
-        Toast.makeText(context, "Notification échéance supprimée", Toast.LENGTH_SHORT).show();
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
+        editor = pref.edit();
+        String UUID_string = pref.getString("key_uuid",null);
+        getId = UUID.fromString(UUID_string);
+        WorkManager.getInstance(context).cancelWorkById(getId);
         editor = pref.edit();
         editor.putBoolean("Key_alarm_echeance", false);
         editor.apply();
+        Toast.makeText(context, "Notification échéance supprimée", Toast.LENGTH_SHORT).show();
     }
 
     private void setAlarmDechargement() {
-
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         calendar.set(Calendar.HOUR_OF_DAY,8);
@@ -616,27 +676,30 @@ public class CarteFragment extends Fragment {
         periodicWorkRequest2 = new PeriodicWorkRequest.Builder(DailyWorkerVidageCarte.class,
                 1 , TimeUnit.DAYS)
                 .setInitialDelay(diffInMin, TimeUnit.MINUTES)
-                .addTag("tag")
+                .addTag("tagDechargement")
                 .build();
-
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork("DailyTask"
+        getId2 = periodicWorkRequest2.getId();
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork("DailyTaskDechargement"
                 , ExistingPeriodicWorkPolicy.REPLACE
                 ,periodicWorkRequest2);
         Toast.makeText(context, "Notification déchargement activée", Toast.LENGTH_SHORT).show();
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
         editor = pref.edit();
+        editor.putString("key_uuid2", String.valueOf(getId2));
         editor.putBoolean("Key_alarm_vidage", true);
         editor.apply();
     }
 
     private void cancelAlarmDechargement() {
-        Toast.makeText(context, "Notification déchargement supprimée", Toast.LENGTH_SHORT).show();
-        UUID getId = periodicWorkRequest2.getId();
-        WorkManager.getInstance(context).cancelWorkById(getId);
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
+        editor = pref.edit();
+        String UUID_string = pref.getString("key_uuid2",null);
+        getId2 = UUID.fromString(UUID_string);
+        WorkManager.getInstance(context).cancelWorkById(getId2);
         editor = pref.edit();
         editor.putBoolean("Key_alarm_vidage", false);
         editor.apply();
+        Toast.makeText(context, "Notification déchargement supprimée", Toast.LENGTH_SHORT).show();
     }
 
     public static String getDayName(int day){
@@ -698,6 +761,7 @@ public class CarteFragment extends Fragment {
                             editor.putInt("key_Echeance_Day",day );  // Saving int// Saving int
                             editor.apply();// commit changes
                             tvDateEcheance.setText(getDayName(NomduJour-1) + "\n" + String.format("%02d/%02d/%02d",day,(month+1),year));
+                            CalculJoursRestantsValidité();
                         } else {
                             tvDateEcheance.setText("");
                             Toast.makeText(context, "La date de l'échéance doit être supérieure à la date du jour" + booleanalarm, Toast.LENGTH_SHORT).show();
@@ -757,6 +821,7 @@ public class CarteFragment extends Fragment {
                             editor.putInt("key_fin_dechargement_Day",dayofmonthFinD );  // Saving int// Saving int
                             editor.apply();// commit changes
                             tvDateProchainDechargement.setText(getDayName(nomdujourFinD-1) + "\n" + String.format("%02d/%02d/%02d",dayofmonthFinD,(monthFinD+1),yearFinD));
+                            CalculJoursRestantsVidage();
                         } else {
                             tvDateDechargement.setText("");
                             tvDateProchainDechargement.setText("");
@@ -768,10 +833,13 @@ public class CarteFragment extends Fragment {
         datePickerDialog.show();
     }
 
+
+
     public void deleteDateEcheance() {
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
         editor = pref.edit();
         tvDateEcheance.setText("");
+        tvValiditeJoursRestants.setText("");
         //Clear only one sharedpreferences
         editor.remove("key_Echeance_Year");
         editor.remove("key_Echeance_Month");
@@ -784,7 +852,7 @@ public class CarteFragment extends Fragment {
         editor = pref.edit();
         tvDateDechargement.setText("");
         tvDateProchainDechargement.setText("");
-
+        tvDechargementJoursRestants.setText("");
         editor.remove("key_fin_dechargement_Year");
         editor.remove("key_fin_dechargement_Month");
         editor.remove("key_fin_dechargement_Day");
@@ -801,30 +869,6 @@ public class CarteFragment extends Fragment {
         //Clear only one sharedpreferences
         editor.remove("key_Numero_Carte");
         editor.apply();
-    }
-
-    public String PerfectDecimal(String str, int MAX_BEFORE_POINT, int MAX_DECIMAL){
-        if(str.charAt(0) == '.') str = "0"+str;
-        int max = str.length();
-
-        String rFinal = "";
-        boolean after = false;
-        int i = 0, up = 0, decimal = 0; char t;
-        while(i < max){
-            t = str.charAt(i);
-            if(t != '.' && after == false){
-                up++;
-                if(up > MAX_BEFORE_POINT) return rFinal;
-            }else if(t == '.'){
-                after = true;
-            }else{
-                decimal++;
-                if(decimal > MAX_DECIMAL)
-                    return rFinal;
-            }
-            rFinal = rFinal + t;
-            i++;
-        }return rFinal;
     }
 
 }

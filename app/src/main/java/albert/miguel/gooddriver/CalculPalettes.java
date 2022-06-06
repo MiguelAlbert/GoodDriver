@@ -62,7 +62,7 @@ public class CalculPalettes extends Fragment {
             }
         });
 
-        tvNombrePalettes = (TextView) v.findViewById(R.id.tvNombrePalettes);
+        tvNombrePalettes = (TextView) v.findViewById(R.id.tvReposPalettes);
         imageButtonDelete = (ImageButton) v.findViewById(R.id.imageButtonDelete);
         imageButtonDelete.setOnClickListener(new View.OnClickListener() {
             @Override

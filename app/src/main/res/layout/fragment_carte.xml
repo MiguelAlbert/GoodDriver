@@ -176,6 +176,12 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tvValiditeJoursRestants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jour(s) restant(s)" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -279,6 +285,12 @@
                         tools:ignore="SpeakableTextPresentCheck" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvDechargementJoursRestants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jour(s) restant(s)" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

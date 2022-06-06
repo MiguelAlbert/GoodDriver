@@ -3,9 +3,10 @@ package albert.miguel.gooddriver;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.POWER_SERVICE;
+import static android.graphics.Color.BLUE;
+import static android.graphics.Color.GREEN;
 import static android.os.Build.VERSION.SDK_INT;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.NotificationChannel;
@@ -60,15 +61,24 @@ import lecho.lib.hellocharts.view.PieChartView;
 
 public class AmplitudeFragment extends Fragment {
 
-    Context context;
-    TextView tVDateDebut,tvHeureDebut, tvTempsServiveNuit, tvNotificationTimeBefore,tvTempsRestant,tvHeureJour,tvDateDuJour,tvDateFinAmplitude,tvHeureFinAmplitude;
-    PieChartView pieChartView;
-    RadioButton radioButton11, radioButton9;
-    SharedPreferences.Editor editor;
+    static Context context;
+    static TextView tVDateDebut;
+    static TextView tvHeureDebut;
+    static TextView tvTempsServiveNuit;
+    static TextView tvNotificationTimeBefore;
+    static TextView tvTempsRestant;
+    static TextView tvPeriodeRisque;
+    static TextView tvPeriodeRisque2;
+    static TextView tvDateFinAmplitude;
+    static TextView tvHeureFinAmplitude;
+    static PieChartView pieChartView;
+    static RadioButton radioButton11;
+    static RadioButton radioButton9;
+    static SharedPreferences.Editor editor;
     ImageButton imageButtonHeure, imageButtonDate, imageButtonDelete;
-    Calendar now = Calendar.getInstance();
-    Calendar calendardebut = now;
-    Calendar calendarfin = now;
+    static Calendar now = Calendar.getInstance();
+    static Calendar calendardebut = now;
+    static Calendar calendarfin = now;
     Switch switchAlarm;
     boolean booleanalarm;
 
@@ -87,7 +97,12 @@ public class AmplitudeFragment extends Fragment {
 
     private AdView mPublisherAdView;
 
-    final String[] listItems = new String[]{"15 mn", "30 mn", "45 mn", "1h", "1h30"};
+    static final String[] listItems = new String[]{"15 mn", "30 mn", "45 mn", "1h", "1h30"};
+
+    public static void testSiDonneeEnregistrees() {
+
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -137,6 +152,8 @@ public class AmplitudeFragment extends Fragment {
             }
         });
         tvTempsServiveNuit = (TextView) v.findViewById(R.id.tvTempsServiveNuit);
+        tvPeriodeRisque = (TextView) v.findViewById(R.id.tvPeriodeRisque);
+        tvPeriodeRisque2 = (TextView) v.findViewById(R.id.tvPeriodeRisque2);
         tVDateDebut = (TextView) v.findViewById(R.id.tvDateDebut);
         tVDateDebut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +169,7 @@ public class AmplitudeFragment extends Fragment {
             }
         });
         tvHeureFinAmplitude = (TextView) v.findViewById(R.id.tvHeureReposReduit);
-        tvDateFinAmplitude = (TextView) v.findViewById(R.id.tvNombrePalettes);
+        tvDateFinAmplitude = (TextView) v.findViewById(R.id.tvReposPalettes);
         //tvHeureJour = (TextView) v.findViewById(R.id.tvHeureJour);
         //tvDateDuJour = (TextView) v.findViewById(R.id.tvDateDuJour);
         tvTempsRestant = (TextView) v.findViewById(R.id.tvTempsRestantReduit);
@@ -164,7 +181,6 @@ public class AmplitudeFragment extends Fragment {
             }
         });
         pieChartView = v.findViewById(R.id.chart);
-
 
         createchannel();
         testSiValeursEnregistrees();
@@ -194,7 +210,6 @@ public class AmplitudeFragment extends Fragment {
                 }
             }
         });
-
         return v;
     }
 
@@ -206,13 +221,12 @@ public class AmplitudeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         affichageTempsRestant();
                     }
                 });
             }
         },0,1000);
-        clearNotification();
+        //clearNotification();
     }
 
     @Override
@@ -235,7 +249,7 @@ public class AmplitudeFragment extends Fragment {
         Log.d("Tag", "FragmentA.onDestroyView() has been called.");
     }
 
-    private void createPieChart() {
+    private static void createPieChart() {
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         int c = pref.getInt("key_Amplitude_Journaliere", 13);
@@ -304,10 +318,15 @@ public class AmplitudeFragment extends Fragment {
         tvNotificationTimeBefore.setClickable(b);
     }
 
-    private void testSiValeursEnregistrees() {
+    public static void testSiValeursEnregistrees() {
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         int tempsAmplitude = pref.getInt("key_Amplitude_Journaliere", 13);
+        if(tempsAmplitude == 13){
+            radioButton11.setChecked(true);
+        }else{
+            radioButton9.setChecked(true);
+        }
         int monthDebut = pref.getInt("key_Debut_Month", 0);
         int yearDebut = pref.getInt("key_Debut_Year", 0);
         int dayOfMonthDebut = pref.getInt("key_Debut_Day", 0);
@@ -345,7 +364,7 @@ public class AmplitudeFragment extends Fragment {
         }
     }
 
-    private void affichageTempsRestant() {
+    private static void affichageTempsRestant() {
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         now = Calendar.getInstance();
@@ -379,10 +398,38 @@ public class AmplitudeFragment extends Fragment {
         }
         if (tvHeureDebut.getText() == ""||tVDateDebut.getText() == "") {
             tvTempsServiveNuit.setText("");
+            tvPeriodeRisque.setText("");
+            tvPeriodeRisque2.setText("");
         } else{
             int testheuredebut = calendardebut.get(Calendar.HOUR_OF_DAY);
             int testminutedebut = calendardebut.get(Calendar.MINUTE);
             if(tempsAmplitude == 13){
+                if(testheuredebut < 5){
+                    tvPeriodeRisque.setText("2h à 5h");
+                    tvPeriodeRisque.setTypeface(null, Typeface.BOLD);
+                    tvPeriodeRisque.setTextColor(context.getResources().getColor(R.color.blue));
+                }else if(testheuredebut > 13 ) {
+                    tvPeriodeRisque.setText("2h à 5h");
+                    tvPeriodeRisque.setTypeface(null, Typeface.BOLD);
+                    tvPeriodeRisque.setTextColor(context.getResources().getColor(R.color.blue));
+                }else {
+                    tvPeriodeRisque.setText("");
+                }
+
+                if((testheuredebut < 15) && (testheuredebut >= 1) ){
+                    tvPeriodeRisque2.setText("13h à 15h");
+                    tvPeriodeRisque2.setTypeface(null, Typeface.BOLD);
+                    tvPeriodeRisque2.setTextColor(context.getResources().getColor(R.color.blue));
+                }else if ((testheuredebut == 0)&& (testminutedebut > 0) ) {
+                    tvPeriodeRisque2.setText("13h à 15h");
+                    tvPeriodeRisque2.setTypeface(null, Typeface.BOLD);
+                    tvPeriodeRisque2.setTextColor(context.getResources().getColor(R.color.blue));
+                }else if (testheuredebut == 0 ) {
+                    tvPeriodeRisque2.setText("");
+                }else {
+                    tvPeriodeRisque2.setText("");
+                }
+
                 if(testheuredebut < 5 || testheuredebut >= 11){
                     tvTempsServiveNuit.setText("Temps de service maxi : 10h00");
                     tvTempsServiveNuit.setTypeface(null, Typeface.BOLD);
@@ -400,6 +447,32 @@ public class AmplitudeFragment extends Fragment {
             }
 
             if(tempsAmplitude == 15){
+                if( testheuredebut < 5){
+                    tvPeriodeRisque.setText("2h à 5h");
+                    tvPeriodeRisque.setTypeface(null, Typeface.BOLD);
+                    tvPeriodeRisque.setTextColor(context.getResources().getColor(R.color.blue));
+                }else if(testheuredebut > 11 || (testheuredebut == 11 && testminutedebut > 0 )) {
+                    tvPeriodeRisque.setText("2h à 5h");
+                    tvPeriodeRisque.setTypeface(null, Typeface.BOLD);
+                    tvPeriodeRisque.setTextColor(context.getResources().getColor(R.color.blue));
+                }
+                else {
+                    tvPeriodeRisque.setText("");
+                }
+
+                if(testheuredebut < 15){
+                    tvPeriodeRisque2.setText("13h à 15h");
+                    tvPeriodeRisque2.setTypeface(null, Typeface.BOLD);
+                    tvPeriodeRisque2.setTextColor(context.getResources().getColor(R.color.blue));
+                }else if(testheuredebut > 22 || (testheuredebut == 22 && testminutedebut > 0 )) {
+                    tvPeriodeRisque2.setText("13h à 15h");
+                    tvPeriodeRisque2.setTypeface(null, Typeface.BOLD);
+                    tvPeriodeRisque2.setTextColor(context.getResources().getColor(R.color.blue));
+                }
+                else {
+                    tvPeriodeRisque2.setText("");
+                }
+
                 if(testheuredebut < 5 || testheuredebut >= 9){
                     tvTempsServiveNuit.setText("Temps de service maxi : 10h00");
                     tvTempsServiveNuit.setTypeface(null, Typeface.BOLD);
@@ -419,7 +492,7 @@ public class AmplitudeFragment extends Fragment {
         createPieChart();
     }
 
-    private String formatMilliSecondsToTime(long milliseconds) {
+    private static String formatMilliSecondsToTime(long milliseconds) {
 
         int seconds = (int) (milliseconds / 1000) % 60;
         int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
@@ -427,7 +500,7 @@ public class AmplitudeFragment extends Fragment {
         return twoDigitString(hours) + ":" + twoDigitString(minutes) + ":" + twoDigitString(seconds);
     }
 
-    private String twoDigitString(long number) {
+    private static String twoDigitString(long number) {
 
         if (number == 0) {
             return "00";
@@ -567,12 +640,14 @@ public class AmplitudeFragment extends Fragment {
         }, HourDebut, MinuteDebut, true);
         timePickerDialog.show();
     }
-
+/*
     public void clearNotification() {
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(1);
     }
+
+ */
 
     public void selectTimeRappel() {
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
@@ -633,10 +708,11 @@ public class AmplitudeFragment extends Fragment {
         customAlertDialog.show();
     }
 
-    public void delete() {
+    public static void delete() {
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         tvTempsServiveNuit.setText("");
+        tvPeriodeRisque.setText("");
         tVDateDebut.setText("");
         tvHeureDebut.setText("");
         tvHeureFinAmplitude.setText("");

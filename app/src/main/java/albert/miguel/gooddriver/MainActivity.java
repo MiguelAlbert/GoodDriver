@@ -40,8 +40,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //public static String id = "test_channel_01";
     private static final String TAG_MY_FRAGMENT = "myFragment";
     MainFragment mFragment;
-
+    private ShareActionProvider miShareAction;
     private InterstitialAd mInterstitialAd;
     private ConsentInformation consentInformation;
     private ConsentForm consentForm;
@@ -217,7 +219,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -227,14 +228,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onResume() {
+        NotificationManager notificationManager = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
         super.onResume();
         try {
             Bundle extras = getIntent().getExtras();
             String message = extras.getString("fragment");
             if (message.equals("amplitude")) {
-                AmplitudeFragment AmplitudeFragment = new AmplitudeFragment();
+                ViewPagerAmplitude ViewPagerAmplitude = new ViewPagerAmplitude();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame, AmplitudeFragment, "Amplitude_fragment"); // give your fragment container id in first parameter
+                transaction.replace(R.id.content_frame, ViewPagerAmplitude, "Amplitude_fragment"); // give your fragment container id in first parameter
                 transaction.disallowAddToBackStack();
                 //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
                 transaction.commit();
@@ -267,7 +271,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        AmplitudeFragment AmplitudeFragment = (AmplitudeFragment) getSupportFragmentManager().findFragmentByTag("Amplitude_fragment");
+        ActuWebView ActuWebView = (ActuWebView) getSupportFragmentManager().findFragmentByTag("Actu_fragment");
+        ViewPagerAmplitude ViewPagerAmplitude = (ViewPagerAmplitude) getSupportFragmentManager().findFragmentByTag("Amplitude_fragment");
         ViewPagerReposHebdo ViewPagerReposHebdo = (ViewPagerReposHebdo) getSupportFragmentManager().findFragmentByTag("Repos_hebdo_fragment");
         ReglementationFragment ReglementationFragment = (ReglementationFragment) getSupportFragmentManager().findFragmentByTag("Reglementation_fragment");
         SemaineFragment SemaineFragment = (SemaineFragment) getSupportFragmentManager().findFragmentByTag("Semaine_fragment");
@@ -277,97 +282,126 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         CarteFragment CarteFragment = (CarteFragment) getSupportFragmentManager().findFragmentByTag("Carte_fragment");
         FraisFragment FraisFragment = (FraisFragment) getSupportFragmentManager().findFragmentByTag("Frais_fragment");
 
-        if (AmplitudeFragment != null && AmplitudeFragment.isVisible()) {
+        if (ViewPagerAmplitude != null && ViewPagerAmplitude.isVisible()) {
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
+            /*
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(MainActivity.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }
+            }*/
             transaction.commit();
         } else if(ViewPagerReposHebdo != null && ViewPagerReposHebdo.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment,"TAG_Repos_Hebdo"); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
+            /*
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(MainActivity.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }transaction.commit();
+            }*/
+            transaction.commit();
         } else if(ReglementationFragment != null && ReglementationFragment.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
+            /*
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(MainActivity.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }transaction.commit();
+            }*/
+            transaction.commit();
         } else if(ViewPagerCalcTemps != null && ViewPagerCalcTemps.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
+            /*
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(MainActivity.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }transaction.commit();
+            }*/
+            transaction.commit();
         }else if(SemaineFragment != null && SemaineFragment.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
+            /*
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(MainActivity.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }transaction.commit();
+            }*/
+            transaction.commit();
         }else if(ViewPagerVitesseMoyenne != null && ViewPagerVitesseMoyenne.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
+            /*
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(MainActivity.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }transaction.commit();
+            }*/
+            transaction.commit();
         }else if(CalculPalettes != null && CalculPalettes.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment,"TAG_Palettes"); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
+            /*
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(MainActivity.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }transaction.commit();
+            }*/
+            transaction.commit();
         }else if(CarteFragment != null && CarteFragment.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, MainFragment,"TAG_Carte"); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
+            /*
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(MainActivity.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }transaction.commit();
+            }*/
+            transaction.commit();
         }else if(FraisFragment != null && FraisFragment.isVisible()){
             MainFragment MainFragment = new MainFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_frame, MainFragment,"TAG_Carte"); // give your fragment container id in first parameter
+            transaction.replace(R.id.content_frame, MainFragment,"TAG_Frais"); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
+            /*
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(MainActivity.this);
             } else {
                 Log.d("TAG", "The interstitial ad wasn't ready yet.");
-            }transaction.commit();
+            }*/
+            transaction.commit();
+        }else if(ActuWebView != null && ActuWebView.isVisible()){
+            MainFragment MainFragment = new MainFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, MainFragment,"TAG_Actu"); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            /*
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }*/
+            transaction.commit();
         }else {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle(R.string.app_name);
@@ -403,7 +437,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             alertDialogBuilder.setTitle("Informations");
             // set dialog message
             alertDialogBuilder
-                    .setMessage("Application développée par Miguel ALBERT\nL'auteur vérifie la véracité des contenus fournis. Il décline toute responsabilité quant à l'inexatitude des informations.")
+                    .setMessage("Application développée par Miguel ALBERT\nL'auteur vérifie la véracité des contenus fournis. Il décline toute responsabilité quant à l'inexatitude des informations ou des calculs.")
                     .setNegativeButton("Fermer",new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,int id) {
                             // if this button is clicked, just close
@@ -418,9 +452,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
 
+
         if (id == R.id.action_rgpd) {
             consentInformation.reset();
             consentement();
+            return true;
+        }
+
+        if (id == R.id.action_share) {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "GoodDriver");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "GoodDriver\n\nJe souhaite partager avec vous cette application.\n\nVous pouvez la télécharger depuis le Store en cliquant sur ce lien\n\nhttps://play.google.com/store/apps/details?id=albert.miguel.gooddriver&gl=FR");
+            startActivity(Intent.createChooser(shareIntent, "Share link"));
             return true;
         }
 
@@ -481,9 +525,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         if (id == R.id.nav_amplitude) {
-            AmplitudeFragment AmplitudeFragment = new AmplitudeFragment();
+            ViewPagerAmplitude ViewPagerAmplitude = new ViewPagerAmplitude();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_frame, AmplitudeFragment, "Amplitude_fragment"); // give your fragment container id in first parameter
+            transaction.replace(R.id.content_frame, ViewPagerAmplitude, "Amplitude_fragment"); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
@@ -588,6 +632,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FraisFragment FraisFragment = new FraisFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, FraisFragment, "Frais_fragment"); // give your fragment container id in first parameter
+            transaction.disallowAddToBackStack();
+            //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+            transaction.commit();
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
+        }
+        if (id == R.id.nav_actu) {
+            ActuWebView ActuWebView = new ActuWebView();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, ActuWebView, "Actu_fragment"); // give your fragment container id in first parameter
             transaction.disallowAddToBackStack();
             //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
             transaction.commit();
