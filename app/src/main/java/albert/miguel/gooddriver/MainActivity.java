@@ -4,21 +4,25 @@ import static android.content.ContentValues.TAG;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.graphics.Color;
-import android.media.AudioManager;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
@@ -28,7 +32,21 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.tasks.OnSuccessListener;
+import com.google.android.play.core.tasks.Task;
 import com.google.android.ump.ConsentForm;
 import com.google.android.ump.ConsentInformation;
 import com.google.android.ump.ConsentRequestParameters;
@@ -37,28 +55,37 @@ import com.google.android.ump.UserMessagingPlatform;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.ShareActionProvider;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     Context context;
-    //public static String id = "test_channel_01";
-    private static final String TAG_MY_FRAGMENT = "myFragment";
-    MainFragment mFragment;
-    private ShareActionProvider miShareAction;
     private InterstitialAd mInterstitialAd;
     private ConsentInformation consentInformation;
     private ConsentForm consentForm;
+
+    private static final String TAG_MY_FRAGMENT = "myFragment";
+    MainFragment mFragment;
+
+    private AppUpdateManager mAppUpdateManager;
+    private static final int RC_APP_UPDATE = 100;
+
+    private ReviewManager reviewManager;
+
+    ReviewInfo reviewInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +104,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mFragment = (MainFragment) getSupportFragmentManager().findFragmentByTag(TAG_MY_FRAGMENT);
         }
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+            addDynamicShortcut();
+        }
+
+        mAppUpdateManager = AppUpdateManagerFactory.create(this);
+        mAppUpdateManager.getAppUpdateInfo().addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+            @Override
+            public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                if(appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                        && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
+                    try {
+                        mAppUpdateManager.startUpdateFlowForResult(appUpdateInfo,
+                                AppUpdateType.FLEXIBLE,
+                                MainActivity.this,RC_APP_UPDATE);
+                    } catch (IntentSender.SendIntentException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        mAppUpdateManager.registerListener(installStateUpdatedListener);
+
         loadAdd();
         consentement();
         createchannel();
-
+        showRateApp();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -92,6 +141,103 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkerWidget.class,
+//                15 , TimeUnit.MINUTES)
+//                .setInitialDelay(1, TimeUnit.MINUTES)
+//                .addTag("tagWidget")
+//                .build();
+//        WorkManager.getInstance(context).enqueueUniquePeriodicWork("TaskWidget"
+//                , ExistingPeriodicWorkPolicy.REPLACE
+//                ,periodicWorkRequest);
+
+
+    }
+
+    private void addDynamicShortcut() {
+        //Intent googleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
+        Intent activityIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, MainActivity.class);
+        activityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activityIntent.putExtra("fragment", "carte");
+        Intent activityAmplitudeIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, MainActivity.class);
+        activityAmplitudeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activityAmplitudeIntent.putExtra("fragment", "amplitude");
+        Intent activityReposHebdoIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, MainActivity.class);
+        activityReposHebdoIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activityReposHebdoIntent.putExtra("fragment", "hebdo");
+
+        ShortcutInfo shortcut = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            shortcut = new ShortcutInfo.Builder(this, "dynamic_shortcut")
+                    .setShortLabel("Amplitude")
+                    .setLongLabel("Réglage Amplitude")
+                    .setIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
+                    .setIntent(activityAmplitudeIntent)
+                    .build();
+        }
+        ShortcutInfo shortcut2 = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            shortcut2 = new ShortcutInfo.Builder(this, "dynamic_shortcut2")
+                    .setShortLabel("Carte")
+                    .setLongLabel("Carte tachygraphe")
+                    .setIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
+                    .setIntent(activityIntent)
+                    .build();
+        }
+        ShortcutInfo shortcut3 = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            shortcut3 = new ShortcutInfo.Builder(this, "dynamic_shortcut3")
+                    .setShortLabel("Repos hebdo")
+                    .setLongLabel("Réglage repos hebdo")
+                    .setIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
+                    .setIntent(activityReposHebdoIntent)
+                    .build();
+        }
+
+        ShortcutManager shortcutManager = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                shortcutManager = getSystemService(ShortcutManager.class);
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut));
+            shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut2));
+            shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut3));
+        }
+    }
+
+    private final InstallStateUpdatedListener installStateUpdatedListener = installState -> {
+        if(installState.installStatus() == InstallStatus.DOWNLOADED){
+            showCompletedUpdate();
+        }
+    };
+
+    @Override
+    protected void onStop() {
+        if(mAppUpdateManager!=null) mAppUpdateManager.unregisterListener(installStateUpdatedListener);
+        getIntent().removeExtra("fragment");
+        super.onStop();
+    }
+
+    private void showCompletedUpdate() {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "New app is ready!",
+                Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("Install", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAppUpdateManager.completeUpdate();
+            }
+        });
+        snackbar.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RC_APP_UPDATE){
+            Toast.makeText(this, "Cancel",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void createchannel() {
@@ -142,6 +288,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
     }
+
+    public void showRateApp() {
+        reviewManager = ReviewManagerFactory.create(this);
+        Task<ReviewInfo> request = reviewManager.requestReviewFlow();
+        request.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // We can get the ReviewInfo object
+                reviewInfo = task.getResult();
+
+                Task<Void> flow = reviewManager.launchReviewFlow(this, reviewInfo);
+                flow.addOnCompleteListener(task1 -> {
+                    // The flow has finished. The API does not indicate whether the user
+                    // reviewed or not, or even whether the review dialog was shown. Thus, no
+                    // matter the result, we continue our app flow.
+                });
+            } else {
+                // There was some problem, continue regardless of the result.
+                // show native rate app dialog on error
+                //showRateAppFallbackDialog();
+            }
+        });
+    }
+
+    /**
+     * Showing native dialog with three buttons to review the app
+     * Redirect user to playstore to review the app
+     */
+    private void showRateAppFallbackDialog() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Notez l'application")
+                .setMessage("Si vous aimez mettez une note")
+                .setPositiveButton("Je note maintenant", (dialog, which) -> {
+                    showRateApp();
+                })
+                .setNegativeButton("Non merci",
+                        (dialog, which) -> {
+                        })
+                .setNeutralButton("Plus tard",
+                        (dialog, which) -> {
+                        })
+                .setOnDismissListener(dialog -> {
+                })
+                .show();
+    }
+
 
     private void loadForm() {
         UserMessagingPlatform.loadConsentForm(
@@ -260,13 +451,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            Bundle extras = getIntent().getExtras();
+            String message = extras.getString("fragment");
+            if (message.equals("hebdo")) {
+                ViewPagerReposHebdo ViewPagerReposHebdo = new ViewPagerReposHebdo();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, ViewPagerReposHebdo, "Repos_hebdo_fragment"); // give your fragment container id in first parameter
+                transaction.disallowAddToBackStack();
+                //transaction.setCustomAnimations(R.anim.enter,R.anim.exit,R.anim.pop_enter,R.anim.pop_exit);
+                transaction.commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mAppUpdateManager.getAppUpdateInfo().addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+            @Override
+            public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                if(appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS){
+                    try {
+                        mAppUpdateManager.startUpdateFlowForResult(appUpdateInfo,
+                                AppUpdateType.FLEXIBLE,
+                                MainActivity.this,RC_APP_UPDATE);
+                    } catch (IntentSender.SendIntentException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
 
     @Override
     protected void onPause() {
         super.onPause();
-
+        //getIntent().removeExtra("fragment");
     }
 
     @Override
@@ -403,6 +622,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }*/
             transaction.commit();
         }else {
+
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle(R.string.app_name);
             //builder.setIcon(R.mipmap.ic_launcher);
@@ -431,6 +651,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.action_about) {
+            /*
+            Intent intent = new Intent(this, SimpleWidgetProvider.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+            // since it seems the onUpdate() is only fired on that:
+            int[] ids = AppWidgetManager.getInstance(getApplication())
+                    .getAppWidgetIds(new ComponentName(getApplication(), SimpleWidgetProvider.class));
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            sendBroadcast(intent);
+ */
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             // set title
@@ -449,9 +679,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             AlertDialog alertDialog = alertDialogBuilder.create();
             // show it
             alertDialog.show();
+
             return true;
         }
-
 
         if (id == R.id.action_rgpd) {
             consentInformation.reset();

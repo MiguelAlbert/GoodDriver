@@ -153,6 +153,7 @@ public class AlarmService extends BroadcastReceiver {
         //---PendingIntent to launch activity if the user selects
         // the notification---
         Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationIntent.putExtra("fragment", "carte");
         //notificationIntent.putExtra("mText", info);
 
@@ -189,6 +190,7 @@ public class AlarmService extends BroadcastReceiver {
         //---PendingIntent to launch activity if the user selects
         // the notification---
         Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationIntent.putExtra("fragment", "amplitude");
         //notificationIntent.putExtra("mText", info);
 

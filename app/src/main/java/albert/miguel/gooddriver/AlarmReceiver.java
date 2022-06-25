@@ -65,7 +65,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         //---PendingIntent to launch activity if the user selects
         // the notification---
         Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationIntent.putExtra("fragment", "amplitude");
+
 
         PendingIntent contentIntent = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {

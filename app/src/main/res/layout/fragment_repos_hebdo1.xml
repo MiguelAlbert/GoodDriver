@@ -148,17 +148,11 @@
 
                 </LinearLayout>
 
-                <ProgressBar
-                    android:id="@+id/progressBar24"
-                    style="@android:style/Widget.Material.ProgressBar.Horizontal"
+                <lecho.lib.hellocharts.view.PieChartView
+                    android:id="@+id/chart24"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="5dp"
-                    android:max="25"
-                    android:progressDrawable="@drawable/progress_background"
-                    android:progressTint="#29832D" />
+                    android:layout_height="120dp"
+                    android:orientation="horizontal" />
 
                 <TextView
                     android:id="@+id/textView15"
@@ -208,17 +202,11 @@
 
                 </LinearLayout>
 
-                <ProgressBar
-                    android:id="@+id/progressBar45"
-                    style="?android:attr/progressBarStyleHorizontal"
+                <lecho.lib.hellocharts.view.PieChartView
+                    android:id="@+id/chart45"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="5dp"
-                    android:max="46"
-                    android:progressDrawable="@drawable/progress_background"
-                    android:progressTint="#29832D" />
+                    android:layout_height="120dp"
+                    android:orientation="horizontal" />
 
                 <ImageView
                     android:id="@+id/imageView2"

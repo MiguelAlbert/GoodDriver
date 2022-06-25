@@ -82,14 +82,15 @@ public class DailyWorkerVidageCarte extends Worker {
         //---PendingIntent to launch activity if the user selects
         // the notification---
         Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationIntent.putExtra("fragment", "carte");
         //notificationIntent.putExtra("mText", info);
 
         PendingIntent contentIntent = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            contentIntent = PendingIntent.getActivity(context, notiID2, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+            contentIntent = PendingIntent.getActivity(context, notiID2, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
         } else{
-            contentIntent = PendingIntent.getActivity(context, notiID2, notificationIntent, 0);
+            contentIntent = PendingIntent.getActivity(context, notiID2, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT );
         }
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         //create the notification

@@ -47,6 +47,8 @@
     <string name="button_pow"> ^ </string>
     <string name="error">Error</string>
     <string name="backspace">Backspace</string>
+    <string name="static_shortcut_long_label">short label</string>
+    <string name="static_shortcut_short_label">short label</string>
 
 
 </resources>

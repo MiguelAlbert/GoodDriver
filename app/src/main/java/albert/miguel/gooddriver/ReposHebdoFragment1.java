@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,15 +23,22 @@ import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import lecho.lib.hellocharts.model.PieChartData;
+import lecho.lib.hellocharts.model.SliceValue;
+import lecho.lib.hellocharts.view.PieChartView;
 
 
 public class ReposHebdoFragment1 extends Fragment {
@@ -45,8 +53,8 @@ public class ReposHebdoFragment1 extends Fragment {
     static TextView tvTempsRestantNormal;
     static TextView tVDateDebut;
     static TextView tvHeureDebut;
-    static ProgressBar progressBar24;
-    static ProgressBar progressBar45;
+    static PieChartView pieChartView24;
+    static PieChartView pieChartView45;
     Calendar now;
     static Calendar debut;
     static Calendar debutAdd24;
@@ -74,8 +82,8 @@ public class ReposHebdoFragment1 extends Fragment {
 
         timerGetHeure();
 
-        progressBar24 = (ProgressBar) v.findViewById(R.id.progressBar24);
-        progressBar45 = (ProgressBar) v.findViewById(R.id.progressBar45);
+        pieChartView24 = v.findViewById(R.id.chart24);
+        pieChartView45 = v.findViewById(R.id.chart45);
 
         tvDateReposReduit = (TextView) v.findViewById(R.id.tvReposPalettes);
         tvHeureReposReduit = (TextView) v.findViewById(R.id.tvHeureReposReduit);
@@ -300,6 +308,13 @@ public class ReposHebdoFragment1 extends Fragment {
         int hours = (int) ((milliseconds / (1000 * 60 * 60)) );
         return hours ;
     }
+    private static String formatMilliSecondsToTimeMinute(long milliseconds) {
+
+        int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
+        int hours = (int) ((milliseconds / (1000 * 60 * 60)) );
+        return twoDigitString(hours) + ":" + twoDigitString(minutes) ;
+    }
+
     private static String twoDigitString(long number) {
 
         if (number == 0) {
@@ -330,47 +345,111 @@ public class ReposHebdoFragment1 extends Fragment {
     }
 
     private static void refreshUI() {
+        pieChart24(0, 0);
+        pieChart45(0, 0);
         Calendar maintenant = Calendar.getInstance();
         long milliSeconds1 = debutAdd24.getTimeInMillis();
         long milliSeconds2 = maintenant.getTimeInMillis();
         long milliSeconds3 = milliSeconds1 + 21*60*60*1000;
         long time = (milliSeconds1 - milliSeconds2);
         long time2 = (milliSeconds3 - milliSeconds2);
+
         if(tvHeureDebut.getText() == ""){
             tvTempsRestantReduit.setText("");
             tvTempsRestantNormal.setText("");
         }else {
             if(debutAdd24.compareTo(maintenant) < 0){
                 tvTempsRestantReduit.setText("Repos réduit terminé");
-                progressBar24.setProgress(25);
+                pieChart24Termine();
             } else if(debut.compareTo(maintenant) > 0){
                 tvTempsRestantReduit.setText("Repos non débuté");
-                progressBar24.setProgress(0);
+                pieChart24AFaire();
             } else{
                 tvTempsRestantReduit.setText(formatMilliSecondsToTime(time));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    progressBar24.setProgress(25-formatMilliSecondsToHours(time)-1,true);
-                } else{
-                    progressBar24.setProgress(25-formatMilliSecondsToHours(time)-1);
-                }
+                pieChart24(24-formatMilliSecondsToHours(time)-1, time);
             }
             if(debutAdd45.compareTo(maintenant) < 0){
                 tvTempsRestantNormal.setText("Repos normal terminé");
-                progressBar45.setProgress(46);
+                pieChart45Termine();
             } else if(debut.compareTo(maintenant) > 0){
                 tvTempsRestantNormal.setText("Repos non débuté");
-                progressBar45.setProgress(0);
+                pieChart45AFaire();
             } else{
                 tvTempsRestantNormal.setText(formatMilliSecondsToTime(time2));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    progressBar45.setProgress(46-formatMilliSecondsToHours(time2)-1,true);
-                }else {
-                    progressBar45.setProgress(46-formatMilliSecondsToHours(time2)-1);
-                }
+                pieChart45(45-formatMilliSecondsToHours(time2)-1, time2);
             }
         }
 
         //Toast.makeText(context, "Toutes les 5 secondes", Toast.LENGTH_SHORT).show();
+    }
+
+    private static void pieChart24AFaire() {
+
+        List<SliceValue> pieData = new ArrayList<>();
+        pieData.add(new SliceValue(0, Color.GRAY).setLabel("Fait : 00:00"));
+        pieData.add(new SliceValue(24, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : 24:00"));
+        PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("24h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
+        pieChartView24.setPieChartData(pieChartData);
+    }
+
+    private static void pieChart24Termine() {
+
+        List<SliceValue> pieData = new ArrayList<>();
+        pieData.add(new SliceValue(24, Color.GRAY).setLabel("Fait : 24:00"));
+        pieData.add(new SliceValue(0, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : 00:00"));
+        PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("24h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
+        pieChartView24.setPieChartData(pieChartData);
+    }
+
+    private static void pieChart24(int i, long time) {
+        int a = i ;
+        int b = 24  - a ;
+        long timeRestant = (24 * 60 * 60 * 1000)-(time) ;
+        List<SliceValue> pieData = new ArrayList<>();
+        pieData.add(new SliceValue(a, Color.GRAY).setLabel("Fait : " + formatMilliSecondsToTimeMinute(timeRestant)));
+        pieData.add(new SliceValue(b, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : " + formatMilliSecondsToTimeMinute(time)));
+        PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("24h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
+        pieChartView24.setPieChartData(pieChartData);
+    }
+
+    private static void pieChart45AFaire() {
+
+        List<SliceValue> pieData = new ArrayList<>();
+        pieData.add(new SliceValue(0, Color.GRAY).setLabel("Fait : 00:00"));
+        pieData.add(new SliceValue(45, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : 45:00"));
+        PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("45h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
+        pieChartView45.setPieChartData(pieChartData);
+    }
+
+    private static void pieChart45Termine() {
+
+        List<SliceValue> pieData = new ArrayList<>();
+        pieData.add(new SliceValue(45, Color.GRAY).setLabel("Fait : 45:00"));
+        pieData.add(new SliceValue(0, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : 00:00"));
+        PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("45h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
+        pieChartView45.setPieChartData(pieChartData);
+    }
+    private static void pieChart45(int i, long time2) {
+        int a = i ;
+        int b = 45  - a ;
+        long timeRestant = (45 * 60 * 60 * 1000)-(time2) ;
+        List<SliceValue> pieData = new ArrayList<>();
+        pieData.add(new SliceValue(a, Color.GRAY).setLabel("Fait : " + formatMilliSecondsToTimeMinute(timeRestant)));
+        pieData.add(new SliceValue(b, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : "+ formatMilliSecondsToTimeMinute(time2)));
+        PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("45h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
+        pieChartView45.setPieChartData(pieChartData);
     }
 
     @Override
@@ -407,6 +486,8 @@ public class ReposHebdoFragment1 extends Fragment {
 
 
     static void deleteDateDebut() {
+        pieChart24(0, 0);
+        pieChart45(0, 0);
         tVDateDebut.setText("");
         tvHeureDebut.setText("");
         tvDateReposReduit.setText("");
@@ -415,13 +496,6 @@ public class ReposHebdoFragment1 extends Fragment {
         tvDateReposNormal.setText("");
         tvHeureReposNormal.setText("");
         tvTempsRestantNormal.setText("");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            progressBar24.setProgress(0,true);
-            progressBar45.setProgress(0,true);
-        } else {
-            progressBar24.setProgress(0);
-            progressBar45.setProgress(0);
-        }
         editorReposHebdo.putInt("key_Debut_Hour",0 );  // Saving int
         editorReposHebdo.putInt("key_Debut_Minute",0 );
         editorReposHebdo.putInt("key_Debut_Year",0 );  // Saving int

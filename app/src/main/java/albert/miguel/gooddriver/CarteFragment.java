@@ -55,6 +55,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.UUID;
@@ -86,8 +88,10 @@ public class CarteFragment extends Fragment {
     private static final int STORAGE_REQUEST_CODE = 400;
     private static final int IMAGE_PICK_GALLERY_CODE = 1000;
     private static final int IMAGE_PICK_CAMERA_CODE = 2001;
-    String[] cameraPermission;
-    String[] storagePermission;
+
+    String cameraPermission[];
+    String storagePermission[];
+
     Uri image_uri;
 
     UUID getId, getId2;
@@ -375,6 +379,7 @@ public class CarteFragment extends Fragment {
         }
     }
 
+
     private void selectTimeRappelValidite() {
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);
         editor = pref.edit();
@@ -413,7 +418,7 @@ public class CarteFragment extends Fragment {
         alertDialog.setSingleChoiceItems(listItems2, dureeRappel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                checkedItem2[2] = which;
+                checkedItem2[0] = which;
                 tvNotificationTimeBeforeEnd.setText(listItems2[which] + " avant.");
                 editor.putInt("key_duree_rappel_vidage",which );
                 editor.apply(); // commit changes
@@ -504,8 +509,22 @@ public class CarteFragment extends Fragment {
 
             long diff = millis2 - millis1;
             int differenceDay = (int) (diff / (24 * 60 * 60 * 1000));
-            tvValiditeJoursRestants.setText(differenceDay + " jour(s) restant(s).");
+
+            LocalDate firstDate = null;
+            LocalDate secondDate = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                firstDate = LocalDate.of(yearEcheance, monthEcheance, dayOfMonthEcheance);
+                secondDate = LocalDate.of(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+                Period period = Period.between(secondDate, firstDate);
+                tvValiditeJoursRestants.setText(period.getYears() + " an(s) "
+                        + period.getMonths() + " mois et "
+                        + period.getDays() + " jour(s) restant(s)");
+
+            } else{
+                tvValiditeJoursRestants.setText(differenceDay + " jour(s) restant(s).");
+            }
         }
+
     }
 
     private void CalculJoursRestantsVidage() {
@@ -832,8 +851,6 @@ public class CarteFragment extends Fragment {
 
         datePickerDialog.show();
     }
-
-
 
     public void deleteDateEcheance() {
         SharedPreferences pref = context.getSharedPreferences("Pref_Carte", MODE_PRIVATE);

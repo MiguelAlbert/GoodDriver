@@ -18,13 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabBackground="@color/grey_10"
-            app:tabGravity="center"
-            app:tabIndicatorColor="@color/colorAccent"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorGravity="bottom"
             app:tabIndicatorHeight="4dp"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="#1D2A7C"
-            app:tabTextColor="@color/grey_20"
-            tools:ignore="SpeakableTextPresentCheck" />
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextColor="@color/red100" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -32,6 +32,7 @@
         android:id="@+id/vpPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         tools:ignore="SpeakableTextPresentCheck">
 
     </androidx.viewpager.widget.ViewPager>

@@ -58,7 +58,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/tvRepos9hRestant"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:gravity="center_vertical"

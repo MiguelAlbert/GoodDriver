@@ -91,11 +91,16 @@
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/list_row_group.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/mycustomview.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/nav_header_main.xml" value="0.22" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/simple_widget.xml" value="0.16" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/switch_item.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/viewpager_fragment.xml" value="0.19739583333333333" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/widget_item.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/widget_layout.xml" value="0.1517094017094017" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/menu/activity_main_drawer.xml" value="0.16" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/menu/main.xml" value="0.18" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1375" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/xml/appwidget_info.xml" value="0.15256410256410258" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/xml/shortcuts.xml" value="0.15256410256410258" />
       </map>
     </option>
   </component>

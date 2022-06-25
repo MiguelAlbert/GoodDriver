@@ -85,8 +85,8 @@ public class ViewPagerAmplitude extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
 
-        viewPagerAdapter.addFragment(new AmplitudeFragment(), "Prévision");
-        viewPagerAdapter.addFragment(new AmplitudeFragment2(), "Analyse");
+        viewPagerAdapter.addFragment(new AmplitudeFragment(), "Amplitude Prévision");
+        viewPagerAdapter.addFragment(new AmplitudeFragment2(), "Amplitude Analyse");
 
         viewPager.setAdapter(viewPagerAdapter);
 
@@ -126,6 +126,7 @@ public class ViewPagerAmplitude extends Fragment {
     public void onResume() {
         NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.nav_view);
         navigationView.getMenu().findItem(R.id.nav_amplitude).setChecked(true);
+
         super.onResume();
     }
 

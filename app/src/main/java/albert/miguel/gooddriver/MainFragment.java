@@ -253,7 +253,7 @@ public class MainFragment extends Fragment {
             });
         return v;
     }
-
+    
     private void loadAdd() {
         MobileAds.initialize(context, new OnInitializationCompleteListener() {
             @Override
@@ -308,14 +308,10 @@ public class MainFragment extends Fragment {
     public void onResume() {
         NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.nav_view);
         navigationView.getMenu().findItem(R.id.nav_accueil).setChecked(true);
-            Log.e("DEBUG", "onResume of HomeFragment");
-            super.onResume();
-            loadAdd();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-            super.onSaveInstanceState(outState);
+        Log.e("DEBUG", "onResume of HomeFragment");
+        super.onResume();
+        loadAdd();
 
     }
+
 }

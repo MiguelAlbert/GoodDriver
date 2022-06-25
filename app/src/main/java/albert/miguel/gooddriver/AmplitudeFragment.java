@@ -13,6 +13,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,6 +34,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.RemoteViews;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -99,10 +102,6 @@ public class AmplitudeFragment extends Fragment {
 
     static final String[] listItems = new String[]{"15 mn", "30 mn", "45 mn", "1h", "1h30"};
 
-    public static void testSiDonneeEnregistrees() {
-
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -232,6 +231,7 @@ public class AmplitudeFragment extends Fragment {
     @Override
     public void onResume() {
         createchannel();
+        updateWidget();
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         booleanalarm = pref.getBoolean("Key_alarm",false);
@@ -240,6 +240,17 @@ public class AmplitudeFragment extends Fragment {
         NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.nav_view);
         navigationView.getMenu().findItem(R.id.nav_amplitude).setChecked(true);
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        updateWidget();
+        super.onPause();
+    }
+    @Override
+    public void onStop() {
+        updateWidget();
+        super.onStop();
     }
 
     @Override
@@ -574,9 +585,10 @@ public class AmplitudeFragment extends Fragment {
                         affichageTempsRestant();
                     }
                 }, yearDebut, monthDebut, dayOfMonthDebut);
-
+        updateWidget();
         datePickerDialog.show();
     }
+
 
     public void selectHeure(View view) {
         int yearDebut,monthDebut,dayOfMonthDebut,HourDebut,MinuteDebut;
@@ -634,20 +646,23 @@ public class AmplitudeFragment extends Fragment {
                 int NomduJour = calendarfin.get(Calendar.DAY_OF_WEEK);
                 tvHeureFinAmplitude.setText(String.format("%02d:%02d", HourFin, MinuteFin));
                 tvDateFinAmplitude.setText(getDayName(NomduJour-1) + "\n" + String.format("%02d/%02d/%02d",dayOfMonthFin,(monthFin+1),yearFin));
-
+                updateWidget();
                 affichageTempsRestant();
             }
         }, HourDebut, MinuteDebut, true);
         timePickerDialog.show();
     }
-/*
-    public void clearNotification() {
-        NotificationManager notificationManager = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(1);
-    }
 
- */
+    public void updateWidget(){
+        Intent intent = new Intent(context, SimpleWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+        int[] ids = AppWidgetManager.getInstance(getActivity().getApplication())
+                .getAppWidgetIds(new ComponentName(getActivity().getApplication(), SimpleWidgetProvider.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
+    }
 
     public void selectTimeRappel() {
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
@@ -730,6 +745,20 @@ public class AmplitudeFragment extends Fragment {
         now.clear();
         calendarfin.clear();
         createPieChart();
+        clearWidget();
+    }
+
+    private static void clearWidget() {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.simple_widget);
+        ComponentName thisWidget = new ComponentName(context, SimpleWidgetProvider.class);
+        remoteViews.setTextViewText(R.id.textView, "00:00");
+        remoteViews.setTextViewText(R.id.tvRepos11hRestant, " ");
+        remoteViews.setTextViewText(R.id.tvRepos9hRestant, " ");
+        remoteViews.setTextViewText(R.id.textView3, " ");
+        remoteViews.setTextViewText(R.id.tvRepos9hFin, " ");
+        remoteViews.setTextViewText(R.id.tvRepos11hFin, " ");
+        appWidgetManager.updateAppWidget(thisWidget, remoteViews);
     }
 
     public void reposChange(View view) {
