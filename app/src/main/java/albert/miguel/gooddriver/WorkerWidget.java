@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -39,19 +40,17 @@ public class WorkerWidget extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Toast.makeText(context, "Worker", Toast.LENGTH_SHORT).show();
 
-        // test3
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        ComponentName thisWidget = new ComponentName(context, SimpleWidgetProvider.class);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-        for (int i=0; i < appWidgetIds.length; i++) {
-            int appWidgetId = appWidgetIds[i];
-            Intent intent3 = new Intent(context, SimpleWidgetProvider.class);
-            intent3.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            intent3.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            context.sendBroadcast(intent3);
-        }
+        Log.e("Worker Widget", "Mise à jour widget");
+
+        Intent intent = new Intent(context, SimpleWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+        int[] ids = AppWidgetManager.getInstance(context)
+                .getAppWidgetIds(new ComponentName(context, SimpleWidgetProvider.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
 
         return Result.success();
     }

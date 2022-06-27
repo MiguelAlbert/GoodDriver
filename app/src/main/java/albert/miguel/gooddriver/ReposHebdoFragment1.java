@@ -389,7 +389,7 @@ public class ReposHebdoFragment1 extends Fragment {
         pieData.add(new SliceValue(0, Color.GRAY).setLabel("Fait : 00:00"));
         pieData.add(new SliceValue(24, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : 24:00"));
         PieChartData pieChartData = new PieChartData(pieData);
-        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(10);
         pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("24h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
         pieChartView24.setPieChartData(pieChartData);
     }
@@ -400,7 +400,7 @@ public class ReposHebdoFragment1 extends Fragment {
         pieData.add(new SliceValue(24, Color.GRAY).setLabel("Fait : 24:00"));
         pieData.add(new SliceValue(0, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : 00:00"));
         PieChartData pieChartData = new PieChartData(pieData);
-        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(10);
         pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("24h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
         pieChartView24.setPieChartData(pieChartData);
     }
@@ -413,7 +413,7 @@ public class ReposHebdoFragment1 extends Fragment {
         pieData.add(new SliceValue(a, Color.GRAY).setLabel("Fait : " + formatMilliSecondsToTimeMinute(timeRestant)));
         pieData.add(new SliceValue(b, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : " + formatMilliSecondsToTimeMinute(time)));
         PieChartData pieChartData = new PieChartData(pieData);
-        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(10);
         pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("24h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
         pieChartView24.setPieChartData(pieChartData);
     }
@@ -424,7 +424,7 @@ public class ReposHebdoFragment1 extends Fragment {
         pieData.add(new SliceValue(0, Color.GRAY).setLabel("Fait : 00:00"));
         pieData.add(new SliceValue(45, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : 45:00"));
         PieChartData pieChartData = new PieChartData(pieData);
-        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(10);
         pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("45h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
         pieChartView45.setPieChartData(pieChartData);
     }
@@ -435,7 +435,7 @@ public class ReposHebdoFragment1 extends Fragment {
         pieData.add(new SliceValue(45, Color.GRAY).setLabel("Fait : 45:00"));
         pieData.add(new SliceValue(0, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : 00:00"));
         PieChartData pieChartData = new PieChartData(pieData);
-        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(10);
         pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("45h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
         pieChartView45.setPieChartData(pieChartData);
     }
@@ -447,7 +447,7 @@ public class ReposHebdoFragment1 extends Fragment {
         pieData.add(new SliceValue(a, Color.GRAY).setLabel("Fait : " + formatMilliSecondsToTimeMinute(timeRestant)));
         pieData.add(new SliceValue(b, ResourcesCompat.getColor(context.getResources(), R.color.red600, null)).setLabel("Restant : "+ formatMilliSecondsToTimeMinute(time2)));
         PieChartData pieChartData = new PieChartData(pieData);
-        pieChartData.setHasLabels(true).setValueLabelTextSize(12);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(10);
         pieChartData.setCenterCircleColor(Color.WHITE).setHasCenterCircle(true).setCenterCircleScale(0.5f).setCenterText1("45h").setCenterText1FontSize(14).setCenterText1Color(Color.parseColor("#000000"));;
         pieChartView45.setPieChartData(pieChartData);
     }

@@ -62,8 +62,10 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import java.util.Collections;
@@ -142,17 +144,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkerWidget.class,
-//                15 , TimeUnit.MINUTES)
-//                .setInitialDelay(1, TimeUnit.MINUTES)
-//                .addTag("tagWidget")
-//                .build();
-//        WorkManager.getInstance(context).enqueueUniquePeriodicWork("TaskWidget"
-//                , ExistingPeriodicWorkPolicy.REPLACE
-//                ,periodicWorkRequest);
+        final PeriodicWorkRequest periodicWorkRequest1 = new PeriodicWorkRequest.Builder(WorkerWidget.class,15, TimeUnit.MINUTES)
+                .setInitialDelay(1000,TimeUnit.MILLISECONDS)
+                .build();
 
+        WorkManager workManager =  WorkManager.getInstance(this);
 
+        workManager.enqueue(periodicWorkRequest1);
+
+        workManager.getWorkInfoByIdLiveData(periodicWorkRequest1.getId())
+                .observe(this, new Observer<WorkInfo>() {
+                    @Override
+                    public void onChanged(@Nullable WorkInfo workInfo) {
+                        if (workInfo != null) {
+                            Log.w("periodicWorkRequest", "Status changed to : " + workInfo.getState());
+
+                        }
+                    }
+                });
     }
+
+
 
     private void addDynamicShortcut() {
         //Intent googleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));

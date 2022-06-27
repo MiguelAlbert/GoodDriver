@@ -196,6 +196,10 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         int seconds = (int) (milliseconds / 1000) % 60;
         int minutes = (int) ((milliseconds / (1000 * 60)) % 60) +1;
         int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
+        if(minutes == 60){
+            minutes = 0;
+            hours ++ ;
+        }
         return twoDigitString(hours) + ":" + twoDigitString(minutes) ;
     }
     private static String twoDigitString(long number) {
