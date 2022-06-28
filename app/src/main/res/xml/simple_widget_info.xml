@@ -3,8 +3,9 @@
     android:minWidth="220dp"
     android:minHeight="110dp"
     android:updatePeriodMillis="1800000"
+    android:description="@string/example_appwidget_description"
     android:initialLayout="@layout/simple_widget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
-    android:previewImage="@mipmap/ic_launcher">
+    android:previewImage="@drawable/widget2">
 </appwidget-provider>

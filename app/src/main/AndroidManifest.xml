@@ -62,6 +62,7 @@
         </receiver>
         <receiver
             android:name="SimpleWidgetProvider"
+            android:label="Suivre son amplitude journalière"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -69,6 +70,17 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/simple_widget_info" />
+        </receiver>
+        <receiver
+            android:name="SimpleWidgetProvider2"
+            android:label="Suivre son repos hebdomadaire"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/simple_widget_info2" />
         </receiver>
 
     </application>

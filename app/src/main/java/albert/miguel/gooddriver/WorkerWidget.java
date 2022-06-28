@@ -41,7 +41,7 @@ public class WorkerWidget extends Worker {
     @Override
     public Result doWork() {
 
-        Log.e("Worker Widget", "Mise à jour widget");
+        Log.e("Worker Widget", "Mise à jour widget amplitude");
 
         Intent intent = new Intent(context, SimpleWidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
@@ -51,6 +51,16 @@ public class WorkerWidget extends Worker {
                 .getAppWidgetIds(new ComponentName(context, SimpleWidgetProvider.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         context.sendBroadcast(intent);
+
+        Log.e("Worker Widget", "Mise à jour widget repos hebdo");
+        Intent intent2 = new Intent(context, SimpleWidgetProvider2.class);
+        intent2.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+        int[] ids2 = AppWidgetManager.getInstance(context)
+                .getAppWidgetIds(new ComponentName(context, SimpleWidgetProvider2.class));
+        intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids2);
+        context.sendBroadcast(intent2);
 
         return Result.success();
     }

@@ -45,6 +45,16 @@
                 android:orientation="vertical">
 
                 <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/fraismontants"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    ads:expandOnClick="true"
+                    ads:icon="?android:attr/listChoiceIndicatorSingle"
+                    ads:inner_view="@layout/expandable_frais_montants"
+                    ads:title="Montants des frais" />
+
+                <com.alespero.expandablecardview.ExpandableCardView
                     android:id="@+id/fraiscassecroute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -102,16 +112,6 @@
                     app:icon="?android:attr/listChoiceIndicatorSingle"
                     app:inner_view="@layout/expandable_frais_etranger"
                     app:title="Frais à l'étranger" />
-
-                <com.alespero.expandablecardview.ExpandableCardView
-                    android:id="@+id/fraismontants"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    ads:expandOnClick="true"
-                    ads:icon="?android:attr/listChoiceIndicatorSingle"
-                    ads:inner_view="@layout/expandable_frais_montants"
-                    ads:title="Montants des frais" />
 
                 <TextView
                     android:id="@+id/textView113"

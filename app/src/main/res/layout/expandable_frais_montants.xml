@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp"
-            android:text="Taux applicables au 01/03/2022 pour seulement quelques syndicats en attente d'être étendu à tous les conducteurs."
+            android:text="Taux applicables au 01/03/2022 pour seulement quelques syndicats + étendu à tous les conducteurs le 15/06/2022"
             android:textSize="14sp"
             android:textStyle="bold" />
 

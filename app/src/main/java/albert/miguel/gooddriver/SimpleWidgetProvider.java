@@ -41,39 +41,26 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent pendingIntent;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
+                pendingIntent = PendingIntent.getActivity(context, 10, intent, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
             } else{
-                pendingIntent = PendingIntent.getActivity(context, 0, intent,0);
+                pendingIntent = PendingIntent.getActivity(context, 10, intent,0);
             }
 
-            Intent intent2 = new Intent(context, MainActivity.class);
+            Intent intent2 = new Intent(context.getApplicationContext(), MainActivity.class);
             intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent2.putExtra("fragment", "amplitude");
             PendingIntent pendingIntent2;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                pendingIntent2 = PendingIntent.getActivity(context, 1, intent2, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
+                pendingIntent2 = PendingIntent.getActivity(context, 20, intent2, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
             } else{
-                pendingIntent2 = PendingIntent.getActivity(context, 1, intent2,0);
+                pendingIntent2 = PendingIntent.getActivity(context, 20, intent2,0);
             }
-            //String number = String.format("%03d", (new Random().nextInt(900) + 100));
-            //RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.simple_widget);
-            //remoteViews.setTextViewText(R.id.tvRepos11hRestant, number);
-
-//            Intent intent3 = new Intent(context, SimpleWidgetProvider.class);
-//            intent3.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-//            intent3.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-//            PendingIntent pendingIntent3;
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-//                pendingIntent3 = PendingIntent.getBroadcast(context, 3, intent3, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
-//            } else{
-//                pendingIntent3 = PendingIntent.getBroadcast(context, 3, intent3, 0);
-//            }
 
             Intent refreshIntent = new Intent(context, SimpleWidgetProvider.class);
             refreshIntent.setAction(SimpleWidgetProvider.REFRESH_WIDGET_ACTION);
             refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             refreshIntent.setData(Uri.parse(refreshIntent.toUri(Intent.URI_INTENT_SCHEME)));
-            PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 30, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
 
             SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
             editor = pref.edit();
@@ -94,6 +81,9 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             calendarfin13.add(Calendar.HOUR_OF_DAY, 13);
             Calendar calendarfin15 = (Calendar) calendardebut.clone();
             calendarfin15.add(Calendar.HOUR_OF_DAY, 15);
+            int NomduJourDebut = calendardebut.get(Calendar.DAY_OF_WEEK);
+            int NomduJourFin13 = calendarfin13.get(Calendar.DAY_OF_WEEK);
+            int NomduJourFin15 = calendarfin15.get(Calendar.DAY_OF_WEEK);
 
             int Hour13 = calendarfin13.get(Calendar.HOUR_OF_DAY);
             int Minute13 = calendarfin13.get(Calendar.MINUTE);
@@ -116,24 +106,24 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             // to the button.
 
             if(calendardebut.compareTo(now) > 0){
-                views.setTextViewText(R.id.tvRepos9hRestant, " ");
+                views.setTextViewText(R.id.tvRepos9hRestant, "Non\ndébutée");
             } else if(now.compareTo(calendarfin15) > 0){
-                views.setTextViewText(R.id.tvRepos9hRestant, " ");
+                views.setTextViewText(R.id.tvRepos9hRestant, "Fin");
             } else{
                 views.setTextViewText(R.id.tvRepos9hRestant, formatMilliSecondsToTime(time15));
             }
             if(calendardebut.compareTo(now) > 0){
-                views.setTextViewText(R.id.tvRepos11hRestant, " ");
+                views.setTextViewText(R.id.tvRepos11hRestant, "Non\ndébutée");
             } else if(now.compareTo(calendarfin13) > 0){
-                views.setTextViewText(R.id.tvRepos11hRestant, " ");
+                views.setTextViewText(R.id.tvRepos11hRestant, "Fin");
             } else{
                 views.setTextViewText(R.id.tvRepos11hRestant, formatMilliSecondsToTime(time13));
             }
 
             views.setTextViewText(R.id.textView3,String.format("Update\n" + "%02d:%02d", HourUpdate, MinuteUpdate));
-            views.setTextViewText(R.id.textView,String.format("%02d:%02d", heureDebut, minuteDebut));
-            views.setTextViewText(R.id.tvRepos11hFin,String.format("%02d:%02d", Hour13, Minute13));
-            views.setTextViewText(R.id.tvRepos9hFin,String.format("%02d:%02d", Hour15, Minute15));
+            views.setTextViewText(R.id.textView,getDayName(NomduJourDebut-1) + " " + String.format("%02d:%02d", heureDebut, minuteDebut));
+            views.setTextViewText(R.id.tvRepos11hFin,getDayName(NomduJourFin13-1) + "\n" + String.format("%02d:%02d", Hour13, Minute13));
+            views.setTextViewText(R.id.tvRepos9hFin,getDayName(NomduJourFin15-1) + "\n" + String.format("%02d:%02d", Hour15, Minute15));
             views.setOnClickPendingIntent(R.id.imageButton, refreshPendingIntent);
             views.setOnClickPendingIntent(R.id.imageView3, pendingIntent2);
             views.setOnClickPendingIntent(R.id.textView65, pendingIntent);
@@ -153,7 +143,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                 break;
             case REFRESH_WIDGET_ACTION:
                 int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-                AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
+                //AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                 onUpdate(context,appWidgetManager, new int[]{appWidgetId});
                 break;
@@ -171,21 +161,27 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(ctxt.getPackageName(), R.layout.simple_widget);
 
         if(newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)> 300){
-            views.setTextViewTextSize(R.id.textView, TypedValue.COMPLEX_UNIT_SP, 20);
-            views.setTextViewTextSize(R.id.tvRepos11hFin, TypedValue.COMPLEX_UNIT_SP, 18);
-            views.setTextViewTextSize(R.id.tvRepos9hFin, TypedValue.COMPLEX_UNIT_SP, 18);
-            views.setTextViewTextSize(R.id.tvRepos11hRestant, TypedValue.COMPLEX_UNIT_SP, 18);
-            views.setTextViewTextSize(R.id.tvRepos9hRestant, TypedValue.COMPLEX_UNIT_SP, 18);
+            views.setTextViewTextSize(R.id.textView, TypedValue.COMPLEX_UNIT_SP, 17);
+            views.setTextViewTextSize(R.id.tvRepos11hFin, TypedValue.COMPLEX_UNIT_SP, 17);
+            views.setTextViewTextSize(R.id.tvRepos9hFin, TypedValue.COMPLEX_UNIT_SP, 17);
+            views.setTextViewTextSize(R.id.tvRepos11hRestant, TypedValue.COMPLEX_UNIT_SP, 17);
+            views.setTextViewTextSize(R.id.tvRepos9hRestant, TypedValue.COMPLEX_UNIT_SP, 17);
+            views.setTextViewTextSize(R.id.textView65, TypedValue.COMPLEX_UNIT_SP, 17);
+            views.setTextViewTextSize(R.id.textView169, TypedValue.COMPLEX_UNIT_SP, 17);
+            views.setTextViewTextSize(R.id.textView69, TypedValue.COMPLEX_UNIT_SP, 17);
             mgr.updateAppWidget(appWidgetId, views);
             onUpdate(ctxt,mgr, new int[]{appWidgetId});
             //Toast.makeText(ctxt, "Taille",Toast.LENGTH_SHORT).show();
         }
         if(newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)<= 300){
-            views.setTextViewTextSize(R.id.textView, TypedValue.COMPLEX_UNIT_SP, 16);
-            views.setTextViewTextSize(R.id.tvRepos11hFin, TypedValue.COMPLEX_UNIT_SP, 14);
-            views.setTextViewTextSize(R.id.tvRepos9hFin, TypedValue.COMPLEX_UNIT_SP, 14);
-            views.setTextViewTextSize(R.id.tvRepos11hRestant, TypedValue.COMPLEX_UNIT_SP, 14);
-            views.setTextViewTextSize(R.id.tvRepos9hRestant, TypedValue.COMPLEX_UNIT_SP, 14);
+            views.setTextViewTextSize(R.id.textView, TypedValue.COMPLEX_UNIT_SP, 13);
+            views.setTextViewTextSize(R.id.tvRepos11hFin, TypedValue.COMPLEX_UNIT_SP, 13);
+            views.setTextViewTextSize(R.id.tvRepos9hFin, TypedValue.COMPLEX_UNIT_SP, 13);
+            views.setTextViewTextSize(R.id.tvRepos11hRestant, TypedValue.COMPLEX_UNIT_SP, 13);
+            views.setTextViewTextSize(R.id.tvRepos9hRestant, TypedValue.COMPLEX_UNIT_SP, 13);
+            views.setTextViewTextSize(R.id.textView65, TypedValue.COMPLEX_UNIT_SP, 13);
+            views.setTextViewTextSize(R.id.textView169, TypedValue.COMPLEX_UNIT_SP, 13);
+            views.setTextViewTextSize(R.id.textView69, TypedValue.COMPLEX_UNIT_SP, 13);
             mgr.updateAppWidget(appWidgetId, views);
             onUpdate(ctxt,mgr, new int[]{appWidgetId});
             //Toast.makeText(ctxt, "Taille",Toast.LENGTH_SHORT).show();
@@ -210,6 +206,26 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             return "0" + number;
         }
         return String.valueOf(number);
+    }
+
+    public static String getDayName(int day){
+        switch(day){
+            case 0:
+                return "Dimanche";
+            case 1:
+                return "Lundi";
+            case 2:
+                return "Mardi";
+            case 3:
+                return "Mercredi";
+            case 4:
+                return "Jeudi";
+            case 5:
+                return  "Vendredi";
+            case 6:
+                return "Samedi";
+        }
+        return "Worng Day";
     }
 }
 

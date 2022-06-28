@@ -83,7 +83,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="@color/colorAccent"
-                android:textSize="18sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -127,7 +127,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="@color/colorAccent"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -137,7 +137,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="@color/colorAccent"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -164,7 +164,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="@color/colorAccent"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -174,7 +174,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="@color/colorAccent"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
         </LinearLayout>

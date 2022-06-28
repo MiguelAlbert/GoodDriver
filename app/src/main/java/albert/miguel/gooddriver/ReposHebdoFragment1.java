@@ -6,7 +6,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -150,13 +153,26 @@ public class ReposHebdoFragment1 extends Fragment {
     public void onResume() {
         super.onResume();
         testSiDonneeEnregistrees();
+        updateWidget();
         Log.e("Frontales","resume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        updateWidget();
         Log.e("Frontales", "Pause");
+    }
+
+    public void updateWidget(){
+        Intent intent = new Intent(context, SimpleWidgetProvider2.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+        int[] ids = AppWidgetManager.getInstance(getActivity().getApplication())
+                .getAppWidgetIds(new ComponentName(getActivity().getApplication(), SimpleWidgetProvider2.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
     }
 
     public static void testSiDonneeEnregistrees() {
@@ -227,6 +243,7 @@ public class ReposHebdoFragment1 extends Fragment {
                         editorReposHebdo.apply(); // commit changes
                         add24hour();
                         add45hour();
+                        updateWidget();
                     }
                 }, yearDebut, monthDebut, dayOfMonthDebut);
         datePickerDialog.show();
@@ -269,9 +286,11 @@ public class ReposHebdoFragment1 extends Fragment {
                 editorReposHebdo.apply();// commit changes
                 add24hour();
                 add45hour();
+                updateWidget();
             }
         }, HourDebut, MinuteDebut, true);
         timePickerDialog.show();
+
     }
 
 

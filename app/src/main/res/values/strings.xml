@@ -49,6 +49,8 @@
     <string name="backspace">Backspace</string>
     <string name="static_shortcut_long_label">short label</string>
     <string name="static_shortcut_short_label">short label</string>
+    <string name="example_appwidget_description">Afficher la fin maximale de votre amplitude en fonction de votre repos journalier</string>
+    <string name="example_appwidget_description2">Afficher la fin de votre repos hebdomadaire normal ou réduit</string>
 
 
 </resources>
