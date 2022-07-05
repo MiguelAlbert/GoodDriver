@@ -5,38 +5,39 @@ import static android.content.Context.MODE_PRIVATE;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Gravity;
+
+import android.view.View;
 import android.widget.RemoteViews;
-import android.widget.Toast;
+
 
 import java.util.Calendar;
-import java.util.Random;
 
 public class SimpleWidgetProvider extends AppWidgetProvider {
 
     SharedPreferences.Editor editor;
-    public static final String EXTRA_CLICKED_FILE = "EXTRA_CLICKED_FILE";
-    public static final String ACTION_WIDGET_UPDATE = "android.appwidget.action.APPWIDGET_UPDATE";
-    private static final String LIST_ITEM_CLICKED_ACTION = "LIST_ITEM_CLICKED_ACTION";
+
     private static final String REFRESH_WIDGET_ACTION = "REFRESH_WIDGET_ACTION";
+    private static final String ACTION_APPWIDGET_ENABLED = "android.appwidget.action.ACTION_APPWIDGET_ENABLED";
+    RemoteViews views;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+        views = new RemoteViews(context.getPackageName(), R.layout.simple_widget);
         //Toast.makeText(context, "Update",Toast.LENGTH_SHORT).show();
         // Perform this loop procedure for each widget that belongs to this
         // provider.
         for (int i=0; i < appWidgetIds.length; i++) {
             int appWidgetId = appWidgetIds[i];
             // Create an Intent to launch ExampleActivity
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.simple_widget);
+
             Intent intent = new Intent(context, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent pendingIntent;
@@ -105,25 +106,46 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             // Get the layout for the widget and attach an on-click listener
             // to the button.
 
-            if(calendardebut.compareTo(now) > 0){
-                views.setTextViewText(R.id.tvRepos9hRestant, "Non\ndébutée");
-            } else if(now.compareTo(calendarfin15) > 0){
-                views.setTextViewText(R.id.tvRepos9hRestant, "Fin");
-            } else{
-                views.setTextViewText(R.id.tvRepos9hRestant, formatMilliSecondsToTime(time15));
-            }
-            if(calendardebut.compareTo(now) > 0){
-                views.setTextViewText(R.id.tvRepos11hRestant, "Non\ndébutée");
-            } else if(now.compareTo(calendarfin13) > 0){
-                views.setTextViewText(R.id.tvRepos11hRestant, "Fin");
-            } else{
-                views.setTextViewText(R.id.tvRepos11hRestant, formatMilliSecondsToTime(time13));
+            boolean amplitudeOn = pref.getBoolean("key_widget_on", false);
+
+            if(amplitudeOn){
+
+                if(calendardebut.compareTo(now) > 0){
+                    views.setTextViewText(R.id.tvRepos9hRestant, "Non\ndébutée");
+                } else if(now.compareTo(calendarfin15) > 0){
+                    views.setTextViewText(R.id.tvRepos9hRestant, "Fin");
+                } else{
+                    views.setTextViewText(R.id.tvRepos9hRestant, formatMilliSecondsToTime(time15));
+                }
+                if(calendardebut.compareTo(now) > 0){
+                    views.setTextViewText(R.id.tvRepos11hRestant, "Non\ndébutée");
+                } else if(now.compareTo(calendarfin13) > 0){
+                    views.setTextViewText(R.id.tvRepos11hRestant, "Fin");
+                } else{
+                    views.setTextViewText(R.id.tvRepos11hRestant, formatMilliSecondsToTime(time13));
+                }
+                views.setTextViewText(R.id.textView3,String.format("Update\n" + "%02d:%02d", HourUpdate, MinuteUpdate));
+                views.setTextViewText(R.id.textView,getDayName(NomduJourDebut-1) + " " + String.format("%02d:%02d", heureDebut, minuteDebut));
+                views.setTextViewText(R.id.tvRepos11hFin,getDayName(NomduJourFin13-1) + "\n" + String.format("%02d:%02d", Hour13, Minute13));
+                views.setTextViewText(R.id.tvRepos9hFin,getDayName(NomduJourFin15-1) + "\n" + String.format("%02d:%02d", Hour15, Minute15));
+            } else {
+                views.setTextViewText(R.id.textView3,"");
+                views.setTextViewText(R.id.textView,"");
+                views.setTextViewText(R.id.tvRepos11hFin,"");
+                views.setTextViewText(R.id.tvRepos9hFin,"");
+                views.setTextViewText(R.id.tvRepos9hRestant, "");
+                views.setTextViewText(R.id.tvRepos11hRestant, "");
             }
 
-            views.setTextViewText(R.id.textView3,String.format("Update\n" + "%02d:%02d", HourUpdate, MinuteUpdate));
-            views.setTextViewText(R.id.textView,getDayName(NomduJourDebut-1) + " " + String.format("%02d:%02d", heureDebut, minuteDebut));
-            views.setTextViewText(R.id.tvRepos11hFin,getDayName(NomduJourFin13-1) + "\n" + String.format("%02d:%02d", Hour13, Minute13));
-            views.setTextViewText(R.id.tvRepos9hFin,getDayName(NomduJourFin15-1) + "\n" + String.format("%02d:%02d", Hour15, Minute15));
+            boolean alarmOn = pref.getBoolean("Key_alarm", false);
+            if(alarmOn){
+                views.setViewVisibility(R.id.imageView5, View.VISIBLE);
+                views.setInt(R.id.imageView5,"setColorFilter", Color.parseColor("#E53935"));
+            } else {
+                views.setViewVisibility(R.id.imageView5, View.GONE);
+                //views.setInt(R.id.imageView5,"setColorFilter", Color.TRANSPARENT);
+            }
+
             views.setOnClickPendingIntent(R.id.imageButton, refreshPendingIntent);
             views.setOnClickPendingIntent(R.id.imageView3, pendingIntent2);
             views.setOnClickPendingIntent(R.id.textView65, pendingIntent);
@@ -138,17 +160,18 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         super.onReceive(context, intent);
 
         switch (intent.getAction()) {
-            case LIST_ITEM_CLICKED_ACTION:
 
-                break;
             case REFRESH_WIDGET_ACTION:
                 int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
                 //AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                 onUpdate(context,appWidgetManager, new int[]{appWidgetId});
                 break;
-            case ACTION_WIDGET_UPDATE:
-
+            case ACTION_APPWIDGET_ENABLED:
+                int appWidgetId2 = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+                //AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
+                AppWidgetManager appWidgetManager2 = AppWidgetManager.getInstance(context);
+                onUpdate(context,appWidgetManager2, new int[]{appWidgetId2});
                 break;
         }
     }

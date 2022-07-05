@@ -72,7 +72,9 @@
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_weight="0.3"
+                android:foregroundGravity="center"
                 android:paddingLeft="5dp"
                 android:src="@drawable/ic_logo2" />
 
@@ -92,7 +94,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 android:paddingRight="5dp"
-                android:src="@android:drawable/ic_media_play" />
+                android:src="@drawable/ic_baseline_settings_24"
+                android:tint="@color/black" />
 
         </LinearLayout>
 
@@ -115,7 +118,7 @@
                 android:id="@+id/textView169"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.75"
                 android:text="  Repos 24H"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -152,7 +155,7 @@
                 android:id="@+id/textView69"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.75"
                 android:text="  Repos 45H"
                 android:textColor="@color/black"
                 android:textStyle="bold" />

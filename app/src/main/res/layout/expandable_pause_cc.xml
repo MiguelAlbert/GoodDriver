@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp"
-            android:text="Interruption minimale de temps de conduite continue :\n45 min. ou 15 min. suivies de 30 min."
+            android:text="Interruption minimale de temps de conduite continue :\n45 min. \nou 15 min. suivies de 30 min."
             android:textSize="14sp"
             android:textStyle="bold" />
 

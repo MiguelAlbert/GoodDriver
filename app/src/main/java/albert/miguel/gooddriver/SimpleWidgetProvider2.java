@@ -8,9 +8,11 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import java.util.Calendar;
@@ -18,18 +20,19 @@ import java.util.Calendar;
 public class SimpleWidgetProvider2 extends AppWidgetProvider {
 
     SharedPreferences.Editor editor;
-    public static final String ACTION_WIDGET_UPDATE = "android.appwidget.action.APPWIDGET_UPDATE";
-    private static final String LIST_ITEM_CLICKED_ACTION = "LIST_ITEM_CLICKED_ACTION";
-    private static final String REFRESH_WIDGET_ACTION = "REFRESH_WIDGET_ACTION";
+    private static final String REFRESH_WIDGET_ACTION2 = "REFRESH_WIDGET_ACTION";
+    private static final String ACTION_APPWIDGET_ENABLED2 = "android.appwidget.action.ACTION_APPWIDGET_ENABLED";
+    RemoteViews views;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+        views = new RemoteViews(context.getPackageName(), R.layout.simple_widget2);
 
         for (int i=0; i < appWidgetIds.length; i++) {
             int appWidgetId = appWidgetIds[i];
             // Create an Intent to launch ExampleActivity
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.simple_widget2);
+
             Intent intent = new Intent(context, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent pendingIntent;
@@ -50,7 +53,7 @@ public class SimpleWidgetProvider2 extends AppWidgetProvider {
             }
 
             Intent refreshIntent = new Intent(context, SimpleWidgetProvider2.class);
-            refreshIntent.setAction(SimpleWidgetProvider2.REFRESH_WIDGET_ACTION);
+            refreshIntent.setAction(SimpleWidgetProvider2.REFRESH_WIDGET_ACTION2);
             refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             refreshIntent.setData(Uri.parse(refreshIntent.toUri(Intent.URI_INTENT_SCHEME)));
             PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 200, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
@@ -98,29 +101,42 @@ public class SimpleWidgetProvider2 extends AppWidgetProvider {
             // Get the layout for the widget and attach an on-click listener
             // to the button.
 
-            if(calendardebut.compareTo(now) > 0){
-                views.setTextViewText(R.id.tvRepos9hRestant, "Non\ndébutée");
-            } else if(now.compareTo(calendarfin45) > 0){
-                views.setTextViewText(R.id.tvRepos9hRestant, "Fin");
+            boolean reposHebdoOn = pref.getBoolean("key_widget_on", false);
+
+            if(reposHebdoOn) {
+                if (calendardebut.compareTo(now) > 0) {
+                    views.setTextViewText(R.id.tvRepos9hRestant, "Non\ndébutée");
+                } else if (now.compareTo(calendarfin45) > 0) {
+                    views.setTextViewText(R.id.tvRepos9hRestant, "Fin");
+                } else {
+                    views.setTextViewText(R.id.tvRepos9hRestant, formatMilliSecondsToTime(time15));
+                }
+                if (calendardebut.compareTo(now) > 0) {
+                    views.setTextViewText(R.id.tvRepos11hRestant, "Non\ndébutée");
+                } else if (now.compareTo(calendarfin24) > 0) {
+                    views.setTextViewText(R.id.tvRepos11hRestant, "Fin");
+                } else {
+                    views.setTextViewText(R.id.tvRepos11hRestant, formatMilliSecondsToTime(time13));
+                }
+                views.setTextViewText(R.id.textView3, String.format("Update\n" + "%02d:%02d", HourUpdate, MinuteUpdate));
+                views.setTextViewText(R.id.textView, getDayName(NomduJourDebut - 1) + " " + String.format("%02d:%02d", heureDebut, minuteDebut));
+                views.setTextViewText(R.id.tvRepos11hFin, getDayName(NomduJourFin24 - 1) + "\n" + String.format("%02d:%02d", Hour13, Minute13));
+                views.setTextViewText(R.id.tvRepos9hFin, getDayName(NomduJourFin45 - 1) + "\n" + String.format("%02d:%02d", Hour15, Minute15));
+                views.setOnClickPendingIntent(R.id.imageButton, refreshPendingIntent);
+                views.setOnClickPendingIntent(R.id.imageView3, pendingIntent2);
+                views.setOnClickPendingIntent(R.id.textView65, pendingIntent);
             } else{
-                views.setTextViewText(R.id.tvRepos9hRestant, formatMilliSecondsToTime(time15));
-            }
-            if(calendardebut.compareTo(now) > 0){
-                views.setTextViewText(R.id.tvRepos11hRestant, "Non\ndébutée");
-            } else if(now.compareTo(calendarfin24) > 0){
-                views.setTextViewText(R.id.tvRepos11hRestant, "Fin");
-            } else{
-                views.setTextViewText(R.id.tvRepos11hRestant, formatMilliSecondsToTime(time13));
+                views.setTextViewText(R.id.textView3,"");
+                views.setTextViewText(R.id.textView,"");
+                views.setTextViewText(R.id.tvRepos11hFin,"");
+                views.setTextViewText(R.id.tvRepos9hFin,"");
+                views.setTextViewText(R.id.tvRepos9hRestant, "");
+                views.setTextViewText(R.id.tvRepos11hRestant, "");
             }
 
-            views.setTextViewText(R.id.textView3,String.format("Update\n" + "%02d:%02d", HourUpdate, MinuteUpdate));
-            views.setTextViewText(R.id.textView,getDayName(NomduJourDebut-1) + " " +String.format("%02d:%02d", heureDebut, minuteDebut));
-            views.setTextViewText(R.id.tvRepos11hFin,getDayName(NomduJourFin24-1) + "\n" + String.format("%02d:%02d", Hour13, Minute13));
-            views.setTextViewText(R.id.tvRepos9hFin,getDayName(NomduJourFin45-1) + "\n" +  String.format("%02d:%02d", Hour15, Minute15));
             views.setOnClickPendingIntent(R.id.imageButton, refreshPendingIntent);
             views.setOnClickPendingIntent(R.id.imageView3, pendingIntent2);
             views.setOnClickPendingIntent(R.id.textView65, pendingIntent);
-
             // Tell the AppWidgetManager to perform an update on the current app widget.
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
@@ -131,17 +147,18 @@ public class SimpleWidgetProvider2 extends AppWidgetProvider {
         super.onReceive(context, intent);
 
         switch (intent.getAction()) {
-            case LIST_ITEM_CLICKED_ACTION:
 
-                break;
-            case REFRESH_WIDGET_ACTION:
+            case REFRESH_WIDGET_ACTION2:
                 int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
                 //AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                 onUpdate(context,appWidgetManager, new int[]{appWidgetId});
                 break;
-            case ACTION_WIDGET_UPDATE:
-
+            case ACTION_APPWIDGET_ENABLED2:
+                int appWidgetId2 = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+                //AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
+                AppWidgetManager appWidgetManager2 = AppWidgetManager.getInstance(context);
+                onUpdate(context,appWidgetManager2, new int[]{appWidgetId2});
                 break;
         }
     }
@@ -183,7 +200,7 @@ public class SimpleWidgetProvider2 extends AppWidgetProvider {
     private static String formatMilliSecondsToTime(long milliseconds) {
         int seconds = (int) (milliseconds / 1000) % 60;
         int minutes = (int) ((milliseconds / (1000 * 60)) % 60) +1;
-        int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
+        int hours = (int) (milliseconds / (1000 * 60 * 60)) ;
         if(minutes == 60){
             minutes = 0;
             hours ++ ;

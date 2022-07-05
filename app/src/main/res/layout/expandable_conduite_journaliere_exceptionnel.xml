@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F4EDED"
+        android:padding="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="Le conducteur peut, dans des circonstances exceptionnelles, dépasser la durée de conduite journalière et/ou hebdomadaire d’une heure au maximum afin de rejoindre le centre opérationnel de l’employeur ou son lieu de résidence pour prendre un temps de repos hebdomadaire, pour autant que cela ne compromette pas la sécurité routière.\n\nDans les mêmes conditions, le conducteur peut dépasser la durée de conduite journalière et/ou hebdomadaire de deux heures au maximum, à condition d’avoir observé une pause ininterrompue de trente minutes immédiatement avant la conduite supplémentaire afin d’atteindre le centre opérationnel de l’employeur ou son lieu de résidence pour un temps de repos hebdomadaire normal.\n\nLe conducteur indique le motif d’une telle dérogation manuellement sur la feuille d’enregistrement ou une sortie imprimée de l’appareil de contrôle ou dans le registre de service, au plus tard à son arrivée à destination ou au point d’arrêt approprié.\n\nTout dépassement de la durée de conduite est compensé par une période de repos équivalente, prise en bloc avec toute période de repos, au plus tard à la fin de la troisième semaine suivant la semaine en question."
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView49"
+            android:layout_width="match_parent"
+            android:layout_height="500dp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

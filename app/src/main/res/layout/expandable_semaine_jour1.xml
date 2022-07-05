@@ -31,35 +31,35 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButtonCalcul"
+                    android:id="@+id/imageButtonDateDebutJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
                     android:src="@drawable/ic_baseline_calendar_today_24" />
 
                 <TextView
-                    android:id="@+id/tVDateDebut1"
+                    android:id="@+id/tVDateDebutJ1"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_rectangle_order"
                     android:gravity="center" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonHeure1"
+                    android:id="@+id/imageButtonHeureDebutJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
                     android:src="@drawable/ic_baseline_access_time_24" />
 
                 <TextView
-                    android:id="@+id/tvHeureDebut"
+                    android:id="@+id/tvHeureDebutJ1"
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_rectangle_order"
                     android:gravity="center" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonDeleteFin1"
+                    android:id="@+id/imageButtonDeleteDebutJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
@@ -82,35 +82,35 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButtonDate1"
+                    android:id="@+id/imageButtonDateFinJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
                     android:src="@drawable/ic_baseline_calendar_today_24" />
 
                 <TextView
-                    android:id="@+id/tvDateDebut"
+                    android:id="@+id/tvDateFinJ1"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_rectangle_order"
                     android:gravity="center" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonCalcul1"
+                    android:id="@+id/imageButtonHeureFinJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
                     android:src="@drawable/ic_baseline_access_time_24" />
 
                 <TextView
-                    android:id="@+id/tvHeureDebut1"
+                    android:id="@+id/tvHeureFinJ1"
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_rectangle_order"
                     android:gravity="center" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonDelete"
+                    android:id="@+id/imageButtonDeleteFinJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
@@ -133,7 +133,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButtonHeure3"
+                    android:id="@+id/imageButtonHeureConduiteJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -141,7 +141,7 @@
                     android:src="@drawable/ic_testdrive" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonHeure4"
+                    android:id="@+id/imageButtonHeureTravailJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -149,7 +149,7 @@
                     android:src="@drawable/ic_baseline_clear_24" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonHeure2"
+                    android:id="@+id/imageButtonHeureDispoJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -164,7 +164,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvHeureDebut3"
+                    android:id="@+id/tvHeureConduiteJ1"
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -172,7 +172,7 @@
                     android:gravity="center" />
 
                 <TextView
-                    android:id="@+id/tvHeureDebut4"
+                    android:id="@+id/tvHeureTravailJ1"
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -180,7 +180,7 @@
                     android:gravity="center" />
 
                 <TextView
-                    android:id="@+id/tvHeureDebut2"
+                    android:id="@+id/tvHeureDispoJ1"
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -199,7 +199,7 @@
             android:padding="8dp">
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/checkBox3HeuresReposJ1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Pause de + de 3h pendant l'amplitude" />

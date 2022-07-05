@@ -240,6 +240,7 @@ public class ReposHebdoFragment1 extends Fragment {
                         editorReposHebdo.putInt("key_Debut_Year",year );
                         editorReposHebdo.putInt("key_Debut_Month",month );
                         editorReposHebdo.putInt("key_Debut_Day",day );
+                        editorReposHebdo.putBoolean("key_widget_on", true);
                         editorReposHebdo.apply(); // commit changes
                         add24hour();
                         add45hour();
@@ -283,6 +284,7 @@ public class ReposHebdoFragment1 extends Fragment {
                 editorReposHebdo.putInt("key_Debut_Year",yearDebut );  // Saving int
                 editorReposHebdo.putInt("key_Debut_Month",monthDebut );  // Saving int
                 editorReposHebdo.putInt("key_Debut_Day",dayOfMonthDebut );  // Saving int// Saving int
+                editorReposHebdo.putBoolean("key_widget_on", true);
                 editorReposHebdo.apply();// commit changes
                 add24hour();
                 add45hour();
@@ -520,6 +522,7 @@ public class ReposHebdoFragment1 extends Fragment {
         editorReposHebdo.putInt("key_Debut_Year",0 );  // Saving int
         editorReposHebdo.putInt("key_Debut_Month",0 );  // Saving int
         editorReposHebdo.putInt("key_Debut_Day",0 );  // Saving int// Saving int
+        editorReposHebdo.putBoolean("key_widget_on", false);
         editorReposHebdo.apply();// commit changes
     }
 }

@@ -119,14 +119,14 @@ public class AmplitudeFragment extends Fragment {
         imageButtonHeure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectHeure(v);
+                selectHeure();
             }
         });
         imageButtonDate = (ImageButton) v.findViewById(R.id.imageButtonCalcul);
         imageButtonDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectDate(v);
+                selectDate();
             }
         });
         imageButtonDelete = (ImageButton) v.findViewById(R.id.imageButtonDelete);
@@ -140,14 +140,14 @@ public class AmplitudeFragment extends Fragment {
         radioButton11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reposChange(v);
+                reposChange();
             }
         });
         radioButton9 = (RadioButton) v.findViewById(R.id.radioButton9);
         radioButton9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reposChange(v);
+                reposChange();
             }
         });
         tvTempsServiveNuit = (TextView) v.findViewById(R.id.tvTempsServiveNuit);
@@ -157,20 +157,18 @@ public class AmplitudeFragment extends Fragment {
         tVDateDebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectDate(v);
+                selectDate();
             }
         });
         tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebut);
         tvHeureDebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectHeure(v);
+                selectHeure();
             }
         });
         tvHeureFinAmplitude = (TextView) v.findViewById(R.id.tvHeureReposReduit);
         tvDateFinAmplitude = (TextView) v.findViewById(R.id.tvReposPalettes);
-        //tvHeureJour = (TextView) v.findViewById(R.id.tvHeureJour);
-        //tvDateDuJour = (TextView) v.findViewById(R.id.tvDateDuJour);
         tvTempsRestant = (TextView) v.findViewById(R.id.tvTempsRestantReduit);
         tvNotificationTimeBefore = (TextView) v.findViewById(R.id.tvNotificationTimeBefore);
         tvNotificationTimeBefore.setOnClickListener(new View.OnClickListener() {
@@ -204,7 +202,6 @@ public class AmplitudeFragment extends Fragment {
 
                 } else {
                     disableSelected(true);
-                    //Toast.makeText(context, "switch false", Toast.LENGTH_SHORT).show();
                     cancelAlarm();
                 }
             }
@@ -524,12 +521,12 @@ public class AmplitudeFragment extends Fragment {
         return String.valueOf(number);
     }
 
-    public void selectDate(View v) {
+    public void selectDate() {
         int yearDebut,monthDebut,dayOfMonthDebut,HourDebut,MinuteDebut;
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         int tempsAmplitude = pref.getInt("key_Amplitude_Journaliere", 13);
-        if(tvHeureDebut.getText().toString()==""){
+        if(tvHeureDebut.getText().toString().equals("")){
             yearDebut = now.get(Calendar.YEAR);
             monthDebut = now.get(Calendar.MONTH);
             dayOfMonthDebut = now.get(Calendar.DAY_OF_MONTH);
@@ -566,6 +563,7 @@ public class AmplitudeFragment extends Fragment {
                         editor.putInt("key_Debut_Year",year );
                         editor.putInt("key_Debut_Month",month );
                         editor.putInt("key_Debut_Day",day );
+                        editor.putBoolean("key_widget_on", true);
                         editor.apply(); // commit changes
                         tvHeureDebut.setText(String.format("%02d:%02d", HourDebut, MinuteDebut));
                         tVDateDebut.setText(getDayName(NomduJourdebut-1) + "\n" + String.format("%02d/%02d/%02d",day ,(month +1) , year));
@@ -590,12 +588,12 @@ public class AmplitudeFragment extends Fragment {
     }
 
 
-    public void selectHeure(View view) {
+    public void selectHeure() {
         int yearDebut,monthDebut,dayOfMonthDebut,HourDebut,MinuteDebut;
         SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         int tempsAmplitude = pref.getInt("key_Amplitude_Journaliere", 13);
-        if(tVDateDebut.getText().toString()==""){
+        if(tVDateDebut.getText().toString().equals("")){
             yearDebut = now.get(Calendar.YEAR);
             monthDebut = now.get(Calendar.MONTH);
             dayOfMonthDebut = now.get(Calendar.DAY_OF_MONTH);
@@ -631,6 +629,7 @@ public class AmplitudeFragment extends Fragment {
                 editor.putInt("key_Debut_Year",yearDebut );  // Saving int
                 editor.putInt("key_Debut_Month",monthDebut );  // Saving int
                 editor.putInt("key_Debut_Day",dayOfMonthDebut );  // Saving int// Saving int
+                editor.putBoolean("key_widget_on", true);
                 editor.apply();// commit changes
                 tvHeureDebut.setText(String.format("%02d:%02d", hourOfDay, minutes));
                 tVDateDebut.setText(getDayName(NomduJourdebut-1) + "\n" + String.format("%02d/%02d/%02d",dayOfMonthDebut,(monthDebut +1),yearDebut));
@@ -740,12 +739,13 @@ public class AmplitudeFragment extends Fragment {
         editor.clear();
         editor.apply();
         editor.putInt("key_Amplitude_Journaliere",13 );
+        editor.putBoolean("key_widget_on", false);
         editor.apply();// commit changes
         radioButton11.toggle();
         now.clear();
         calendarfin.clear();
         createPieChart();
-        clearWidget();
+        //clearWidget();
     }
 
     private static void clearWidget() {
@@ -761,7 +761,7 @@ public class AmplitudeFragment extends Fragment {
         appWidgetManager.updateAppWidget(thisWidget, remoteViews);
     }
 
-    public void reposChange(View view) {
+    public void reposChange() {
         if(radioButton9.isChecked()){
             SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
             editor = pref.edit();

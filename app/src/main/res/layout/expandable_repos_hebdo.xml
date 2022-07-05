@@ -15,14 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp"
-            android:text="Période de repos ininterrompue de 56 heures obligatoire après 6 amplitudes de 24 heures.\nPeut être réduit à 24h00 une fois entre 2 repos normaux."
+            android:text="Période de repos ininterrompue de 56 heures (repos normal) obligatoire après 6 amplitudes de 24 heures.\nPeut être réduit à 24h00 (repos réduit) une fois entre 2 repos normaux en transport national ou 2 fois entre 2 repos normaux en transport international.\n\nUne période de repos hebdomadaire réduite (24h) peut être prise dans un train ou un ferry à condition d'y avoir une cabine couchette.\n\nCette période de repos peut être interrompue au maximum 2 fois pour l'embarquement ou le débarquement du véhicule. La durée total des opération d'embarquement ou de débarquement ne doit pas excéder 1h00.\n\nPour prendre un repos hebdomadaire normal en ferry ou train, en plus des autres règles, la durée du trajet effectué en ferry ou en train doit être au moins égale à 8h."
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView47"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="300dp" />
 
     </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

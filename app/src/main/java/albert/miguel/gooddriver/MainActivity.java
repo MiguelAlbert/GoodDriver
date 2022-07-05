@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RC_APP_UPDATE){
-            Toast.makeText(this, "Cancel",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Cancel",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -747,7 +747,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

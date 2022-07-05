@@ -285,6 +285,7 @@ public class AmplitudeFragment2 extends Fragment {
                         editor.putInt("key_Debut_Year",year );
                         editor.putInt("key_Debut_Month",month );
                         editor.putInt("key_Debut_Day",day );
+                        editor.putBoolean("key_widget_on", true);
                         editor.apply(); // commit changes
                         tvHeureDebut.setText(String.format("%02d:%02d", HourDebut, MinuteDebut));
                         tVDateDebut.setText(getDayName(NomduJourdebut-1) + "\n" + String.format("%02d/%02d/%02d",day ,(month +1) , year));
@@ -335,6 +336,7 @@ public class AmplitudeFragment2 extends Fragment {
                 editor.putInt("key_Debut_Year",yearDebut );  // Saving int
                 editor.putInt("key_Debut_Month",monthDebut );  // Saving int
                 editor.putInt("key_Debut_Day",dayOfMonthDebut );  // Saving int// Saving int
+                editor.putBoolean("key_widget_on", true);
                 editor.apply();// commit changes
                 tvHeureDebut.setText(String.format("%02d:%02d", hourOfDay, minutes));
                 tVDateDebut.setText(getDayName(NomduJourdebut-1) + "\n" + String.format("%02d/%02d/%02d",dayOfMonthDebut,(monthDebut +1),yearDebut));

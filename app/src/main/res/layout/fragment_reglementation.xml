@@ -80,7 +80,19 @@
                     app:expandOnClick="true"
                     app:icon="@drawable/ic_testdrive"
                     app:inner_view="@layout/expandable_conduite_journaliere"
-                    app:title="Conduite journaliere" />
+                    app:title="Conduite journalière" >
+
+                </com.alespero.expandablecardview.ExpandableCardView>
+
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/conduitejournaliereexceptionnelle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    ads:expandOnClick="true"
+                    ads:icon="@drawable/ic_testdrive"
+                    ads:inner_view="@layout/expandable_conduite_journaliere_exceptionnel"
+                    ads:title="Conduite journalière (+1h/+2h)" />
 
                 <com.alespero.expandablecardview.ExpandableCardView
                     android:id="@+id/conduitehebdo"
@@ -103,6 +115,16 @@
                     app:title="Conduite sur 2 semaines" />
 
                 <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/transportinter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    app:expandOnClick="true"
+                    app:icon="@drawable/ic_testdrive"
+                    app:inner_view="@layout/expandable_transport_international"
+                    app:title="Passage de frontière" />
+
+                <com.alespero.expandablecardview.ExpandableCardView
                     android:id="@+id/reposjournalier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -121,6 +143,16 @@
                     app:icon="@drawable/ic_repos"
                     app:inner_view="@layout/expandable_repos_journalier_fraction"
                     app:title="Repos journalier fractionné" />
+
+                <com.alespero.expandablecardview.ExpandableCardView
+                    android:id="@+id/reposjournalierferrytrain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    app:expandOnClick="true"
+                    app:icon="@drawable/ic_repos"
+                    app:inner_view="@layout/expandable_repos_journalier_ferrytrain"
+                    app:title="Repos journalier ferry/train" />
 
                 <com.alespero.expandablecardview.ExpandableCardView
                     android:id="@+id/reposhebo"
