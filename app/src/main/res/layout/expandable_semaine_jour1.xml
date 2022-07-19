@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/LinearLayoutJ1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#F4EDED"
@@ -133,7 +134,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButtonHeureConduiteJ1"
+                    android:id="@+id/imageButtonConduiteJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -141,7 +142,7 @@
                     android:src="@drawable/ic_testdrive" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonHeureTravailJ1"
+                    android:id="@+id/imageButtonTravailJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -149,7 +150,7 @@
                     android:src="@drawable/ic_baseline_clear_24" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonHeureDispoJ1"
+                    android:id="@+id/imageButtonDispoJ1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -197,6 +198,23 @@
             android:background="#F4EDED"
             android:orientation="vertical"
             android:padding="8dp">
+            <TextView
+                android:id="@+id/tvTempsAmplitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="Total de l'amplitude :"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTempsAmplitudeJ1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="00:00"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/checkBox3HeuresReposJ1"
@@ -205,13 +223,44 @@
                 android:text="Pause de + de 3h pendant l'amplitude" />
 
             <TextView
-                android:id="@+id/tvRepos11hRestant"
+                android:id="@+id/tvTempsService"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:text="Total du temps de service :"
                 android:textSize="14sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTempsServiceJ1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="00:00"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvRepos11hRestant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="Total du temps de repos :"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTempsReposJ1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="00:00"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
 
         </LinearLayout>
 

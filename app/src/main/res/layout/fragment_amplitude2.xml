@@ -47,7 +47,7 @@
                         android:orientation="horizontal">
 
                         <ImageButton
-                            android:id="@+id/imageButtonCalcul"
+                            android:id="@+id/imageButtonHeureDebutJ5"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:cropToPadding="true"
@@ -69,7 +69,7 @@
                             android:src="@drawable/ic_baseline_access_time_24" />
 
                         <TextView
-                            android:id="@+id/tvHeureDebut"
+                            android:id="@+id/tvHeureDebutJ2"
                             android:layout_width="70dp"
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_rectangle_order"

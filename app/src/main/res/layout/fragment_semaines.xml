@@ -28,12 +28,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+                    <ImageButton
+                        android:id="@+id/imageButtonDeleteSemaine"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:cropToPadding="true"
+                        android:src="@drawable/ic_baseline_clear_24" />
 
                     <TextView
                         android:id="@+id/textView13"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_weight="0.8"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="50dp"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:text="Ma semaine"
                         android:textColor="@color/blue"
@@ -41,14 +48,7 @@
 
                 </LinearLayout>
 
-                <com.alespero.expandablecardview.ExpandableCardView
-                    android:id="@+id/reposHbefore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:expandOnClick="true"
-                    app:icon="@drawable/ic_baseline_timer_24"
-                    app:inner_view="@layout/expandable_semaine_rh1"
-                    app:title="Repos hebdo" />
+
 
                 <com.alespero.expandablecardview.ExpandableCardView
                     android:id="@+id/amplitude1"
@@ -104,25 +104,16 @@
                     app:inner_view="@layout/expandable_semaine_jour6"
                     app:title="Jour 6" />
 
-                <com.alespero.expandablecardview.ExpandableCardView
-                    android:id="@+id/reposHend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:expandOnClick="true"
-                    app:icon="@drawable/ic_baseline_timer_24"
-                    app:inner_view="@layout/expandable_semaine_rh2"
-                    app:title="Repos hebdo" >
-
-                </com.alespero.expandablecardview.ExpandableCardView>
 
                 <TextView
                     android:id="@+id/textView23"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
+                    android:paddingTop="15dp"
                     android:paddingBottom="5dp"
                     android:text="Total de la semaine"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TableLayout
@@ -144,13 +135,16 @@
                             android:id="@+id/textView11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Conduite" />
+                            android:text="Conduite"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView25"
+                            android:id="@+id/tvTotalConduiteSemaine"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="00:00" />
+                            android:text="00:00"
+                            android:textAlignment="viewEnd"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
@@ -162,13 +156,16 @@
                             android:id="@+id/textView24"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Travail" />
+                            android:text="Travail"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView26"
+                            android:id="@+id/tvTotalTravailSemaine"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="00:00" />
+                            android:text="00:00"
+                            android:textAlignment="viewEnd"
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow
@@ -179,13 +176,16 @@
                             android:id="@+id/textView27"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Disponibilité" />
+                            android:text="Disponibilité"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView28"
+                            android:id="@+id/tvTotalDispoSemaine"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="00:00" />
+                            android:layout_height="match_parent"
+                            android:text="00:00"
+                            android:textAlignment="viewEnd"
+                            android:textStyle="bold" />
 
                     </TableRow>
 
@@ -197,13 +197,16 @@
                             android:id="@+id/textView30"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Service" />
+                            android:text="Service"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView29"
+                            android:id="@+id/tvTotalServiceSemaine"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="00:00" />
+                            android:text="00:00"
+                            android:textAlignment="viewEnd"
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow
@@ -214,13 +217,16 @@
                             android:id="@+id/textView31"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Conduite de + de 9:00" />
+                            android:text="Conduite de + de 9:00"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView32"
+                            android:id="@+id/tvNbConduite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0/2" />
+                            android:text="0/2"
+                            android:textAlignment="viewEnd"
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow
@@ -231,13 +237,16 @@
                             android:id="@+id/textView33"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Repos de - de 11:00" />
+                            android:text="Repos de - de 11:00"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView34"
+                            android:id="@+id/tvNbRepos"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0/3" />
+                            android:text="0/3"
+                            android:textAlignment="viewEnd"
+                            android:textStyle="bold" />
                     </TableRow>
                 </TableLayout>
             </LinearLayout>

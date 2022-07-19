@@ -23,6 +23,8 @@
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.21354166666666666" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/ic_baseline_timer_24.xml" value="0.19" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/ic_baseline_timer_off_24.xml" value="0.1365" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/ic_dispo.xml" value="0.338" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/ic_dispo1.xml" value="0.338" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/ic_launcher_background.xml" value="0.15" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/ic_logo.xml" value="0.144" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/ic_logo2.xml" value="0.1635" />
@@ -32,6 +34,7 @@
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/ic_testdrive.xml" value="0.1" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/logo3.xml" value="0.1635" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/progress_background.xml" value="0.1685" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/selector_button.xml" value="0.338" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/side_nav_bar.xml" value="0.21354166666666666" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/drawable/test.xml" value="0.1205" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/accueil_fragment.xml" value="0.18" />
@@ -58,7 +61,7 @@
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_repos_journalier.xml" value="0.19739583333333333" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_repos_journalier_ferrytrain.xml" value="0.15063291139240506" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_repos_journalier_fraction.xml" value="0.19739583333333333" />
-        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_semaine_jour1.xml" value="0.19739583333333333" />
+        <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_semaine_jour1.xml" value="0.33" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_semaine_jour2.xml" value="0.16196581196581197" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_semaine_jour3.xml" value="0.16196581196581197" />
         <entry key="..\:/Users/migue/AndroidStudioProjects/GoodDriver/app/src/main/res/layout/expandable_semaine_jour4.xml" value="0.16196581196581197" />

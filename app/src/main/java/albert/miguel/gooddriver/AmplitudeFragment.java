@@ -3,8 +3,6 @@ package albert.miguel.gooddriver;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.POWER_SERVICE;
-import static android.graphics.Color.BLUE;
-import static android.graphics.Color.GREEN;
 import static android.os.Build.VERSION.SDK_INT;
 
 import android.app.AlarmManager;
@@ -122,7 +120,7 @@ public class AmplitudeFragment extends Fragment {
                 selectHeure();
             }
         });
-        imageButtonDate = (ImageButton) v.findViewById(R.id.imageButtonCalcul);
+        imageButtonDate = (ImageButton) v.findViewById(R.id.imageButtonHeureDebutJ5);
         imageButtonDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +158,7 @@ public class AmplitudeFragment extends Fragment {
                 selectDate();
             }
         });
-        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebut);
+        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebutJ2);
         tvHeureDebut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

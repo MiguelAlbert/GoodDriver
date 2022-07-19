@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -95,7 +93,7 @@ public class ReposHebdoFragment1 extends Fragment {
         tvHeureReposNormal = (TextView) v.findViewById(R.id.tvHeureReposNormal);
         tvTempsRestantNormal = (TextView) v.findViewById(R.id.tvTempsRestantNormal);
         tVDateDebut = (TextView) v.findViewById(R.id.tvDateDebut);
-        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebut);
+        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebutJ2);
 
         imageButtonDateDebut = (ImageButton) v.findViewById(R.id.imageButtonDateDebut);
         imageButtonHeureDebut = (ImageButton) v.findViewById(R.id.imageButtonHeureDebut);

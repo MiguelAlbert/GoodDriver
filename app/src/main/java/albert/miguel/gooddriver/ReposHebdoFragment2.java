@@ -7,7 +7,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +16,9 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -65,7 +62,7 @@ public class ReposHebdoFragment2 extends Fragment {
         tvResultatDifference = (TextView) v.findViewById(R.id.tvResultatDifference);
         tvBilan = (TextView) v.findViewById(R.id.tvBilan);
         tVDateDebut = (TextView) v.findViewById(R.id.tvDateDebut);
-        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebut);
+        tvHeureDebut = (TextView) v.findViewById(R.id.tvHeureDebutJ2);
         tVDateFin = (TextView) v.findViewById(R.id.tVDateFin);
         tvHeureFin = (TextView) v.findViewById(R.id.tvHeureFin);
         textView10 = (TextView) v.findViewById(R.id.textView10);

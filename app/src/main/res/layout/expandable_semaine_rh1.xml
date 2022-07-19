@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/LinearLayoutRH1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#F4EDED"
@@ -31,35 +32,35 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButtonCalcul"
+                    android:id="@+id/imageButtonDateDebutRH1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
                     android:src="@drawable/ic_baseline_calendar_today_24" />
 
                 <TextView
-                    android:id="@+id/tVDateDebut1"
+                    android:id="@+id/tVDateDebutRH1"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_rectangle_order"
                     android:gravity="center" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonHeure1"
+                    android:id="@+id/imageButtonHeureDebutRH1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
                     android:src="@drawable/ic_baseline_access_time_24" />
 
                 <TextView
-                    android:id="@+id/tvHeureDebut"
+                    android:id="@+id/tvHeureDebutRH1"
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_rectangle_order"
                     android:gravity="center" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonDeleteFin1"
+                    android:id="@+id/imageButtonDeleteDebutRH1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
@@ -82,35 +83,35 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButtonDate1"
+                    android:id="@+id/imageButtonDateFinRH1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
                     android:src="@drawable/ic_baseline_calendar_today_24" />
 
                 <TextView
-                    android:id="@+id/tvDateDebut"
+                    android:id="@+id/tvDateFinRH1"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_rectangle_order"
                     android:gravity="center" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonCalcul1"
+                    android:id="@+id/imageButtonHeureFinRH1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
                     android:src="@drawable/ic_baseline_access_time_24" />
 
                 <TextView
-                    android:id="@+id/tvHeureDebut1"
+                    android:id="@+id/tvHeureFinRH1"
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_rectangle_order"
                     android:gravity="center" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonDelete"
+                    android:id="@+id/imageButtonDeleteFinRH1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:cropToPadding="true"
